@@ -1,0 +1,43 @@
+@import '../../styles/colors';
+@import '../../styles/variables';
+
+.container {
+  background: linear-gradient(
+    to left bottom,
+    $darkgray-gradient,
+    $lightgray-gradient
+  );
+
+  padding-top: 70px + $navbar-height;
+  padding-bottom: 90px;
+
+  @extend %side-padding;
+}
+
+.title {
+  color: $primary;
+  text-align: center;
+  font-size: 72px;
+  font-weight: 700;
+  @media screen and (max-width: 800px) {
+    font-size: 60px;
+  }
+}
+
+.subtitle {
+  margin-top: 5px;
+
+  color: $offwhite;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 200;
+}
+
+.call-to-action {
+  margin-top: 60px;
+
+  color: $offwhite;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 300;
+}

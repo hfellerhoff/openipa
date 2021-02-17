@@ -1,0 +1,21 @@
+@import '../../styles/colors';
+@import '../../styles/variables';
+
+.export-button {
+  background: $darkgray;
+  border: none;
+  color: $white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 40px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.2);
+
+  @media screen and (max-width: 800px) {
+    flex: 1;
+  }
+
+  @extend %half-side-padding;
+}

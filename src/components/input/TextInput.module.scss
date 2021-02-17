@@ -1,0 +1,42 @@
+@import '../../styles/colors';
+
+.input--light {
+  -webkit-appearance: none;
+  border: none;
+  overflow: auto;
+  outline: none;
+  resize: none;
+  height: 320px;
+  width: 100%;
+  padding: 20px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  resize: none;
+
+  background: $white;
+  color: $darkgray;
+}
+
+.input--dark {
+  -webkit-appearance: none;
+  border: none;
+  overflow: auto;
+  outline: none;
+  resize: none;
+  height: 320px;
+  width: 100%;
+  padding: 20px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  resize: none;
+  overflow: hidden;
+
+  background: $darkgray;
+  color: $white;
+}

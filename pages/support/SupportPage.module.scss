@@ -1,0 +1,56 @@
+@import '../../src/styles/variables';
+@import '../../src/styles/colors';
+
+.container {
+  padding-top: $navbar-height;
+  background: $darkgray;
+  min-height: 100vh;
+  @extend %side-padding, %bottom-padding;
+}
+
+.hero-container {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 60px;
+  @media screen and (max-width: 800px) {
+    margin-bottom: 20px;
+  }
+  transition: all 0.3s ease-in-out;
+}
+
+.hero-title {
+  color: $primary;
+  text-align: center;
+  font-size: 48px;
+  font-weight: 700;
+  @media screen and (max-width: 800px) {
+    font-size: 36px;
+  }
+  transition: all 0.3s ease-in-out;
+}
+
+.hero-subtitle {
+  margin-top: 5px;
+
+  color: $offwhite;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 200;
+  @media screen and (max-width: 800px) {
+    font-size: 20px;
+  }
+}
+
+.card-container {
+  display: flex;
+  width: 100%;
+  height: auto;
+  align-items: center;
+  justify-content: space-between;
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+  }
+}

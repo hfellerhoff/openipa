@@ -1,0 +1,54 @@
+@import '../../styles/colors';
+@import '../../styles/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 80px;
+  padding-bottom: 80px;
+
+  @extend %side-padding;
+}
+
+.overview-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  margin-top: 0px;
+  margin-bottom: 0px;
+  @media screen and (max-width: 1000px) {
+    margin-top: -20px;
+    margin-bottom: -20px;
+  }
+  @media screen and (max-width: 800px) {
+    margin-top: -40px;
+    margin-bottom: -40px;
+  }
+  @media screen and (max-width: 600px) {
+    margin-top: -50px;
+    margin-bottom: -50px;
+  }
+
+  @extend %flex-direction;
+}
+
+.overview-content {
+  flex: 1;
+}
+
+.overview-title {
+  color: $darkgray;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.overview-paragraph {
+  margin-top: 20px;
+
+  color: black;
+  font-size: 17px;
+  font-weight: 300;
+  word-spacing: 3px;
+  line-height: 25px;
+}

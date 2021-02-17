@@ -1,0 +1,27 @@
+@import './src/styles/reset';
+@import './src/styles/colors';
+@import './src/styles/variables';
+
+* {
+  font-family: 'Apple SD Gothic Neo', 'Trebuchet MS', 'Open Sans', sans-serif;
+}
+
+body {
+  background: $gray;
+  @media screen and (max-width: 800px) {
+    position: relative;
+  }
+}
+
+.fade-in {
+  animation: fadein-keyframe 0.25s;
+}
+
+@keyframes fadein-keyframe {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

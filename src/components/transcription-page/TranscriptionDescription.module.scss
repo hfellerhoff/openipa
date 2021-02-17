@@ -1,0 +1,91 @@
+@import '../../styles/colors';
+@import '../../styles/variables';
+
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  color: $offwhite;
+
+  @media screen and (min-width: 1000px) {
+    font-size: 42px;
+  }
+  @media screen and (max-width: 1000px) {
+    font-size: 38px;
+  }
+  @media screen and (max-width: 800px) {
+    font-size: 34px;
+  }
+  @media screen and (max-width: 600px) {
+    font-size: 30px;
+  }
+  @media screen and (max-width: 550px) {
+    font-size: 28px;
+  }
+  @media screen and (max-width: 500px) {
+    font-size: 26px;
+  }
+
+  transition: font-size 0.3s ease-in-out;
+}
+
+.header {
+  display: flex;
+  // align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+}
+
+.options-container {
+  display: flex;
+  @extend %flex-direction;
+}
+
+.options-title {
+  @media screen and (min-width: 800px) {
+    margin-top: 5px;
+  }
+}
+
+.option-container {
+  display: flex;
+  align-items: center;
+}
+
+.option-title {
+  color: $offwhite;
+  font-weight: 400;
+  margin-left: 5px;
+  margin-top: 2px;
+
+  @media screen and (min-width: 800px) {
+    margin-right: 15px;
+  }
+}
+
+.note {
+  flex: 1;
+  font-size: 18px;
+  font-weight: 400;
+  color: $offwhite;
+}
+
+.email {
+  margin-left: 5px;
+  font-size: 18px;
+  font-weight: 300;
+  color: $offwhite;
+  border-bottom: 1.5px solid transparent;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.email:hover {
+  border-bottom: 1.5px solid $white;
+}

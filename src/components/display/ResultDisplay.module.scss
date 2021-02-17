@@ -1,0 +1,130 @@
+@import '../../styles/colors';
+
+.display--light {
+  box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  min-height: 320px;
+  width: 100%;
+  padding: 10px 20px;
+  text-align: left;
+
+  background: $white;
+  color: $darkgray;
+}
+
+.display--dark {
+  box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  min-height: 320px;
+  width: 100%;
+  padding: 10px 20px;
+  text-align: left;
+
+  background: $darkgray;
+  color: $white;
+}
+
+.display-text--light {
+  font-family: sans-serif;
+  font-size: 16pt;
+  user-select: none;
+  color: $darkgray;
+  font-weight: 400;
+}
+
+.display-text--dark {
+  font-family: sans-serif;
+  font-size: 16pt;
+  user-select: none;
+  color: $white;
+  font-weight: 400;
+}
+
+.display-ipa--light {
+  font-family: sans-serif;
+  font-size: 16pt;
+  user-select: none;
+  color: $darkgray;
+}
+
+.display-ipa--dark {
+  font-family: sans-serif;
+  font-size: 16pt;
+  user-select: none;
+  color: $white;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 2px solid transparent;
+
+  @media screen and (max-width: 800px) {
+    position: initial;
+  }
+}
+
+.tooltip:hover,
+.tooltip--light:hover {
+  border-bottom: 2px solid $darkgray;
+}
+
+.tooltip--dark:hover {
+  border-bottom: 2px solid $white;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  text-align: center;
+  user-select: none;
+  width: 250px;
+  font-size: 18px;
+
+  border-radius: 6px;
+  left: 50%;
+  bottom: 100%;
+  margin-bottom: 10px;
+  margin-left: -125px;
+  padding: 20px;
+  box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.3);
+
+  @media screen and (max-width: 800px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 5px 10px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  z-index: 1;
+
+  background-color: $darkgray;
+  color: $white;
+}
+
+.tooltip--light .tooltip-text--light {
+  background-color: $darkgray;
+  color: $white;
+}
+
+.tooltip--dark .tooltip-text--dark {
+  background-color: $white;
+  color: $darkgray;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+}
+
+.phoneme-block {
+  margin: 10px 0px;
+  display: inline-block;
+  flex-direction: column;
+}

@@ -1,0 +1,20 @@
+@import '../../styles/colors';
+@import '../../styles/variables';
+
+.hide-button {
+  background: $darkgray;
+  border: none;
+  color: $white;
+  width: 65px;
+  height: 25px;
+  padding: 5px 0px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 12px;
+  box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.2);
+
+  visibility: hidden;
+  @media screen and (max-width: 800px) {
+    visibility: visible;
+  }
+}
