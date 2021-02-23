@@ -8,7 +8,7 @@ const Description: React.FC<Props> = () => {
     <div className={styles.container}>
       <div className={styles['overview-container']}>
         <div className={styles['overview-content']}>
-          <h1 className={styles['overview-title']}>Real-Time</h1>
+          <h3 className={styles['overview-title']}>Real-Time</h3>
           <p className={styles['overview-paragraph']}>
             Contrary to other transcription tools, Open IPA transcribes text
             into IPA in real-time, providing instantaneous transcription in
@@ -18,7 +18,7 @@ const Description: React.FC<Props> = () => {
         </div>
         <div style={{ width: 40, height: 40 }}></div>
         <div className={styles['overview-content']}>
-          <h1 className={styles['overview-title']}>Education-Focused</h1>
+          <h3 className={styles['overview-title']}>Education-Focused</h3>
           <p className={styles['overview-paragraph']}>
             Many transcription tools function as a bit of a "black box",
             spitting out IPA with seemingly no clear process. With Open IPA,
@@ -29,7 +29,7 @@ const Description: React.FC<Props> = () => {
         </div>
         <div style={{ width: 40, height: 40 }}></div>
         <div className={styles['overview-content']}>
-          <h1 className={styles['overview-title']}>Community-Driven</h1>
+          <h3 className={styles['overview-title']}>Community-Driven</h3>
           <p className={styles['overview-paragraph']}>
             Open IPA thrives off of contribution and feedback from the community
             of people that use it. We welcome any and all input, and greatly

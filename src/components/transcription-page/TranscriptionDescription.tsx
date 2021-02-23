@@ -5,9 +5,11 @@ import { Languages } from '../../constants/Interfaces';
 import styles from './TranscriptionDescription.module.scss';
 import HideButton from '../buttons/HideButton';
 import CheckboxButton from '../buttons/CheckboxButton';
+import { useRouter } from 'next/router';
 
 interface Props {
   language: string;
+  setLanguage: (language: Languages) => void;
   shouldAnalyzeElision: boolean;
   setShouldAnalyzeElision: React.Dispatch<React.SetStateAction<boolean>>;
   shouldAnalyzeLiason: boolean;
@@ -16,85 +18,59 @@ interface Props {
 
 const TranscriptionDescription: React.FC<Props> = ({
   language,
+  setLanguage,
   shouldAnalyzeElision,
   setShouldAnalyzeElision,
   shouldAnalyzeLiason,
   setShouldAnalyzeLiason,
 }) => {
-  const [shouldShowNotes, setShouldShowNotes] = useState(true);
+  const router = useRouter();
   const { width } = useWindowDimensions();
   const isWidthSmallEnough = width <= 800 ? true : false;
 
-  const getSpecificElements = () => {
-    switch (language as Languages) {
-      case Languages.Latin:
-        return <></>;
-      case Languages.French:
-        return (
-          <div>
-            <div style={{ height: 15 }}></div>
-            <h3 className={`${styles.title} ${styles['options-title']}`}>
-              Transcription Options
-            </h3>
-            <div className={styles['options-container']}>
-              <div className={styles['option-container']}>
-                <CheckboxButton
-                  isChecked={shouldAnalyzeElision}
-                  setIsChecked={setShouldAnalyzeElision}
-                />
-                <h5 className={styles['option-title']}>Analyze Elision</h5>
-              </div>
-              <div style={{ height: 10 }}></div>
-              <div className={styles['option-container']}>
-                <CheckboxButton
-                  isChecked={shouldAnalyzeLiason}
-                  setIsChecked={setShouldAnalyzeLiason}
-                />
-                <h5 className={styles['option-title']}>Analyze Liason</h5>
-              </div>
-            </div>
-          </div>
-        );
-      default:
-        return <></>;
-    }
-  };
-
-  const getDescription = () => {
-    if (shouldShowNotes || !isWidthSmallEnough) {
-      return (
-        <div className={styles.header}>
-          <p className={styles.note} style={{ marginTop: 10 }}>
-            Open IPA is a new service, so our database of exceptions is limited.
-            If you find a transcription error or exception, please reach out to
-            us on Reddit at
-            <a
-              href='https://www.reddit.com/r/openipa/'
-              target='_blank noopener noreferrer'
-            >
-              <span className={styles.email}>/r/openipa.</span>
-            </a>
-          </p>
-          {getSpecificElements()}
-        </div>
-      );
-    }
-    return <></>;
-  };
-
   return (
-    <>
-      <div className={styles['title-container']}>
-        <h1 className={styles.title} style={{ flex: 1 }}>
-          {capitalizeFirstLetter(language) + ' Transcription'}
-        </h1>
-        <HideButton
-          shouldShow={shouldShowNotes}
-          setShouldShow={setShouldShowNotes}
-        />
+    <div className={styles['container']}>
+      <div className={styles['language-select']}>
+        <h2>
+          Transcribe from
+          <select
+            value={language}
+            onChange={(e) => {
+              setLanguage(e.target.value as Languages);
+              router.push(
+                `/transcription/${language}`,
+                `/transcription/${e.target.value}`
+              );
+            }}
+          >
+            <option value='latin'>Latin</option>
+            <option value='french'>French</option>
+          </select>
+          into IPA
+        </h2>
       </div>
-      {getDescription()}
-    </>
+      {language === Languages.French ? (
+        <div className={styles['options-container']}>
+          <div className={styles['option-container']}>
+            <CheckboxButton
+              isChecked={shouldAnalyzeElision}
+              setIsChecked={setShouldAnalyzeElision}
+            />
+            <h5 className={styles['option-title']}>Analyze Elision</h5>
+          </div>
+          <div style={{ height: 10 }}></div>
+          <div className={styles['option-container']}>
+            <CheckboxButton
+              isChecked={shouldAnalyzeLiason}
+              setIsChecked={setShouldAnalyzeLiason}
+            />
+            <h5 className={styles['option-title']}>Analyze Liason</h5>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+    </div>
   );
 };
 

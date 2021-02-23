@@ -27,7 +27,7 @@ const TextInput: React.FC<Props> = ({
   const isWidthSmallEnough = width <= 800 ? true : false;
 
   const smallWidthHeight =
-    40 +
+    60 +
     (inputRef.current
       ? // @ts-ignore
         inputRef.current.innerHTML.split('\n').length * 23.25
@@ -43,6 +43,7 @@ const TextInput: React.FC<Props> = ({
       autoComplete='false'
       autoCorrect='false'
       autoCapitalize='false'
+      autoFocus
       value={inputText}
       rows={0}
       className={className}
@@ -50,6 +51,7 @@ const TextInput: React.FC<Props> = ({
       style={heightStyle}
       onChange={(e) => onChange(e)}
       ref={inputRef}
+      placeholder='Type to transcribe.'
     />
   );
 };

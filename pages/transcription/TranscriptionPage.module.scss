@@ -2,10 +2,13 @@
 @import '../../src/styles/colors';
 
 .container {
-  padding-top: $navbar-height;
-
-  background: $gray;
+  background: $offwhite;
   min-height: 100vh;
+}
+
+.content-container {
+  max-width: 1500px;
+  margin: 0 auto;
 
   display: flex;
   flex-direction: column;
@@ -15,15 +18,15 @@
   padding-bottom: 20px;
 
   @media screen and (min-width: 1000px) {
-    padding-top: 60px + $navbar-height;
+    padding-top: 70px + $navbar-height;
     padding-bottom: 80px;
   }
   @media screen and (max-width: 1000px) {
-    padding-top: 40px + $navbar-height;
+    padding-top: 50px + $navbar-height;
     padding-bottom: 60px;
   }
   @media screen and (max-width: 800px) {
-    padding-top: 20px + $navbar-height;
+    padding-top: 35px + $navbar-height;
     padding-bottom: 40px;
   }
   @media screen and (max-width: 600px) {
@@ -36,3 +39,4 @@
 
   @extend %side-padding;
 }
+

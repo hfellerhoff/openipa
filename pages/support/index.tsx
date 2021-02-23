@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import React from 'react';
 import Layout from '../../src/components/layout/Layout';
 import LeftCard from '../../src/components/support-page/LeftCard';
@@ -9,6 +10,10 @@ interface Props {}
 const SupportPage: React.FC<Props> = () => {
   return (
     <Layout>
+      <Head>
+        <title>Support - Open IPA</title>
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
       <div className={styles.container}>
         <div className={styles['hero-container']}>
           <h1 className={styles['hero-title']}>Want to support Open IPA?</h1>

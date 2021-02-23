@@ -43,13 +43,13 @@ const TranscriptionEditor: React.FC<Props> = ({
     setResult(parseText(inputText));
     // TODO: Fix this warning
     // eslint-disable-next-line
-  }, [inputText, shouldAnalyzeElision, shouldAnalyzeLiason]);
+  }, [inputText, shouldAnalyzeElision, shouldAnalyzeLiason, language]);
 
   return (
     <div className={styles.container}>
       <div className={styles['container-left']}>
         <div className={styles['container-top']}>
-          <h3 className={styles.title}>Text Input</h3>
+          <h2>Text Input</h2>
           <HideButton
             shouldShow={shouldShowInput}
             setShouldShow={setShouldShowInput}
@@ -64,7 +64,7 @@ const TranscriptionEditor: React.FC<Props> = ({
       </div>
       <div className={styles['container-right']}>
         <div className={styles['container-top']}>
-          <h3 className={styles.title}>IPA Transcription</h3>
+          <h2>Transcription Result</h2>
           <HideButton
             shouldShow={shouldShowOutput}
             setShouldShow={setShouldShowOutput}

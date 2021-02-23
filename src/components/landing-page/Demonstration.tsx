@@ -16,7 +16,7 @@ const Demonstration: React.FC<Props> = () => {
   return (
     <div className={styles.container}>
       <div className={styles['container-left']}>
-        <h1 className={styles.title}>Why Open IPA?</h1>
+        <h2 className={styles.title}>Why Open IPA?</h2>
         <p className={styles.description}>
           Open IPA features text to IPA transcription in real-time. That means
           you can type out text, and Open IPA will transcribe it live in front

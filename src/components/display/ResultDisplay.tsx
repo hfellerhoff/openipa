@@ -24,22 +24,14 @@ const PhonemeElement = ({ text, rule, isIPA = false, theme }: PhonemeProps) => {
     styles[`tooltip-text--${theme}`]
   }`;
 
-  const getText = () => {
-    return isIPA ? (
-      <span className={textClassName}>{text}</span>
-    ) : (
-      <span className={textClassName}>{text}</span>
-    );
-  };
-
   if (rule !== Rules.NONE)
     return (
       <div className={tooltipClassName}>
-        {getText()}
+        <span className={textClassName}>{text}</span>
         <span className={tooltipTextClassName}>{rule}</span>
       </div>
     );
-  else return getText();
+  else return <span className={textClassName}>{text}</span>;
 };
 
 type WordProps = {

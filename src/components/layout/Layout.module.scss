@@ -3,11 +3,7 @@
 
 .container {
   background: $white;
-  width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  transition: all 0.3s ease-in-out;
-
-  overflow: hidden;
 }

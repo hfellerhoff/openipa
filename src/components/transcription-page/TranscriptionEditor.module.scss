@@ -8,7 +8,7 @@
 
   margin-bottom: 0px;
   @media screen and (max-width: 800px) {
-    margin-bottom: 2px;
+    margin-bottom: 5px;
   }
 }
 
@@ -26,16 +26,16 @@
 }
 
 .container {
-  margin-top: 25px;
   display: flex;
 
   @extend %flex-direction;
 }
 
 .container-left {
-  flex: 2;
+  flex: 1;
+  position: relative;
 
-  margin-right: 10px;
+  margin-right: 5px;
   margin-bottom: 0px;
   @media screen and (max-width: 800px) {
     margin-right: 0;
@@ -44,12 +44,21 @@
 }
 
 .container-right {
-  flex: 3;
+  flex: 1;
+  position: relative;
 
-  margin-left: 10px;
+  margin-left: 5px;
   margin-top: 0;
   @media screen and (max-width: 800px) {
     margin-left: 0;
     margin-top: 10px;
+  }
+}
+
+.container-left h2,
+.container-right h2 {
+  display: none;
+  @media screen and (max-width: 800px) {
+    display: block;
   }
 }

@@ -8,6 +8,9 @@
 
   padding-top: 40px;
 
+  max-width: $max-width;
+  margin: 0 auto;
+
   flex-direction: row;
   @media screen and (max-width: 1200px) {
     flex-direction: column;
@@ -64,7 +67,7 @@
 
 .title {
   color: $darkgray;
-  font-size: 42px;
+  font-size: 36px;
   font-weight: 600;
 
   margin-bottom: -20px;
@@ -74,8 +77,8 @@
   margin-top: 30px;
 
   color: $darkgray;
-  font-size: 20px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 300;
   line-height: 30px;
 }
 
