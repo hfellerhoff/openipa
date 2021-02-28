@@ -60,6 +60,7 @@ const TranscriptionEditor: React.FC<Props> = ({
           setInputText={setInputText}
           displayHeight={resultHeight}
           shouldHide={!shouldShowInput}
+          autofocus
         />
       </div>
       <div className={styles['container-right']}>

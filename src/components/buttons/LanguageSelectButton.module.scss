@@ -2,22 +2,14 @@
 @import '../../styles/variables';
 
 .button {
-  background: $primary;
-  color: $darkgray;
-  border: none;
-  width: 125px;
-  height: 60px;
   margin: 10px;
-  box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.2);
 
-  font-size: 20px;
-  font-weight: 600;
+  height: 60px;
+  width: 170px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  width: 170px;
 
   @media screen and (max-width: 1000px) {
     width: 160px;
@@ -29,32 +21,5 @@
     width: 140px;
   }
 
-  transition: all 0.1s ease-in-out;
   @extend %link;
-}
-
-.button--active {
-  background: $primary;
-  color: $darkgray;
-}
-
-.button--caution {
-  background: $caution;
-  color: $darkgray;
-}
-
-.button--inactive {
-  background: $lightgray;
-  color: $darkgray;
-}
-
-.button--active:hover,
-.button--caution:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.3);
-}
-
-.button--inactive:hover {
-  box-shadow: 0px 5px 10px 3px rgba(0, 0, 0, 0.3);
-  cursor: not-allowed;
 }

@@ -1,0 +1,62 @@
+@use '../colors';
+@use '../variables';
+@import '../utils/mixins';
+
+.button {
+  padding: 0.6rem 1.5rem;
+  margin: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+
+  transition: all 0.05s ease-in-out;
+}
+
+// Size variants
+.button-lg {
+  padding: 0.8rem 2rem;
+  margin: 0.75rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+// Status variants
+.button--primary {
+  background: colors.$button-primary;
+  color: colors.$button-primary-color;
+}
+
+.button--secondary {
+  background: colors.$button-secondary;
+  color: colors.$button-secondary-color;
+}
+
+.button--disabled {
+  background: colors.$button-disabled;
+  color: colors.$button-disabled-color;
+}
+
+.button--warning {
+  background: colors.$button-warning;
+  color: colors.$button-warning-color;
+}
+
+.button--error {
+  background: colors.$button-error;
+  color: colors.$button-error-color;
+}
+
+// Style variants
+.button--rounded {
+  border-radius: 16rem;
+}
+
+// Interaction variants
+.button:hover {
+  transform: scale(1.05);
+}
+
+.button--disabled:hover {
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}

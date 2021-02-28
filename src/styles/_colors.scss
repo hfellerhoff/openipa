@@ -12,7 +12,46 @@ $brighter-primary: #a5f3f4;
 $caution: #dec400;
 $white: #ffffff;
 $offwhite: #f1f1f1;
+
+// CORE COLORS
+// https://coolors.co/94dadb-444545-6883ba-e76b74-eee5e9
+$primary: #b3e5e6;
+$primary-dark-1: #76cbcc;
+$primary-dark-2: #56b1b3;
+$secondary: #6883ba;
+$warning: #f5cc00;
+$error: #f96171;
+
+// GRAYSCALE
+// https://coolors.co/141515-323434-515252-797c7c-a2a4a4-cbcdcd-eaebeb-f5f5f5
+$black: #141515;
+$gray-1: #323434;
+$gray-2: #515252;
+$gray-3: #797c7c;
+$gray-4: #a2a4a4;
+$gray-5: #cbcdcd;
+$gray-6: #eaebeb;
+$white: #f5f5f5;
+
+// EXTERNAL BRAND COLORS
 $reddit: #ff4400;
 $github: #3d576a;
 $kofi: #ff5f5f;
 $stripe: #3ea4ff;
+
+// ===== COMPONENTS =====
+// BUTTONS
+$button-primary: $primary;
+$button-primary-color: $gray-1;
+
+$button-secondary: $secondary;
+$button-secondary-color: $gray-6;
+
+$button-disabled: $gray-3;
+$button-disabled-color: $gray-1;
+
+$button-warning: $warning;
+$button-warning-color: $gray-1;
+
+$button-error: $error;
+$button-error-color: $gray-1;

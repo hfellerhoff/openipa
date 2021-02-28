@@ -8,6 +8,7 @@ interface Props {
   theme?: 'dark' | 'light';
   displayHeight?: number;
   shouldHide?: boolean;
+  autofocus?: boolean;
 }
 
 const TextInput: React.FC<Props> = ({
@@ -16,6 +17,7 @@ const TextInput: React.FC<Props> = ({
   theme = 'light',
   displayHeight = 300,
   shouldHide,
+  autofocus = false,
 }) => {
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value;
@@ -43,7 +45,7 @@ const TextInput: React.FC<Props> = ({
       autoComplete='false'
       autoCorrect='false'
       autoCapitalize='false'
-      autoFocus
+      autoFocus={autofocus}
       value={inputText}
       rows={0}
       className={className}

@@ -1,5 +1,22 @@
+@import './utils/mixins';
+
 $navbar-height: 60px;
 $max-width: 1600px;
+
+$breakpoints: (
+  'phone': (
+    max-width: 400px,
+  ),
+  'tablet': (
+    max-width: 800px,
+  ),
+  'computer': (
+    max-width: 1200px,
+  ),
+  'wide': (
+    min-width: 1200px,
+  ),
+) !default;
 
 %transition {
   transition: all 0.3s ease-in-out;
@@ -8,7 +25,7 @@ $max-width: 1600px;
 %footer-height {
   height: 100px;
 
-  @media screen and (max-width: 800px) {
+  @include respond-to('tablet') {
     height: 150px;
   }
 }
@@ -17,70 +34,70 @@ $max-width: 1600px;
   padding-left: 20px;
   padding-right: 20px;
 
-  @media screen and (min-width: 1000px) {
+  @include respond-to('wide') {
     padding-left: 80px;
     padding-right: 80px;
   }
-  @media screen and (max-width: 1000px) {
+  @include respond-to('computer') {
     padding-left: 60px;
     padding-right: 60px;
   }
-  @media screen and (max-width: 800px) {
+  @include respond-to('tablet') {
     padding-left: 40px;
     padding-right: 40px;
   }
-  @media screen and (max-width: 600px) {
+  @include respond-to('phone') {
     padding-left: 20px;
     padding-right: 20px;
   }
 
-  transition: padding-left, padding-right 0.3s ease-in-out;
+  transition: padding-left, padding-right 0.1s ease-in-out;
 }
 
 %half-side-padding {
   padding-left: 10px;
   padding-right: 10px;
 
-  @media screen and (min-width: 1000px) {
+  @include respond-to('wide') {
     padding-left: 40px;
     padding-right: 40px;
   }
-  @media screen and (max-width: 1000px) {
+  @include respond-to('computer') {
     padding-left: 30px;
     padding-right: 30px;
   }
-  @media screen and (max-width: 800px) {
+  @include respond-to('tablet') {
     padding-left: 20px;
     padding-right: 20px;
   }
-  @media screen and (max-width: 600px) {
+  @include respond-to('phone') {
     padding-left: 10px;
     padding-right: 10px;
   }
 
-  transition: padding-left, padding-right 0.3s ease-in-out;
+  transition: padding-left, padding-right 0.1s ease-in-out;
 }
 
 %bottom-padding {
   padding-bottom: 20px;
 
-  @media screen and (min-width: 1000px) {
+  @include respond-to('wide') {
     padding-bottom: 80px;
   }
-  @media screen and (max-width: 1000px) {
+  @include respond-to('computer') {
     padding-bottom: 60px;
   }
-  @media screen and (max-width: 800px) {
+  @include respond-to('tablet') {
     padding-bottom: 40px;
   }
-  @media screen and (max-width: 600px) {
+  @include respond-to('phone') {
     padding-bottom: 20px;
   }
 }
 
 %flex-direction {
   flex-direction: row;
-  @media screen and (max-width: 800px) {
+  @include respond-to('tablet') {
     flex-direction: column;
   }
 }

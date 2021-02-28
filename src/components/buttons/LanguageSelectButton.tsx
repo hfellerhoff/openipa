@@ -10,7 +10,18 @@ interface Props {
 }
 
 const LanguageSelectButton: React.FC<Props> = ({ language, status }) => {
-  const className = `${styles.button} ${styles[`button--${status}`]}`;
+  let buttonStyle = 'primary';
+  switch (status) {
+    case 'active':
+      break;
+    case 'caution':
+      buttonStyle = 'warning';
+      break;
+    case 'inactive':
+      buttonStyle = 'disabled';
+      break;
+  }
+  const className = `button button-lg button--${buttonStyle} ${styles.button}`;
 
   if (status !== 'inactive') {
     return (

@@ -15,9 +15,7 @@ const Navbar: React.FC<Props> = () => {
       </Link>
       <div className={styles['link-container']}>
         <Link href='/support'>
-          <a className={`${styles.link} ${styles['link--featured']}`}>
-            Support
-          </a>
+          <a className='button button--secondary button--rounded'>Support</a>
         </Link>
       </div>
     </div>

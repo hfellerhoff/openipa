@@ -1,6 +1,9 @@
-@import './src/styles/reset';
-@import './src/styles/colors';
-@import './src/styles/variables';
+@import './colors';
+@import './variables';
+@import './base/reset';
+
+// Component SCSS
+@import './components/buttons';
 
 * {
   font-family: 'Open Sans', 'Apple SD Gothic Neo', 'Trebuchet MS', sans-serif;
