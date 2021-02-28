@@ -1,0 +1,57 @@
+@import '../../styles/variables';
+@import '../../styles/colors';
+
+.content-container {
+  text-align: center;
+
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.input {
+  margin: 5px 0px;
+
+  display: block;
+  width: 100%;
+  background: $darkgray;
+  color: $white;
+  border: 1px solid $gray;
+
+  font-size: 16px;
+  padding: 0.6rem 0.75rem;
+  border-radius: 4px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+}
+
+.form {
+  margin: 30px 10px;
+}
+
+.form-buttons {
+  display: flex;
+}
+
+.form-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $primary;
+
+  margin-top: 10px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.form-button:hover {
+  background: $muted-primary;
+}

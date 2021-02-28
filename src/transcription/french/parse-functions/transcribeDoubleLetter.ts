@@ -1,8 +1,9 @@
 import { Phoneme } from '../../../constants/Interfaces';
 
 const getDoubleLetterRule = (letter: string, ipa: string): string => {
-  return `Double '${letter +
-    letter}' consonants are transcribed as a single [${ipa}].`;
+  return `Double '${
+    letter + letter
+  }' consonants are transcribed as a single [${ipa}].`;
 };
 
 const transcribeDoubleLetter = (

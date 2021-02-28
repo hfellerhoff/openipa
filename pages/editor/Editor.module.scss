@@ -1,0 +1,15 @@
+@import '../../src/styles/variables';
+@import '../../src/styles/colors';
+
+.container {
+  background: linear-gradient(
+    to left bottom,
+    $darkgray-gradient,
+    $lightgray-gradient
+  );
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
