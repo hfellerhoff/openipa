@@ -1,0 +1,19 @@
+@use '../../styles/colors';
+@use '../../styles/variables';
+
+.container {
+  margin-top: variables.$navbar-height;
+  display: grid;
+  grid-template-columns: 200px 1fr 300px;
+}
+
+.sidebar {
+  background: colors.$white;
+  z-index: 1;
+}
+.left-sidebar {
+  box-shadow: 3px 0px 3px 0px rgba(0, 0, 0, 0.09);
+}
+.right-sidebar {
+  box-shadow: -3px 0px 3px 0px rgba(0, 0, 0, 0.09);
+}

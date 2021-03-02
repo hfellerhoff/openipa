@@ -1,0 +1,56 @@
+@import '../../styles/variables';
+@import '../../styles/colors';
+@import '../../styles/utils/mixins';
+
+.container {
+  min-height: 100vh;
+  background: $gray-6;
+
+  @include respond-to('wide') {
+    padding: 60px 80px 80px 80px;
+  }
+  @include respond-to('computer') {
+    padding: 40px 60px 60px 60px;
+  }
+  @include respond-to('tablet') {
+    padding: 20px 40px 40px 40px;
+  }
+  @include respond-to('phone') {
+    padding: 0px 20px 20px 20px;
+  }
+}
+
+.ipa-container {
+  margin: 5px 0px;
+  display: flex;
+}
+
+.ipa {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 4px;
+  margin-right: 5px;
+
+  background: $white;
+  border: 2px solid $gray-5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ipa--selected {
+  border: 2px solid $primary-dark-1;
+}
+
+.ipa:hover {
+  border: 2px solid $primary-dark-1;
+}
+
+.ipa:active {
+  border: 2px solid $primary-dark-2;
+}
+
+.ipa-text {
+  font-family: 'Roboto Slab';
+}

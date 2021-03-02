@@ -1,19 +1,13 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
-import AuthenticationForm from '../../src/components/input/AuthenticationForm';
-import Layout from '../../src/components/layout/Layout';
-import styles from './Editor.module.scss';
+import PrivateLayout from '../../src/components/layout/PrivateLayout';
 
 interface Props {}
 
 const LanguageEditor = (props: Props) => {
-  return (
-    <Layout>
-      <div className={styles.container}>
-        <AuthenticationForm />
-      </div>
-    </Layout>
-  );
+  const router = useRouter();
+
+  return <></>;
 };
 
 export default LanguageEditor;
