@@ -1,0 +1,62 @@
+@use '../../src/styles/colors';
+
+.container {
+  padding: 1.25rem 2rem;
+}
+
+.container li {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: colors.$white;
+  width: 100%;
+
+  border-radius: 4px;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.18);
+}
+
+.rule-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.rule-container div {
+  display: flex;
+  align-items: center;
+}
+
+.rule-container p {
+  display: flex;
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.ipa {
+  background: colors.$gray-6;
+  border: 1px solid colors.$gray-5;
+  width: 3rem;
+  height: 2rem;
+  margin: 0 0.5rem;
+  border-radius: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.ipa-result {
+  background: colors.$primary-light-1;
+  border: 1px solid colors.$primary-dark-1;
+}
+
+.select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}

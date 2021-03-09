@@ -12,10 +12,16 @@
 }
 
 // Size variants
-.button-lg {
+.button--lg {
   padding: 0.8rem 2rem;
   margin: 0.75rem;
   font-size: 1.2rem;
+  font-weight: 600;
+}
+.button--sm {
+  padding: 0.4rem 1rem;
+  margin: 0.4rem;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 

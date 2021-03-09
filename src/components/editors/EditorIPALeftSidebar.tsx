@@ -1,4 +1,5 @@
 import React from 'react';
+import { IPACategoryDictionary } from '../../hooks/useSupabaseIPA';
 import { IPACategory } from '../../lib/supabase/models/IPA';
 import styles from './EditorIPALeftSidebar.module.scss';
 
@@ -21,7 +22,7 @@ const SidebarItem = ({ category, onSelectCategory, isSelected }: ItemProps) => {
 };
 
 interface Props {
-  categories?: IPACategory[];
+  categories: IPACategoryDictionary;
   selectedCategory: number;
   onSelectCategory: (c: number) => void;
 }
@@ -31,21 +32,20 @@ const EditorIPALeftSidebar = ({
   categories,
   onSelectCategory,
 }: Props) => {
-  if (categories)
-    return (
-      <div>
-        {categories.map((category) => (
-          <SidebarItem
-            onSelectCategory={onSelectCategory}
-            category={category}
-            isSelected={
-              selectedCategory ? category.id === selectedCategory : false
-            }
-          />
-        ))}
-      </div>
-    );
-  else return <></>;
+  return (
+    <div>
+      {Object.values(categories).map((category, i) => (
+        <SidebarItem
+          key={i}
+          onSelectCategory={onSelectCategory}
+          category={category}
+          isSelected={
+            selectedCategory ? category.id === selectedCategory : false
+          }
+        />
+      ))}
+    </div>
+  );
 };
 
 export default EditorIPALeftSidebar;

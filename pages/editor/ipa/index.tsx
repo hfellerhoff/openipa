@@ -5,7 +5,6 @@ import EditorIPALeftSidebar from '../../../src/components/editors/EditorIPALeftS
 import EditorIPARightSidebar from '../../../src/components/editors/EditorIPARightSidebar';
 import EditorLayout from '../../../src/components/layout/EditorLayout';
 import useSupabaseIPA from '../../../src/hooks/useSupabaseIPA';
-import { IPACategory } from '../../../src/lib/supabase/models/IPA';
 
 interface Props {}
 
@@ -27,7 +26,13 @@ const IPAEditor = (props: Props) => {
             onSelectCategory={setCategoryID}
           />
         }
-        rightSidebar={<EditorIPARightSidebar selectedIPA={ipaID} ipa={ipa} />}
+        rightSidebar={
+          <EditorIPARightSidebar
+            selectedIPA={ipaID}
+            ipa={ipa}
+            subcategories={subcategories}
+          />
+        }
       >
         <EditorIPA
           selectedIPA={ipaID}

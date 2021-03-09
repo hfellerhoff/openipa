@@ -1,37 +1,83 @@
-import React from 'react';
-import { IPA, IPACategory } from '../../lib/supabase/models/IPA';
+import React, { useEffect, useState } from 'react';
+import {
+  IPADictionary,
+  IPASubcategoryDictionary,
+} from '../../hooks/useSupabaseIPA';
+import supabase from '../../lib/supabase';
+import {
+  IPA,
+  IPACategory,
+  IPASubcategory,
+} from '../../lib/supabase/models/IPA';
 import styles from './EditorIPARightSidebar.module.scss';
 
-interface ItemProps {
-  category?: IPACategory;
-  isSelected: boolean;
-  onSelectCategory: (c: number) => void;
-}
-
-const SidebarItem = ({ category, onSelectCategory, isSelected }: ItemProps) => {
-  const className = `${styles.item} ${
-    isSelected ? styles['item--selected'] : ''
-  }`;
-
-  return (
-    <button className={className} onClick={() => onSelectCategory(category.id)}>
-      <h2 className={styles['item-text']}>{category.label}</h2>
-    </button>
-  );
-};
-
 interface Props {
-  ipa?: IPA[];
+  ipa: IPADictionary;
+  subcategories: IPASubcategoryDictionary;
   selectedIPA: number;
 }
 
-const EditorIPARightSidebar = ({ ipa, selectedIPA }: Props) => {
-  const list = ipa ? ipa.filter((i) => i.id === selectedIPA) : [];
-  const ipaElement = list.length > 0 ? list[0] : undefined;
+const EditorIPARightSidebar = ({ ipa, selectedIPA, subcategories }: Props) => {
+  const ipaElement = ipa[selectedIPA] ? ipa[selectedIPA] : undefined;
+  const initialSubcategory =
+    subcategories && ipaElement
+      ? subcategories[ipaElement.subcategory]
+      : undefined;
 
-  console.log(ipaElement);
+  const [subcategory, setSubcategory] = useState<number>();
 
-  if (ipaElement) return <div>{ipaElement.symbol}</div>;
+  useEffect(() => {
+    setSubcategory(0);
+  }, [selectedIPA]);
+
+  useEffect(() => {
+    if (initialSubcategory) setSubcategory(initialSubcategory.id);
+  }, [selectedIPA, initialSubcategory]);
+
+  const handleSave = async () => {
+    if (ipaElement && subcategory && initialSubcategory) {
+      if (subcategory !== initialSubcategory.id) {
+        const { data, error } = await supabase
+          .from('ipa')
+          .update({ subcategory })
+          .eq('id', ipaElement.id);
+      }
+    }
+  };
+
+  if (ipaElement)
+    return (
+      <div className={styles.container}>
+        <div>
+          <div className={styles.ipa}>
+            <h2>{ipaElement.symbol}</h2>
+          </div>
+          <div>
+            <label className={styles.label}>TYPE</label>
+            {subcategory ? (
+              <select
+                value={subcategory}
+                className={styles.option}
+                onChange={(e) => setSubcategory(parseInt(e.target.value))}
+              >
+                {Object.values(subcategories)
+                  .filter((s) => s.category === initialSubcategory.category)
+                  .map((s) => (
+                    <option value={s.id} key={s.id}>
+                      {s.label}
+                    </option>
+                  ))}
+              </select>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+        <button className='button button--primary' onClick={handleSave}>
+          Save
+        </button>
+      </div>
+    );
   else return <></>;
 };
 

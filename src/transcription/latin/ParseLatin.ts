@@ -2,8 +2,9 @@ import IPA from '../../constants/IPA';
 import { Phoneme, Result } from '../../constants/Interfaces';
 import { isVowel, isFrontVowel, getCharArray } from '../../util/Helper';
 import Rules from './LatinRules';
+import { Rule } from '../../constants/Rule';
 
-const parseLatin = (text: string) => {
+const parseLatin = (text: string, rules: Rule[]) => {
   const charArray: string[] = getCharArray(text);
   const firstLetter = charArray[0];
   const lastLetter = charArray[charArray.length - 1];
@@ -19,6 +20,9 @@ const parseLatin = (text: string) => {
       },
     ],
   };
+
+  console.log(rules);
+
   let previousPhoneme = '';
   for (let index = 0; index < charArray.length; index += 1) {
     const char = charArray[index];

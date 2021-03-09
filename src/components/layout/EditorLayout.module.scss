@@ -2,14 +2,17 @@
 @use '../../styles/variables';
 
 .container {
-  margin-top: variables.$navbar-height;
+  padding-top: variables.$navbar-height;
   display: grid;
   grid-template-columns: 200px 1fr 300px;
+  background: colors.$gray-6;
+  min-height: 100vh;
 }
 
 .sidebar {
   background: colors.$white;
   z-index: 1;
+  min-height: 100%;
 }
 .left-sidebar {
   box-shadow: 3px 0px 3px 0px rgba(0, 0, 0, 0.09);

@@ -2,6 +2,8 @@ export interface IPA {
   id: number;
   symbol: string;
   subcategory: number;
+  category: number;
+  tags: string[];
 }
 
 export interface IPACategory {

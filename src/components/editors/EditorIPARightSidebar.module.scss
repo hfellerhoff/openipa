@@ -2,18 +2,47 @@
 @import '../../styles/colors';
 @import '../../styles/utils/mixins';
 
-.item {
-  width: 100%;
-
-  padding: 0.75rem 1rem;
-  border-right: 5px solid transparent;
+.container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.item--selected {
-  background: $primary-light-1;
-  border-right: 5px solid $primary-dark-2;
+.ipa {
+  height: 4rem;
+  width: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $gray-6;
+  border: 1px solid $gray-5;
+  border-radius: 4px;
+
+  margin-bottom: 2rem;
 }
 
-.item-text {
+.label {
+  text-transform: capitalize;
+
+  font-weight: 700;
+  font-size: 1rem;
+  color: $gray-4;
+}
+
+.option {
+  display: block;
+  border: none;
+  background: none;
+
+  text-align: start;
+
   font-size: 1.1rem;
+  font-weight: 700;
+  margin-left: -4px;
+  margin-bottom: 2rem;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }

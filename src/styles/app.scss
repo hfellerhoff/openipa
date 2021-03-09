@@ -1,8 +1,14 @@
+// Tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import './colors';
 @import './base/reset';
 @import './base/typography';
 
 // Component SCSS
+@import 'react-dropdown/style.css';
 @import './components/buttons';
 
 * {
@@ -16,15 +22,25 @@ body {
   }
 }
 
-.fade-in {
-  animation: fadein-keyframe 0.25s;
+.Dropdown-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+.Dropdown-title {
+  grid-column: 1/7;
+}
+.Dropdown-option {
+  font-family: 'Roboto Slab';
+  font-weight: 400;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Dropdown-placeholder {
+  display: none;
 }
 
-@keyframes fadein-keyframe {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.font-serif {
+  font-family: 'Roboto Slab';
 }
