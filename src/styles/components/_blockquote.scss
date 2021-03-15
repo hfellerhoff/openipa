@@ -1,3 +1,6 @@
+@import '../colors';
 .quote {
-  border-left: 5px solid $gray;
+  border-left: 3px solid $gray-4;
+  background: $gray-6;
+  padding-left: 0.5rem;
 }
