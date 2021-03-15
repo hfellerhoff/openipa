@@ -1,4 +1,3 @@
-import globby from 'globby';
 import React from 'react';
 import { Dictionary } from '../src/hooks/useSupabaseTable';
 import supabase from '../src/lib/supabase';

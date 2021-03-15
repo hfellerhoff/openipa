@@ -36,41 +36,39 @@ const TranscriptionPage = ({ text }: Props) => {
       setLanguage(router.query.language as Languages);
   }, [router.query.language]);
 
-  if (capitalizeFirstLetter(language) in Languages) {
-    return (
-      <Layout>
-        <Head>
-          <title>
-            {language ? `${capitalizeFirstLetter(language)} ` : ''}Language
-            Transcription - Open IPA
-          </title>
-          <link rel='icon' href='/favicon.ico' />
-        </Head>
-        <div className={styles.container}>
-          <div className={styles['content-container']}>
-            <TranscriptionDescription
-              language={language}
-              setLanguage={setLanguage}
-              shouldAnalyzeElision={shouldAnalyzeElision}
-              setShouldAnalyzeElision={setShouldAnalyzeElision}
-              shouldAnalyzeLiason={shouldAnalyzeLiason}
-              setShouldAnalyzeLiason={setShouldAnalyzeLiason}
-            />
-            <TranscriptionEditor
-              language={language}
-              shouldAnalyzeElision={shouldAnalyzeElision}
-              shouldAnalyzeLiason={shouldAnalyzeLiason}
-              result={result}
-              setResult={setResult}
-              text={text}
-            />
-            <ExportButtons language={language} result={result} />
-          </div>
+  if (!(capitalizeFirstLetter(language) in Languages)) return <></>;
+  return (
+    <Layout>
+      <Head>
+        <title>
+          {language ? `${capitalizeFirstLetter(language)} ` : ''}Language
+          Transcription - Open IPA
+        </title>
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
+      <div className={styles.container}>
+        <div className={styles['content-container']}>
+          <TranscriptionDescription
+            language={language}
+            setLanguage={setLanguage}
+            shouldAnalyzeElision={shouldAnalyzeElision}
+            setShouldAnalyzeElision={setShouldAnalyzeElision}
+            shouldAnalyzeLiason={shouldAnalyzeLiason}
+            setShouldAnalyzeLiason={setShouldAnalyzeLiason}
+          />
+          <TranscriptionEditor
+            language={language}
+            shouldAnalyzeElision={shouldAnalyzeElision}
+            shouldAnalyzeLiason={shouldAnalyzeLiason}
+            result={result}
+            setResult={setResult}
+            text={text}
+          />
+          <ExportButtons language={language} result={result} />
         </div>
-      </Layout>
-    );
-  }
-  return <></>;
+      </div>
+    </Layout>
+  );
 };
 
 export default TranscriptionPage;
