@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import LanguageSelectionButtons from '../../../src/components/button-containers/LanguageSelectionButtons';
@@ -19,6 +20,8 @@ interface Props {
     title: string;
     text: string;
     language: number;
+    source: string;
+    updated_at: string;
   };
   language?: Language;
   author?: any;
@@ -69,6 +72,19 @@ const TextPage = ({ text, language, author }: Props) => {
             setResult={setResult}
             text={text.text}
           />
+          <p className='mt-2'>
+            This text is originally from{' '}
+            <a
+              href={text.source}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='underline'
+            >
+              this source.
+            </a>{' '}
+            It was last updated on{' '}
+            {dayjs(text.updated_at).format('MMMM DD, YYYY')}.
+          </p>
           <ExportButtons language={language.label} result={result} />
         </div>
       </div>
