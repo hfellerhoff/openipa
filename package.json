@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "sitemap": "node ./scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^1.4.2",
@@ -26,6 +27,8 @@
   "devDependencies": {
     "@types/node": "^14.14.28",
     "@types/react": "^17.0.2",
+    "globby": "^11.0.2",
+    "prettier": "^2.2.1",
     "typescript": "^4.1.5"
   }
 }

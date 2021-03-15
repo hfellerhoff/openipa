@@ -1,5 +1,5 @@
 import React from 'react';
-import { IPACategoryDictionary } from '../../hooks/useSupabaseIPA';
+import { Dictionary } from '../../hooks/useSupabaseTable';
 import { IPACategory } from '../../lib/supabase/models/IPA';
 import styles from './EditorIPALeftSidebar.module.scss';
 
@@ -22,7 +22,7 @@ const SidebarItem = ({ category, onSelectCategory, isSelected }: ItemProps) => {
 };
 
 interface Props {
-  categories: IPACategoryDictionary;
+  categories: Dictionary<IPACategory>;
   selectedCategory: number;
   onSelectCategory: (c: number) => void;
 }

@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import TranscriptionEditor from '../../src/components/transcription-page/TranscriptionEditor';
-import TranscriptionDescription from '../../src/components/transcription-page/TranscriptionDescription';
-import ExportButtons from '../../src/components/transcription-page/ExportButtons';
-import Footer from '../../src/components/footer/Footer';
+import TranscriptionEditor from '../../../src/components/transcription-page/TranscriptionEditor';
+import TranscriptionDescription from '../../../src/components/transcription-page/TranscriptionDescription';
+import ExportButtons from '../../../src/components/transcription-page/ExportButtons';
 
-import { Languages, Result } from '../../src/constants/Interfaces';
-import Template from '../../src/constants/Template';
-import { capitalizeFirstLetter } from '../../src/util/StringHelper';
+import { Languages, Result } from '../../../src/constants/Interfaces';
+import Template from '../../../src/constants/Template';
+import { capitalizeFirstLetter } from '../../../src/util/StringHelper';
 import styles from './TranscriptionPage.module.scss';
 import { useRouter } from 'next/router';
-import Layout from '../../src/components/layout/Layout';
+import Layout from '../../../src/components/layout/Layout';
 import Head from 'next/head';
 
 type Props = {
-  language: string;
+  text?: string;
 };
 
-const TranscriptionPage: React.FC<Props> = () => {
+const TranscriptionPage = ({ text }: Props) => {
   const router = useRouter();
   const [result, setResult] = useState<Result>(Template.Result);
   const [language, setLanguage] = useState<Languages>(
@@ -63,6 +62,7 @@ const TranscriptionPage: React.FC<Props> = () => {
               shouldAnalyzeLiason={shouldAnalyzeLiason}
               result={result}
               setResult={setResult}
+              text={text}
             />
             <ExportButtons language={language} result={result} />
           </div>

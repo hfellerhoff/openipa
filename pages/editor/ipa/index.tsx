@@ -31,6 +31,7 @@ const IPAEditor = (props: Props) => {
             selectedIPA={ipaID}
             ipa={ipa}
             subcategories={subcategories}
+            category={categoryID}
           />
         }
       >

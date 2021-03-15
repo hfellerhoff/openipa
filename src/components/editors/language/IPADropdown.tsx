@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  IPACategoryDictionary,
-  IPADictionary,
-  IPASubcategoryDictionary,
-} from '../../../hooks/useSupabaseIPA';
-import {
   IPA,
   IPACategory,
   IPASubcategory,
@@ -12,17 +7,25 @@ import {
 import Dropdown from 'react-dropdown';
 import IPADisplay from './IPADisplay';
 import idsToIPAString from '../../../util/supabase/idsToIPAString';
+import { Dictionary } from '../../../hooks/useSupabaseTable';
 
 interface Props {
-  ipa: IPADictionary;
-  subcategories: IPASubcategoryDictionary;
-  categories: IPACategoryDictionary;
+  ipa: Dictionary<IPA>;
+  subcategories: Dictionary<IPASubcategory>;
+  categories: Dictionary<IPACategory>;
+  result: number[];
+  setResult: (r: number[]) => void;
 }
 
-const IPADropdown = ({ ipa, subcategories, categories }: Props) => {
+const IPADropdown = ({
+  ipa,
+  subcategories,
+  categories,
+  result,
+  setResult,
+}: Props) => {
   const [selectedElement, setSelectedElement] = useState(null);
   const [options, setOptions] = useState([]);
-  const [result, setResult] = useState<number[]>([]);
 
   useEffect(() => {
     if (ipa && subcategories && categories) {
@@ -58,7 +61,7 @@ const IPADropdown = ({ ipa, subcategories, categories }: Props) => {
     if (selectedOption.value == 0) {
       setResult([]);
     } else {
-      setResult((r) => [...r, selectedOption.value]);
+      setResult([...result, selectedOption.value]);
       console.log(`Option selected:`, selectedOption);
     }
     setSelectedElement(null);

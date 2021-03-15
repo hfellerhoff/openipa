@@ -38,7 +38,7 @@ const Demonstration: React.FC<Props> = () => {
             theme='dark'
             displayHeight={resultHeight}
           />
-          <h3 className={styles.inputTitle}>
+          <h3 className={styles['input-title']}>
             {`${capitalizeFirstLetter(language)} Text Input`}
           </h3>
         </div>
@@ -48,7 +48,7 @@ const Demonstration: React.FC<Props> = () => {
             theme='dark'
             setHeight={(height) => setResultHeight(height)}
           />
-          <h3 className={styles.inputTitle}>IPA Result</h3>
+          <h3 className={styles['input-title']}>IPA Result</h3>
         </div>
       </div>
     </div>

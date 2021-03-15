@@ -6,7 +6,7 @@ import parseFrench from '../../transcription/french/ParseFrench';
 import { Result, Languages } from '../../constants/Interfaces';
 import styles from './TranscriptionEditor.module.scss';
 import HideButton from '../buttons/HideButton';
-import { Rule } from '../../constants/Rule';
+import { Rule } from '../../lib/supabase/models/Rule';
 import supabase from '../../lib/supabase';
 import supabaseParseLatin from '../../transcription/latin/SupabaseParseLatin';
 import useSupabaseIPA from '../../hooks/useSupabaseIPA';
@@ -17,6 +17,7 @@ interface Props {
   shouldAnalyzeLiason: boolean;
   result: Result;
   setResult: React.Dispatch<React.SetStateAction<Result>>;
+  text?: string;
 }
 
 const TranscriptionEditor: React.FC<Props> = ({
@@ -25,8 +26,9 @@ const TranscriptionEditor: React.FC<Props> = ({
   shouldAnalyzeLiason,
   result,
   setResult,
+  text,
 }) => {
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState(text || '');
   const [shouldShowInput, setShouldShowInput] = useState(true);
   const [shouldShowOutput, setShouldShowOutput] = useState(true);
 
@@ -38,11 +40,13 @@ const TranscriptionEditor: React.FC<Props> = ({
   const parseText = (text: string) => {
     switch (language as Languages) {
       case Languages.Latin:
-        return supabaseParseLatin(text, rules, categories, subcategories, ipa);
+        return parseLatin(text);
+      // return supabaseParseLatin(text, rules, categories, subcategories, ipa);
       case Languages.French:
         return parseFrench(text, shouldAnalyzeElision, shouldAnalyzeLiason);
       default:
-        return supabaseParseLatin(text, rules, categories, subcategories, ipa);
+        return parseLatin(text);
+      // return supabaseParseLatin(text, rules, categories, subcategories, ipa);
     }
   };
 

@@ -16,3 +16,9 @@ export interface IPASubcategory {
   label: string;
   category: number;
 }
+
+export interface IPATag {
+  id: number;
+  label: string;
+  categories: number[];
+}

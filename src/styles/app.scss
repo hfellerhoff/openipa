@@ -1,3 +1,5 @@
+@use './variables';
+
 // Tailwind
 @tailwind base;
 @tailwind components;
@@ -10,6 +12,7 @@
 // Component SCSS
 @import 'react-dropdown/style.css';
 @import './components/buttons';
+@import './components/blockquote';
 
 * {
   font-family: 'Open Sans', 'Apple SD Gothic Neo', 'Trebuchet MS', sans-serif;
@@ -20,6 +23,10 @@ body {
   @media screen and (max-width: 800px) {
     position: relative;
   }
+}
+
+.header-margin {
+  margin-top: variables.$navbar-height;
 }
 
 .Dropdown-group {

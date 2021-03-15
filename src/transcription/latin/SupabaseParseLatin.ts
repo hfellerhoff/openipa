@@ -1,26 +1,26 @@
 import { Phoneme, Result } from '../../constants/Interfaces';
 import { getCharArray } from '../../util/Helper';
 import Rules from './LatinRules';
-import { Rule, RuleInputString, RuleInputType } from '../../constants/Rule';
+import {
+  Rule,
+  RuleInputString,
+  RuleInputType,
+} from '../../lib/supabase/models/Rule';
 import {
   IPA,
   IPACategory,
   IPASubcategory,
 } from '../../lib/supabase/models/IPA';
 import idsToIPAString from '../../util/supabase/idsToIPAString';
-import {
-  IPACategoryDictionary,
-  IPADictionary,
-  IPASubcategoryDictionary,
-} from '../../hooks/useSupabaseIPA';
 import parseIPASymbolString from '../../util/supabase/parseIPASymbolString';
+import { Dictionary } from '../../hooks/useSupabaseTable';
 
 const supabaseParseLatin = (
   text: string,
   rules: Rule[],
-  categories: IPACategoryDictionary,
-  subcategories: IPASubcategoryDictionary,
-  ipa: IPADictionary
+  categories: Dictionary<IPACategory>,
+  subcategories: Dictionary<IPASubcategory>,
+  ipa: Dictionary<IPA>
 ) => {
   const charArray: string[] = getCharArray(text);
 
@@ -75,32 +75,32 @@ const supabaseParseLatin = (
         break;
       default:
         // Parse with rules here
-        rules.forEach((rule) => {
-          switch (rule.inputType) {
-            case RuleInputType.String:
-              const input = rule.input as RuleInputString;
+        // rules.forEach((rule) => {
+        //   switch (rule.inputType) {
+        //     case RuleInputType.String:
+        //       const input = rule.input as RuleInputString;
 
-              input.text.forEach((possibleMatch) => {
-                const characters = text.substring(
-                  index,
-                  index + possibleMatch.length
-                );
-                if (characters === possibleMatch) {
-                  index += possibleMatch.length - 1;
-                  phoneme = {
-                    text: characters,
-                    ipa: idsToIPAString(rule.output, ipa),
-                    rule: parseIPASymbolString(rule.description, ipa),
-                  };
-                }
-              });
-              break;
-            case RuleInputType.Subcategory:
-              break;
-            default:
-              break;
-          }
-        });
+        //       input.text.forEach((possibleMatch) => {
+        //         const characters = text.substring(
+        //           index,
+        //           index + possibleMatch.length
+        //         );
+        //         if (characters === possibleMatch) {
+        //           index += possibleMatch.length - 1;
+        //           phoneme = {
+        //             text: characters,
+        //             ipa: idsToIPAString(rule.output, ipa),
+        //             rule: parseIPASymbolString(rule.description, ipa),
+        //           };
+        //         }
+        //       });
+        //       break;
+        //     case RuleInputType.Subcategory:
+        //       break;
+        //     default:
+        //       break;
+        //   }
+        // });
         break;
     }
 

@@ -1,83 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import supabase from '../lib/supabase';
-import { IPA, IPACategory, IPASubcategory } from '../lib/supabase/models/IPA';
-
-export interface IPADictionary {
-  [id: number]: IPA;
-}
-
-export interface IPASubcategoryDictionary {
-  [id: number]: IPASubcategory;
-}
-
-export interface IPACategoryDictionary {
-  [id: number]: IPACategory;
-}
+import {
+  IPA,
+  IPACategory,
+  IPASubcategory,
+  IPATag,
+} from '../lib/supabase/models/IPA';
+import useSupabaseTable from './useSupabaseTable';
 
 const useSupabaseIPA = () => {
-  const [ipa, setIPA] = useState<{ [id: number]: IPA }>({});
-  const [subcategories, setSubcategories] = useState<{
-    [id: number]: IPASubcategory;
-  }>({});
-  const [categories, setCategories] = useState<{ [id: number]: IPACategory }>(
-    {}
-  );
+  const ipa = useSupabaseTable<IPA>('ipa');
+  const subcategories = useSupabaseTable<IPASubcategory>('ipa_subcategory');
+  const categories = useSupabaseTable<IPACategory>('ipa_category');
+  const tags = useSupabaseTable<IPATag>('ipa_tags');
 
-  const fetchIPA = async () => {
-    const { data, error } = await supabase
-      .from<IPA>('ipa')
-      .select('*')
-      .order('id', { ascending: true });
-    if (error) console.log('error', error);
-    else {
-      let updatedIPA = {};
-      data.forEach((ipaElement) => {
-        updatedIPA[ipaElement.id] = ipaElement;
-      });
-
-      setIPA(updatedIPA);
-    }
-  };
-
-  const fetchSubcategories = async () => {
-    const { data, error } = await supabase
-      .from<IPASubcategory>('ipa_subcategory')
-      .select('*')
-      .order('id', { ascending: true });
-    if (error) console.log('error', error);
-    else {
-      let updatedSubcategories = {};
-      data.forEach((s) => {
-        updatedSubcategories[s.id] = s;
-      });
-
-      setSubcategories(updatedSubcategories);
-    }
-  };
-
-  const fetchCategories = async () => {
-    const { data, error } = await supabase
-      .from<IPACategory>('ipa_category')
-      .select('*')
-      .order('id', { ascending: true });
-    if (error) console.log('error', error);
-    else {
-      let updatedCategories = {};
-      data.forEach((c) => {
-        updatedCategories[c.id] = c;
-      });
-
-      setCategories(updatedCategories);
-    }
-  };
-
-  useEffect(() => {
-    fetchIPA();
-    fetchSubcategories();
-    fetchCategories();
-  }, []);
-
-  return { ipa, subcategories, categories };
+  return { ipa, subcategories, categories, tags };
 };
 
 export default useSupabaseIPA;

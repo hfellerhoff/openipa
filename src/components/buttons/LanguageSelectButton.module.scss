@@ -1,5 +1,6 @@
 @import '../../styles/colors';
 @import '../../styles/variables';
+@import '../../styles/utils/mixins';
 
 .button {
   margin: 10px;
@@ -7,17 +8,20 @@
   height: 60px;
   width: 170px;
 
+  font-size: 1.25rem;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
-  @media screen and (max-width: 1000px) {
+  @include respond-to('computer') {
     width: 160px;
   }
-  @media screen and (max-width: 800px) {
+  @include respond-to('tablet') {
     width: 150px;
+    font-size: 1.15rem;
   }
-  @media screen and (max-width: 600px) {
+  @include respond-to('phone') {
     width: 140px;
   }
 

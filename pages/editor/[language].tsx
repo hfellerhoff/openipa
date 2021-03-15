@@ -5,7 +5,7 @@ import Button from '../../src/components/buttons/Button';
 import EditorLayout from '../../src/components/layout/EditorLayout';
 import PrivateLayout from '../../src/components/layout/PrivateLayout';
 import RuleList from '../../src/components/editors/language/RuleList';
-import { Rule } from '../../src/constants/Rule';
+import { Rule } from '../../src/lib/supabase/models/Rule';
 import useSupabaseIPA from '../../src/hooks/useSupabaseIPA';
 import supabase from '../../src/lib/supabase';
 import { Language } from '../../src/lib/supabase/models/Language';
@@ -19,6 +19,7 @@ const LanguageEditor = (props: Props) => {
   const router = useRouter();
   const [language, setLanguage] = useState<Language>({
     label: '',
+    slug: '',
     id: 0,
   });
 
@@ -49,10 +50,9 @@ const LanguageEditor = (props: Props) => {
             .from('languages')
             .select('*')
             .eq('id', id);
+
           if (!error && data.length > 0) {
             setLanguage(data[0] as Language);
-
-            getRules();
           }
         } else {
           router.replace('/editor');
@@ -60,8 +60,9 @@ const LanguageEditor = (props: Props) => {
       }
     };
 
-    if (router.query.language) getLanguage();
-  }, [router.query]);
+    if (router.query.language && language.id === 0) getLanguage();
+    if (language && rules.length === 0) getRules();
+  }, [router.query, language]);
 
   return (
     <EditorLayout leftSidebar={<></>} rightSidebar={<></>}>
@@ -75,6 +76,7 @@ const LanguageEditor = (props: Props) => {
           ipa={ipa}
           subcategories={subcategories}
           categories={categories}
+          languageId={language.id}
         />
       </div>
     </EditorLayout>

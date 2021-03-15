@@ -7,7 +7,7 @@ import Footer from '../../src/components/footer/Footer';
 import { Languages, Result } from '../../src/constants/Interfaces';
 import Template from '../../src/constants/Template';
 import { capitalizeFirstLetter } from '../../src/util/StringHelper';
-import styles from './TranscriptionPage.module.scss';
+import styles from './[language]/TranscriptionPage.module.scss';
 import { useRouter } from 'next/router';
 import Layout from '../../src/components/layout/Layout';
 import Head from 'next/head';

@@ -1,9 +1,21 @@
-@import '../../src/styles/variables';
-@import '../../src/styles/colors';
+@import '../../../src/styles/variables';
+@import '../../../src/styles/colors';
 
 .container {
   background: $offwhite;
   min-height: 100vh;
+}
+
+.banner-container {
+  margin-top: $navbar-height;
+  background: linear-gradient(
+    to left bottom,
+    $darkgray-gradient,
+    $lightgray-gradient
+  );
+}
+.banner-title {
+  color: $primary;
 }
 
 .content-container {
@@ -39,4 +51,3 @@
 
   @extend %side-padding;
 }
-

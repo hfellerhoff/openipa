@@ -3,6 +3,7 @@ import { stringify } from 'querystring';
 import React from 'react';
 import supabase from '../../lib/supabase';
 import supabaseSignIn from '../../lib/supabase/supabaseSignIn';
+import supabaseSignUp from '../../lib/supabase/supabaseSignUp';
 import styles from './AuthenticationForm.module.scss';
 
 interface Props {}
@@ -19,6 +20,7 @@ const AuthenticationForm = (props: Props) => {
         onSubmit={(values) => {
           console.log(values);
           supabaseSignIn(supabase, values.email, values.password);
+          // supabaseSignUp(supabase, values.email, values.password);
         }}
       >
         <Form className={styles['form']}>
