@@ -23,6 +23,7 @@
     "react-spinners": "^0.10.6",
     "sass": "^1.32.7",
     "tailwindcss": "^2.0.3",
+    "wikiapi": "^1.14.1",
     "yup": "^0.32.9"
   },
   "devDependencies": {

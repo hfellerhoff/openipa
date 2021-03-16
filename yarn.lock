@@ -694,6 +694,11 @@ canvg@^3.0.6:
     stackblur-canvas "^2.0.0"
     svg-pathdata "^5.0.5"
 
+cejs@latest:
+  version "4.1.9"
+  resolved "https://registry.yarnpkg.com/cejs/-/cejs-4.1.9.tgz#7754c276262feeab6d097f0220c6765bfed92575"
+  integrity sha512-lnoqHJ7ZHxRSmda9vrjwkGkg/Lar+7lbgrKVLOq0OGclvwak1v8+0ITDdreCHK+eTcsi/3ePaXj12UrUTDibyw==
+
 chalk@2.4.2, chalk@^2.0.0, chalk@^2.4.1, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
@@ -3005,6 +3010,13 @@ wide-align@^1.1.0:
   integrity sha512-QGkOQc8XL6Bt5PwnsExKBPuMKBxnGxWWW3fU55Xt4feHozMUhdUMaBCk290qpm/wG5u/RSKzwdAC4i51YigihA==
   dependencies:
     string-width "^1.0.2 || 2"
+
+wikiapi@^1.14.1:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/wikiapi/-/wikiapi-1.14.1.tgz#5b7c68c4faacdb80068b4635b0f7007ecef6dd91"
+  integrity sha512-G3qWcaTzGywFgON15jQbOvyZLEFTLOxbet0wEXclZP5oE6lRsL+TfO0udpgF3mOZwrcS8BJslMbPy6hIAd+hrQ==
+  dependencies:
+    cejs latest
 
 wrappy@1:
   version "1.0.2"
