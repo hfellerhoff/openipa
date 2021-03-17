@@ -1,15 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  BASE_URL,
-  getCPDLTextSeachQuery,
-} from '../../../src/lib/supabase/cpdl/API';
+import { BASE_URL, getCPDLTextSeachQuery } from './API';
+import { Language } from '../models/Language';
 import Wikiapi from 'wikiapi';
-import supabase from '../../../src/lib/supabase';
-import { Language } from '../../../src/lib/supabase/models/Language';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const text = (req.query.text as string) || 'Agnus dei';
-
+const cpdlGetTexts = async (text: string) => {
   const textResult = await fetch(getCPDLTextSeachQuery(text));
   const textData = await textResult.json();
 
@@ -89,9 +82,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const pageResult = await Promise.all(pagePromises);
 
-  console.log(pageResult);
-
-  res.json({
-    result: pageResult.filter((r) => r.variations.length > 0),
-  });
+  return pageResult.filter((r) => r.variations.length > 0);
 };
+
+export default cpdlGetTexts;

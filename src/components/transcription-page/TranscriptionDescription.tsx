@@ -32,7 +32,7 @@ const TranscriptionDescription: React.FC<Props> = ({
 
   return (
     <div>
-      <blockquote className='quote pl-2 py-2 mb-4 bg-gray-200 italic'>
+      <blockquote className='quote'>
         Tip: Open IPA gives in-depth transcription guidelines for each character
         it transcribes. Try hovering over a letter in the IPA result to try it
         out!

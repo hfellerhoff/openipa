@@ -14,6 +14,7 @@ import {
   IPACategory,
   IPASubcategory,
 } from '../../../lib/supabase/models/IPA';
+import RuleInputDisplay from './RuleInputDisplay';
 
 interface Props {
   rules: Rule[];
@@ -63,14 +64,7 @@ const RuleList = ({
         <Card key={rule.id}>
           <div className='flex w-full align-center justify-between mb-2'>
             <div className='flex'>
-              {
-                // @ts-ignore
-                rule.input.text.map((t, i) => (
-                  <div className='mr-1' key={i}>
-                    <IPADisplay>{t}</IPADisplay>
-                  </div>
-                ))
-              }
+              <RuleInputDisplay input={rule.input} />
             </div>
             <IPADisplay>{idsToIPAString(rule.output, ipa)}</IPADisplay>
           </div>
