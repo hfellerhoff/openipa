@@ -65,16 +65,12 @@ const fetchWorks = async () => {
     });
 
     // === ADD TO SUPABASE ===
-    const { error } = await supabase
-      .from('texts')
-      .insert(worksToAdd, { upsert: true });
+    await supabase.from('texts').delete();
 
-    console.log(error);
+    await supabase.from('texts').insert(worksToAdd, { upsert: true });
   });
 
   return;
 };
-
-fetchWorks();
 
 export default fetchWorks;

@@ -19,9 +19,7 @@ type Props = {
 const TranscriptionPage: React.FC<Props> = () => {
   const router = useRouter();
   const [result, setResult] = useState<Result>(Template.Result);
-  const [language, setLanguage] = useState<Languages>(
-    router.query.language as Languages
-  );
+  const [language, setLanguage] = useState<Languages>(Languages.Latin);
 
   // French Transcription Options
   const [shouldAnalyzeElision, setShouldAnalyzeElision] = useState(true);
@@ -45,6 +43,12 @@ const TranscriptionPage: React.FC<Props> = () => {
             {language ? `${capitalizeFirstLetter(language)} ` : ''}Language
             Transcription - Open IPA
           </title>
+          <meta
+            name='description'
+            content={`Free, informative IPA transcription for Lyric Diction. Transcribe any ${
+              language ? capitalizeFirstLetter(language) : 'foreign language'
+            } text into the International Phonetic Alphabet in real-time, and receive nuanced feedback for each transcription step.`}
+          />
           <link rel='icon' href='/favicon.ico' />
         </Head>
         <div className={styles.container}>

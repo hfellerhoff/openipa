@@ -41,8 +41,10 @@ const TranscriptionEditor: React.FC<Props> = ({
       case Languages.Latin:
       default:
         // Filter rules for given language
-        const languageRules = Object.values(rules).filter(
-          (r: Rule) => languages[r.language].label.toLowerCase() === language
+        const languageRules = Object.values(rules).filter((r: Rule) =>
+          languages[r.language]
+            ? languages[r.language].label.toLowerCase() === language
+            : false
         );
 
         // Transcribe text based on those rules

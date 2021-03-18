@@ -7,7 +7,6 @@
 }
 
 .banner-container {
-  margin-top: $navbar-height;
   background: linear-gradient(
     to left bottom,
     $darkgray-gradient,
@@ -26,24 +25,24 @@
   flex-direction: column;
   overflow: hidden;
 
-  padding-top: 20px + $navbar-height;
-  padding-bottom: 20px;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 
   @media screen and (min-width: 1000px) {
-    padding-top: 70px + $navbar-height;
-    padding-bottom: 80px;
+    padding-top: 4rem;
+    padding-bottom: 5rem;
   }
   @media screen and (max-width: 1000px) {
-    padding-top: 50px + $navbar-height;
-    padding-bottom: 60px;
+    padding-top: 3.75rem;
+    padding-bottom: 3.75rem;
   }
   @media screen and (max-width: 800px) {
-    padding-top: 35px + $navbar-height;
-    padding-bottom: 40px;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
   }
   @media screen and (max-width: 600px) {
-    padding-top: 20px + $navbar-height;
-    padding-bottom: 20px;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
   }
 
   transition: padding-top, padding-bottom, padding-right,

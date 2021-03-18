@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useContext, useRef } from 'react';
 import { UserContext } from '../../state/context/UserContextProvider';
 import styles from './Navbar.module.scss';
+import NavbarLink from './NavbarLink';
 
 interface Props {}
 
@@ -31,18 +32,24 @@ const Navbar: React.FC<Props> = () => {
           </>
         ) : (
           <>
-            <Link href='/support'>
-              <a className='button button--secondary button--rounded'>
-                Support
-              </a>
-            </Link>
-            {user.session ? (
-              <Link href='/editor'>
-                <a className='button button--primary button--rounded'>Editor</a>
-              </Link>
-            ) : (
-              <></>
-            )}
+            <NavbarLink
+              href='/texts'
+              hoverClassName='hover:bg-green-500 hover:bg-opacity-50'
+            >
+              Texts
+            </NavbarLink>
+            <NavbarLink
+              href='/transcription'
+              hoverClassName='hover:bg-blue-500 hover:bg-opacity-50'
+            >
+              Transcribe
+            </NavbarLink>
+            <NavbarLink
+              href='/support'
+              hoverClassName='hover:bg-purple-500 hover:bg-opacity-50'
+            >
+              Support
+            </NavbarLink>
           </>
         )}
       </div>

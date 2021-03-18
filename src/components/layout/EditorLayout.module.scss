@@ -2,7 +2,6 @@
 @use '../../styles/variables';
 
 .container {
-  padding-top: variables.$navbar-height;
   display: grid;
   grid-template-columns: 200px 1fr 300px;
   background: colors.$gray-6;

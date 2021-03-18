@@ -13,6 +13,8 @@
   justify-content: space-between;
   z-index: 10;
 
+  top: 0;
+
   @extend %side-padding;
   transition: all 0.3s ease-in-out;
 }
@@ -61,10 +63,10 @@
 }
 
 .link {
-  margin-left: 30px;
-  font-size: 18px;
+  margin-left: 4rem;
+  font-size: 1rem;
   font-weight: 400;
-  color: $white;
+  color: $gray-6;
 
   transition: all 0.1s ease-in-out;
 }

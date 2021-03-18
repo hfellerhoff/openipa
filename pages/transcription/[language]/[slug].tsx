@@ -11,20 +11,12 @@ import Template from '../../../src/constants/Template';
 import { Dictionary } from '../../../src/hooks/useSupabaseTable';
 import supabase from '../../../src/lib/supabase';
 import { Language } from '../../../src/lib/supabase/models/Language';
+import { Text } from '../../../src/lib/supabase/models/Text';
 import { capitalizeFirstLetter } from '../../../src/util/StringHelper';
 import styles from './TranscriptionPage.module.scss';
 
 interface Props {
-  text?: {
-    id: number;
-    slug: string;
-    title: string;
-    text: string;
-    language: number;
-    source: string;
-    updated_at: string;
-    type: string;
-  };
+  text?: Text;
   language?: Language;
   author?: any;
 }

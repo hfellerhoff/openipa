@@ -2,8 +2,14 @@
 @import '../../styles/colors';
 
 .container {
-  background: $white;
   min-height: 100vh;
+  display: flex;
+}
+
+.content-container {
+  margin-top: $navbar-height;
+  flex: 1;
+  background: $white;
   display: flex;
   flex-direction: column;
 }
