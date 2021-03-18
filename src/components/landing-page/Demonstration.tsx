@@ -20,8 +20,10 @@ const Demonstration: React.FC<Props> = () => {
 
   const parseText = (text: string) => {
     // Filter rules for given language
-    const languageRules = Object.values(rules).filter(
-      (r: Rule) => languages[r.language].label.toLowerCase() === language
+    const languageRules = Object.values(rules).filter((r: Rule) =>
+      languages[r.language]
+        ? languages[r.language].label.toLowerCase() === language
+        : false
     );
 
     // Transcribe text based on those rules
@@ -30,7 +32,7 @@ const Demonstration: React.FC<Props> = () => {
 
   useEffect(() => {
     setResult(parseText(inputText));
-  }, [inputText, language, rules]);
+  }, [inputText, language, rules, languages]);
 
   return (
     <div className={styles.container}>
