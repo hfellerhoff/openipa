@@ -45,6 +45,12 @@ const TranscriptionPage = ({ text }: Props) => {
           Transcription - Open IPA
         </title>
         <link rel='icon' href='/favicon.ico' />
+        <meta
+          name='description'
+          content={`Free, informative IPA transcription for Lyric Diction. Transcribe any ${
+            language ? capitalizeFirstLetter(language) : 'foreign language'
+          } text into the International Phonetic Alphabet in real-time, and receive nuanced feedback for each transcription step.`}
+        />
       </Head>
       <div className={styles.container}>
         <div className={styles['content-container']}>

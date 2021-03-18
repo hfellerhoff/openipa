@@ -15,6 +15,10 @@ const LandingPage: React.FC<Props> = () => {
           Open IPA - Free, informative IPA transcription for Lyric Diction
         </title>
         <link rel='icon' href='/favicon.ico' />
+        <meta
+          name='description'
+          content='Free, informative IPA transcription for Lyric Diction. Transcribe any Latin or French text into the International Phonetic Alphabet in real-time, and receive nuanced feedback for each transcription step.'
+        />
       </Head>
       <Hero />
       <Description />

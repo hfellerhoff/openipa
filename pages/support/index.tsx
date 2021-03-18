@@ -13,6 +13,10 @@ const SupportPage: React.FC<Props> = () => {
       <Head>
         <title>Support - Open IPA</title>
         <link rel='icon' href='/favicon.ico' />
+        <meta
+          name='description'
+          content='Resources to help support Open IPA and help keep our service alive. Consider supporting us with your time or money and keep quality IPA transcription free and available for everyone.'
+        />
       </Head>
       <div className={styles.container}>
         <div className={styles['hero-container']}>
