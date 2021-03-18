@@ -8,6 +8,7 @@ import Dropdown from 'react-dropdown';
 import IPADisplay from './IPADisplay';
 import idsToIPAString from '../../../util/supabase/idsToIPAString';
 import { Dictionary } from '../../../hooks/useSupabaseTable';
+import idsToSubcategoryString from '../../../util/supabase/idsToSubcategoryString';
 
 interface Props {
   ipa: Dictionary<IPA>;
@@ -15,14 +16,16 @@ interface Props {
   categories: Dictionary<IPACategory>;
   result: number[];
   setResult: (r: number[]) => void;
+  prefix: string;
 }
 
-const IPADropdown = ({
+const IPASubcategoryDropdown = ({
   ipa,
   subcategories,
   categories,
   result,
   setResult,
+  prefix,
 }: Props) => {
   const [selectedElement, setSelectedElement] = useState(null);
   const [options, setOptions] = useState([]);
@@ -35,23 +38,13 @@ const IPADropdown = ({
           value: 0,
           label: 'Clear Result',
         },
-        ...Object.values(categories).map((category: IPACategory) => {
-          const section = {
-            type: 'group',
-            name: category.label,
-            key: `category-${category.id}`,
-            items: Object.values(ipa)
-              .filter((i: IPA) => i.category === category.id)
-              .map((element: IPA) => {
-                const block = {
-                  key: `ipa-${element.id}`,
-                  value: element.id,
-                  label: element.symbol,
-                };
-                return block;
-              }),
+        ...Object.values(subcategories).map((subcategory: IPASubcategory) => {
+          const block = {
+            key: `ipa-${subcategory.id}`,
+            value: subcategory.id,
+            label: subcategory.label,
           };
-          return section;
+          return block;
         }),
       ]);
     }
@@ -70,8 +63,15 @@ const IPADropdown = ({
     <div className='flex h-10'>
       <IPADisplay>
         <input
-          className='bg-gray-200 w-16 text-center'
-          value={idsToIPAString(result, ipa)}
+          className='bg-gray-200 w-64 text-center'
+          value={
+            result.length > 0
+              ? `${prefix ? prefix + ' ' : ''}${idsToSubcategoryString(
+                  result,
+                  subcategories
+                )}`
+              : ''
+          }
           readOnly
         ></input>
       </IPADisplay>
@@ -82,10 +82,10 @@ const IPADropdown = ({
         placeholder='...'
         className={`rounded-md`}
         controlClassName='bg-gray-200 shadow-inner border-none h-10 w-4'
-        menuClassName='w-96 right-0 rounded-md border-none shadow-md h-96 max-h-64'
+        menuClassName='w-64 right-0 rounded-md border-none shadow-md'
       />
     </div>
   );
 };
 
-export default IPADropdown;
+export default IPASubcategoryDropdown;

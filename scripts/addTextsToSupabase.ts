@@ -1,3 +1,4 @@
+// @ts-ignore
 const cpdlGetTexts = require('./src/lib/supabase/cpdl/cpdlGetTexts');
 
 const { createClient } = require('@supabase/supabase-js');

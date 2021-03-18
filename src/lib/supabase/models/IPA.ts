@@ -9,12 +9,14 @@ export interface IPA {
 export interface IPACategory {
   id: number;
   label: string;
+  letters: string[];
 }
 
 export interface IPASubcategory {
   id: number;
   label: string;
   category: number;
+  letters: string[];
 }
 
 export interface IPATag {

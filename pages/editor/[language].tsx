@@ -23,25 +23,9 @@ const LanguageEditor = (props: Props) => {
     id: 0,
   });
 
-  const [rules, setRules] = useState<Rule[]>([]);
-  const { categories, subcategories, ipa } = useSupabaseIPA();
-
-  const [addNewRule, setAddNewRule] = useState(false);
-  const [inputFields, setInputFields] = useState({
-    0: '',
-  });
+  const { categories, subcategories, ipa, rules } = useSupabaseIPA();
 
   useEffect(() => {
-    const getRules = async () => {
-      const { data, error } = await supabase
-        .from('rules')
-        .select('*')
-        .eq('language', language.id);
-      if (!error && data.length > 0) {
-        setRules(data);
-      }
-    };
-
     const getLanguage = async () => {
       if (router.query.language) {
         const id = parseInt(router.query.language as string);
@@ -61,18 +45,17 @@ const LanguageEditor = (props: Props) => {
     };
 
     if (router.query.language && language.id === 0) getLanguage();
-    if (language && rules.length === 0) getRules();
   }, [router.query, language]);
 
   return (
-    <EditorLayout leftSidebar={<></>} rightSidebar={<></>}>
+    <EditorLayout>
       <Head>
         <title>{language.label} Editor - Open IPA</title>
       </Head>
       <div className='p-8'>
         <h3 className='mb-4'>{language.label} Transcription Rules</h3>
         <RuleList
-          rules={rules}
+          rules={Object.values(rules)}
           ipa={ipa}
           subcategories={subcategories}
           categories={categories}

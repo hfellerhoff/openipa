@@ -31,10 +31,10 @@ body {
 
 .Dropdown-group {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .Dropdown-title {
-  grid-column: 1/7;
+  grid-column: 1/10;
 }
 .Dropdown-option {
   font-family: 'Roboto Slab';

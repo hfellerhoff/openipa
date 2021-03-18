@@ -7,6 +7,7 @@ export enum RuleInputType {
 // Types of rule inputs
 export interface RuleInput {
   type: RuleInputType;
+  replace?: boolean;
 }
 
 export interface RuleInputString extends RuleInput {
@@ -25,10 +26,10 @@ export interface RuleInputCategory extends RuleInput {
 
 // Total rule
 export interface Rule {
-  id: number;
+  id?: number;
   language: number;
   input: {
-    options: RuleInput[][];
+    steps: RuleInput[];
   };
   output: number[];
   description: string;

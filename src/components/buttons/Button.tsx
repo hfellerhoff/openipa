@@ -5,7 +5,7 @@ interface Props
     ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
-  colorScheme?: 'primary' | 'grayscale' | 'error';
+  colorScheme?: 'primary' | 'grayscale' | 'error' | 'warning';
   variant?: 'button' | 'wide';
 }
 
@@ -20,6 +20,8 @@ const Button = ({
       ? 'blue'
       : colorScheme === 'error'
       ? 'red'
+      : colorScheme === 'warning'
+      ? 'yellow'
       : 'gray';
 
   return (

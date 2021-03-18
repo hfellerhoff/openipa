@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { Rule, RuleInputType } from '../../../lib/supabase/models/Rule';
+import {
+  Rule,
+  RuleInputString,
+  RuleInputType,
+} from '../../../lib/supabase/models/Rule';
 import supabase from '../../../lib/supabase';
 import idsToIPAString from '../../../util/supabase/idsToIPAString';
 import parseIPASymbolString from '../../../util/supabase/parseIPASymbolString';
@@ -15,6 +19,7 @@ import {
   IPASubcategory,
 } from '../../../lib/supabase/models/IPA';
 import RuleInputDisplay from './RuleInputDisplay';
+import AddRuleCard from './AddRuleCard';
 
 interface Props {
   rules: Rule[];
@@ -31,132 +36,64 @@ const RuleList = ({
   categories,
   languageId,
 }: Props) => {
-  const [showAddNewRule, setShowAddNewRule] = useState(false);
-  const [input, setInput] = useState<string[]>(['']);
-  const [result, setResult] = useState<number[]>([]);
-  const [description, setDescription] = useState('');
+  const [idToBeEdited, setIdToBeEdited] = useState(0);
 
-  const handleCreateRule = async () => {
-    console.log(input, result);
-
-    const { data, error } = await supabase.from('rules').insert([
-      {
-        language: languageId,
-        output: result,
-        input: {
-          text: input,
-        },
-        inputType: RuleInputType.String,
-        description: `${description} [${result.join(',')}].`,
-      },
-    ]);
-
-    setInput(['']);
-    setResult([]);
-    setDescription('');
-
-    setShowAddNewRule(false);
-  };
-
+  if (
+    Object.values(ipa).length === 0 ||
+    Object.values(subcategories).length === 0 ||
+    Object.values(categories).length === 0
+  )
+    return <></>;
   return (
     <ul>
-      {rules.map((rule) => (
-        <Card key={rule.id}>
-          <div className='flex w-full align-center justify-between mb-2'>
-            <div className='flex'>
-              <RuleInputDisplay input={rule.input} />
-            </div>
-            <IPADisplay>{idsToIPAString(rule.output, ipa)}</IPADisplay>
-          </div>
-          <p>{parseIPASymbolString(rule.description, ipa)}</p>
-        </Card>
-      ))}
-      {!showAddNewRule ? (
-        <Button
-          colorScheme='primary'
-          variant='wide'
-          onClick={() => setShowAddNewRule(true)}
-          key='new-rule-button'
-        >
-          Add New Rule
-        </Button>
-      ) : (
-        <Card key='new-rule-card'>
-          <div className='flex w-full align-center justify-between mb-2'>
-            <div className='flex'>
-              {input.map((value, i) => (
-                <IPAInput
-                  value={value}
-                  setValue={(v) => {
-                    setInput((oldInput) => {
-                      oldInput[i] = v;
-                      return [...oldInput];
-                    });
-                  }}
-                  className='mr-1'
+      {rules.map((rule) =>
+        rule.id === idToBeEdited ? (
+          <AddRuleCard
+            key={rule.id}
+            rules={rules}
+            ipa={ipa}
+            subcategories={subcategories}
+            categories={categories}
+            languageId={languageId}
+            editProps={{
+              rule: rule,
+              onCancel: () => setIdToBeEdited(0),
+            }}
+          />
+        ) : (
+          <Card key={rule.id}>
+            <div className='flex w-full align-center justify-between mb-2'>
+              <div className='flex'>
+                <RuleInputDisplay
+                  input={rule.input}
+                  ipa={ipa}
+                  subcategories={subcategories}
+                  categories={categories}
                 />
-              ))}
-              <Button
-                colorScheme='primary'
-                onClick={() => setInput([...input, ''])}
-              >
-                +
-              </Button>
-              {Object.keys(input).length > 1 ? (
-                <Button
-                  colorScheme='grayscale'
-                  onClick={() => {
-                    setInput((oldInput) => {
-                      oldInput.pop();
-                      return [...oldInput];
-                    });
-                  }}
-                  className='ml-1'
-                >
-                  -
-                </Button>
-              ) : (
-                <></>
-              )}
-            </div>
-            <IPADropdown
-              ipa={ipa}
-              subcategories={subcategories}
-              categories={categories}
-              result={result}
-              setResult={setResult}
-            />
-          </div>
-          <div className='mt-4'>
-            <label htmlFor='rule-description'>Rule Description</label>
-            <div>
-              <IPADisplay className='flex'>
-                <input
-                  name='rule-description'
-                  className={`bg-gray-200 font-sans w-full flex-1`}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                ></input>
-                {result.length > 0 ? (
-                  <p>[{idsToIPAString(result, ipa)}].</p>
-                ) : (
-                  <></>
-                )}
+              </div>
+              <IPADisplay className='h-10'>
+                {idsToIPAString(rule.output, ipa)}
               </IPADisplay>
             </div>
-            <div className='flex align-center justify-end mt-4'>
+            <div className='flex align-center justify-between'>
+              <p>{parseIPASymbolString(rule.description, ipa)}</p>
               <Button
-                colorScheme='error'
-                onClick={() => setShowAddNewRule(false)}
-                className='mr-1'
+                colorScheme='grayscale'
+                onClick={() => setIdToBeEdited(rule.id)}
               >
-                Cancel
+                Edit
               </Button>
-              <Button onClick={handleCreateRule}>Create</Button>
             </div>
-          </div>
-        </Card>
+          </Card>
+        )
       )}
+      <AddRuleCard
+        rules={rules}
+        ipa={ipa}
+        subcategories={subcategories}
+        categories={categories}
+        languageId={languageId}
+      />
     </ul>
   );
 };

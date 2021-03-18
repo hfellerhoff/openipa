@@ -34,14 +34,19 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   const [resultHeight, setResultHeight] = useState(0);
 
-  const { categories, subcategories, ipa } = useSupabaseIPA();
-  const [rules, setRules] = useState<Rule[]>([]);
+  const { categories, subcategories, ipa, rules } = useSupabaseIPA();
 
   const parseText = (text: string) => {
     switch (language as Languages) {
       case Languages.Latin:
-        return parseLatin(text);
-      // return supabaseParseLatin(text, rules, categories, subcategories, ipa);
+        // return parseLatin(text);
+        return supabaseParseLatin(
+          text,
+          Object.values(rules),
+          categories,
+          subcategories,
+          ipa
+        );
       case Languages.French:
         return parseFrench(text, shouldAnalyzeElision, shouldAnalyzeLiason);
       default:
@@ -52,16 +57,7 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   useEffect(() => {
     setResult(parseText(inputText));
-  }, [inputText, shouldAnalyzeElision, shouldAnalyzeLiason, language]);
-
-  useEffect(() => {
-    const updateRules = async () => {
-      const rulesQuery = await supabase.from('rules').select('*');
-      setRules(rulesQuery.data);
-    };
-
-    updateRules();
-  }, [language]);
+  }, [inputText, shouldAnalyzeElision, shouldAnalyzeLiason, language, rules]);
 
   return (
     <div className={styles.container}>

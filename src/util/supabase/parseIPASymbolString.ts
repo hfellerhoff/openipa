@@ -9,11 +9,22 @@ const parseIPASymbolString = (string: string, ipa: Dictionary<IPA>) => {
   if (!string || !ipa) return '';
 
   for (const char of string) {
-    if (char === '[') isSymbol = true;
-    else if (char === ']') {
+    if (char === '[') {
+      parsed += '[';
+      isSymbol = true;
+    } else if (char === ',' && isSymbol) {
+      const ipaElementID = parseInt(unparsedID);
+      if (!ipa[ipaElementID]) continue;
+
+      parsed += ipaElementID ? ipa[ipaElementID].symbol : '';
+      unparsedID = '';
+    } else if (char === ']') {
       isSymbol = false;
       const ipaElementID = parseInt(unparsedID);
-      parsed += ipaElementID ? `[${ipa[ipaElementID].symbol}]` : '';
+      if (!ipa[ipaElementID]) continue;
+
+      parsed += ipaElementID ? ipa[ipaElementID].symbol : '';
+      parsed += ']';
       unparsedID = '';
     } else if (isSymbol) unparsedID += char;
     else parsed += char;

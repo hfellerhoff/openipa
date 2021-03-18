@@ -9,6 +9,15 @@
   min-height: 100vh;
 }
 
+.container--no-sidebar {
+  grid-template-columns: 1fr;
+}
+.container--no-sidebar main {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 .sidebar {
   background: colors.$white;
   z-index: 1;
