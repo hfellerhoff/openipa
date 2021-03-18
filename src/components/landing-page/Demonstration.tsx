@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { Languages } from '../../constants/Interfaces';
+import React, { useEffect, useState } from 'react';
+import { Languages, Result } from '../../constants/Interfaces';
 import TextInput from '../input/TextInput';
 import ResultDisplay from '../display/ResultDisplay';
 import styles from './Demonstration.module.scss';
-import parseLatin from '../../transcription/latin/ParseLatin';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
+import useSupabaseIPA from '../../hooks/useSupabaseIPA';
+import { Rule } from '../../lib/supabase/models/Rule';
+import transcribeText from '../../transcription/TranscribeText';
+import Template from '../../constants/Template';
 
 interface Props {}
 
@@ -12,6 +15,22 @@ const Demonstration: React.FC<Props> = () => {
   const [inputText, setInputText] = useState('Ave maria, gratia plena.');
   const [language] = useState(Languages.Latin);
   const [resultHeight, setResultHeight] = useState(0);
+  const [result, setResult] = useState<Result>(Template.Result);
+  const { rules, languages, categories, subcategories, ipa } = useSupabaseIPA();
+
+  const parseText = (text: string) => {
+    // Filter rules for given language
+    const languageRules = Object.values(rules).filter(
+      (r: Rule) => languages[r.language].label.toLowerCase() === language
+    );
+
+    // Transcribe text based on those rules
+    return transcribeText(text, languageRules, categories, subcategories, ipa);
+  };
+
+  useEffect(() => {
+    setResult(parseText(inputText));
+  }, [inputText, language, rules]);
 
   return (
     <div className={styles.container}>
@@ -44,7 +63,7 @@ const Demonstration: React.FC<Props> = () => {
         </div>
         <div className={styles['container-right-container-right']}>
           <ResultDisplay
-            result={parseLatin(inputText)}
+            result={result}
             theme='dark'
             setHeight={(height) => setResultHeight(height)}
           />

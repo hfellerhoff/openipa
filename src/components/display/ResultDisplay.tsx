@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Rules from '../../transcription/latin/LatinRules';
 import { Word, Line, Result } from '../../constants/Interfaces';
 
 import styles from './ResultDisplay.module.scss';
@@ -24,7 +23,7 @@ const PhonemeElement = ({ text, rule, isIPA = false, theme }: PhonemeProps) => {
     styles[`tooltip-text--${theme}`]
   }`;
 
-  if (rule !== Rules.NONE)
+  if (rule)
     return (
       <div className={tooltipClassName}>
         <span className={textClassName}>{text}</span>

@@ -1,27 +1,19 @@
-import { Phoneme, Result } from '../../constants/Interfaces';
-import { getCharArray } from '../../util/Helper';
-import Rules from './LatinRules';
+import { Phoneme, Result } from '../constants/Interfaces';
+import { getCharArray } from '../util/Helper';
 import {
   Rule,
   RuleInputCategory,
   RuleInputString,
   RuleInputSubcategory,
   RuleInputType,
-} from '../../lib/supabase/models/Rule';
-import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../lib/supabase/models/IPA';
-import idsToIPAString from '../../util/supabase/idsToIPAString';
-import parseIPASymbolString from '../../util/supabase/parseIPASymbolString';
-import { Dictionary } from '../../hooks/useSupabaseTable';
-import {
-  isLetterInCategory,
-  isLetterInSubcategory,
-} from '../helper/isLetterIn';
+} from '../lib/supabase/models/Rule';
+import { IPA, IPACategory, IPASubcategory } from '../lib/supabase/models/IPA';
+import idsToIPAString from '../util/supabase/idsToIPAString';
+import parseIPASymbolString from '../util/supabase/parseIPASymbolString';
+import { Dictionary } from '../hooks/useSupabaseTable';
+import { isLetterInCategory, isLetterInSubcategory } from './helper/isLetterIn';
 
-const supabaseParseLatin = (
+const transcribeText = (
   text: string,
   rules: Rule[],
   categories: Dictionary<IPACategory>,
@@ -42,13 +34,12 @@ const supabaseParseLatin = (
     ],
   };
 
-  let previousPhoneme = '';
   for (let index = 0; index < charArray.length; index += 1) {
     const char = charArray[index];
     let phoneme: Phoneme = {
       text: char,
       ipa: char,
-      rule: Rules.UNKNOWN,
+      rule: 'Could not find a transcription rule for this character.',
     };
 
     // PUNCTUATION
@@ -62,7 +53,7 @@ const supabaseParseLatin = (
         phoneme = {
           text: char,
           ipa: char,
-          rule: Rules.NONE,
+          rule: '',
         };
         break;
       case ' ':
@@ -194,10 +185,9 @@ const supabaseParseLatin = (
     const currentLine = result.lines[result.lines.length - 1];
     const currentWord = currentLine.words[currentLine.words.length - 1];
     currentWord.syllables.push(phoneme);
-    previousPhoneme = phoneme.ipa[phoneme.ipa.length - 1];
   }
 
   return result;
 };
 
-export default supabaseParseLatin;
+export default transcribeText;
