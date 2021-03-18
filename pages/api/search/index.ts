@@ -1,8 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  BASE_URL,
-  getCPDLTextSeachQuery,
-} from '../../../src/lib/supabase/cpdl/API';
+import { BASE_URL, getCPDLTextSeachQuery } from '../../../src/lib/cpdl/API';
 import Wikiapi from 'wikiapi';
 import supabase from '../../../src/lib/supabase';
 import { Language } from '../../../src/lib/supabase/models/Language';

@@ -21,8 +21,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "scripts/generate-sitemap.js", "pages/sitemap.xml.js"  ],
+    "**/*.tsx",
+    "pages/sitemap.xml.ts"  ],
   "exclude": [
     "node_modules"
   ]

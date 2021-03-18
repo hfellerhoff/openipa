@@ -11,6 +11,7 @@ import Template from '../../../src/constants/Template';
 import { Dictionary } from '../../../src/hooks/useSupabaseTable';
 import supabase from '../../../src/lib/supabase';
 import { Language } from '../../../src/lib/supabase/models/Language';
+import { capitalizeFirstLetter } from '../../../src/util/StringHelper';
 import styles from './TranscriptionPage.module.scss';
 
 interface Props {
@@ -22,6 +23,7 @@ interface Props {
     language: number;
     source: string;
     updated_at: string;
+    type: string;
   };
   language?: Language;
   author?: any;
@@ -37,23 +39,31 @@ const TextPage = ({ text, language, author }: Props) => {
   const [shouldAnalyzeElision, setShouldAnalyzeElision] = useState(true);
   const [shouldAnalyzeLiason, setShouldAnalyzeLiason] = useState(true);
 
-  // useEffect(() => {
-  //   setLanguage(router.query.language as Languages);
-  // }, [router.query.language]);
-
   return (
     <Layout>
       <Head>
         <title>
-          {text && language ? `${text.title} - Latin to ` : ''}IPA Text
-          Transcription - Open IPA
+          {text && language ? `${text.title} - ${language.label} to ` : ''}
+          IPA Text Transcription - Open IPA
         </title>
+        <meta
+          name='description'
+          content={
+            text && language
+              ? `Free, fast, real-time transcription of the ${language.label.toLowerCase()} text ${
+                  text.title
+                }, with detailed explanations of each transcription rule.`
+              : 'Free, fast, real-time foreign language to IPA transcription, with detailed explanations of each transcription rule.'
+          }
+        />
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <div className={styles.container}>
         <div className={styles['content-container']}>
           <h1 className='text-3xl md:text-4xl mb-1'>{text.title}</h1>
-          <h2 className='text-xl font-normal mb-8'>{author.name}</h2>
+          <h2 className='text-xl font-normal mb-8'>
+            {language.label} {text.type}
+          </h2>
 
           <TranscriptionDescription
             language={language.label.toLowerCase()}
@@ -111,11 +121,21 @@ const TextPage = ({ text, language, author }: Props) => {
 export default TextPage;
 
 export async function getStaticProps({ params }) {
+  console.log(params);
+
   // Call an external API endpoint to get posts
+  const { data: languages } = await supabase.from('languages').select('*');
+
+  const currentLanguage = languages.filter(
+    (l) => l.label.toLowerCase() === params.language
+  )[0];
+
   let { data: texts } = await supabase
     .from('texts')
     .select('*')
     .eq('slug', params.slug);
+
+  texts = texts.filter((t) => t.language === currentLanguage.id);
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
@@ -171,9 +191,6 @@ export async function getStaticPaths() {
         text.slug
       }`
   );
-
-  console.log(texts);
-  console.log(paths);
 
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.

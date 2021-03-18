@@ -10,7 +10,6 @@ Ave verum corpus
 Beata viscera
 Benedictio mensae
 Cantate Domino
-Cantate Domino
 Confiteor
 Cujus animam
 Cujus animam gementem
@@ -27,15 +26,11 @@ Et misericordia
 Exsultate, jubilate
 Exsultate, justi
 Fac me cruce custodiri
-Fac me cruce custodiri
 Fac me vere tecum flere
-Fac ut portem
 Fac ut portem
 Fecit potentiam
 Hodie Christus natus est
-Inflammatus et accensus - Dvorak
-Inflammatus et accensus- Rossini
-Jubilate Deo
+Inflammatus et accensus
 Jubilate Deo
 Lauda Sion Salvatorem
 Laudamus te
@@ -45,20 +40,16 @@ Magnificat
 Nigra sum, sed formosa
 O magnum mysterium
 O nata lux de lumine
-O salutaris hostia
 O solutaris Hostia
 O vos omnes
 Panis angelicus
 Pater noster
-Pro peccatis- Rossini
+Pro peccatis
 Quae moerebat et dolebat
 Qui sedes ad dextram patris
 Quia fecit mihi magna
-Quia fecit mihi magna
-Quia respexit
 Quia respexit
 Quis non posset contristari
-Quoniam tu solus sanctus
 Quoniam tu solus sanctus
 Regina coeli
 Salve Regina
@@ -71,7 +62,6 @@ Te ergo quaesumus
 Tenebrae factae sunt
 Ubi caritas
 Veni, creator spiritus
-Veni, sancte spiritus
 Vidit suum dulcern natum
 Virga Jesse floruit
 Virgam virtutis tuae

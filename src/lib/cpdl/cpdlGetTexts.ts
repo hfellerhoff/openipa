@@ -1,12 +1,15 @@
 import { BASE_URL, getCPDLTextSeachQuery } from './API';
-import { Language } from '../models/Language';
+import { Language } from '../supabase/models/Language';
 import Wikiapi from 'wikiapi';
+import supabase from '../supabase';
 
 const cpdlGetTexts = async (text: string) => {
   const textResult = await fetch(getCPDLTextSeachQuery(text));
   const textData = await textResult.json();
 
   const languages = await supabase.from('languages').select('*');
+
+  if (!textData.query) return;
 
   const wiki = new Wikiapi(BASE_URL);
 
@@ -50,7 +53,7 @@ const cpdlGetTexts = async (text: string) => {
       } else if (line.includes(`}}`) && isRelevantText) {
         isRelevantText = false;
 
-        if (textBlock.length > 20) {
+        if (textBlock && textBlock.length > 20) {
           relevantLines.push({
             language: currentLanguage.language,
             type: currentLanguage.type,
@@ -69,20 +72,22 @@ const cpdlGetTexts = async (text: string) => {
         textBlock += line;
       }
     });
-    console.log({
-      title: result.title,
-      variations: relevantLines,
-    });
+
+    const url = result.title.replace(/[ ]/g, '_');
 
     return {
       title: result.title,
       variations: relevantLines,
+      url: `https://www.cpdl.org/wiki/index.php/${url}`,
     };
   });
 
   const pageResult = await Promise.all(pagePromises);
+  const filtered = pageResult.filter(
+    (r) => r.variations && r.variations.length > 0
+  );
 
-  return pageResult.filter((r) => r.variations.length > 0);
+  return filtered;
 };
 
 export default cpdlGetTexts;

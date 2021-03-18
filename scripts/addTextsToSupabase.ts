@@ -1,14 +1,15 @@
-// @ts-ignore
-const cpdlGetTexts = require('./src/lib/supabase/cpdl/cpdlGetTexts');
-
-const { createClient } = require('@supabase/supabase-js');
-const fs = require('fs');
 require('dotenv').config();
+import cpdlGetTexts from '../src/lib/cpdl/cpdlGetTexts';
+import supabase from '../src/lib/supabase/index';
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+import * as fs from 'fs';
+import { Language } from '../src/lib/supabase/models/Language';
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const getSlug = (text: string) => {
+  text = text.replace(/[(),.`]/g, '');
+  text = text.replace(/[ /\\]/g, '-');
+  return text.toLowerCase();
+};
 
 const fetchWorks = async () => {
   // Get works to fetch from file
@@ -17,16 +18,63 @@ const fetchWorks = async () => {
     if (err) throw err;
 
     const worksToFetch = data.split('\n');
-    console.log(worksToFetch);
 
     // Get current texts
-    const res = await supabase.from('texts').select('*');
-    // const works = res.body;
+    const res = await supabase.from('languages').select('*');
+    const languages: Language[] = res.body;
+
+    let languageDictionary = {};
+    languages.forEach((element) => {
+      languageDictionary[element['id']] = element;
+    });
 
     // Search for work
-    const result = await cpdlGetTexts(worksToFetch[0]);
-    console.log(result);
+    const fetchPromises = worksToFetch.map((work) => cpdlGetTexts(work));
+
+    const works = await Promise.all(fetchPromises);
+
+    const worksToAdd = [];
+
+    works.forEach((w) => {
+      w.forEach((e) => {
+        let variationsByLanguage = {};
+        e.variations.forEach(async (v) => {
+          const language = languages.filter(
+            (l) => l.label.toLowerCase() === v.language.toLowerCase()
+          )[0].id;
+
+          worksToAdd.push({
+            slug: `${getSlug(e.title)}${
+              +variationsByLanguage[v.language]
+                ? `-${variationsByLanguage[v.language]}`
+                : ''
+            }`,
+            title: e.title,
+            text: v.text,
+            language,
+            source: e.url,
+            updated_at: 'now()',
+            type: v.type,
+          });
+
+          if (variationsByLanguage[v.language])
+            variationsByLanguage[v.language] += 1;
+          else variationsByLanguage[v.language] = 1;
+        });
+      });
+    });
+
+    // === ADD TO SUPABASE ===
+    const { error } = await supabase
+      .from('texts')
+      .insert(worksToAdd, { upsert: true });
+
+    console.log(error);
   });
+
+  return;
 };
 
 fetchWorks();
+
+export default fetchWorks;
