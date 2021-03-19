@@ -60,7 +60,17 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   useEffect(() => {
     setResult(parseText(inputText));
-  }, [inputText, shouldAnalyzeElision, shouldAnalyzeLiason, language, rules]);
+  }, [
+    inputText,
+    shouldAnalyzeElision,
+    shouldAnalyzeLiason,
+    language,
+    categories,
+    subcategories,
+    ipa,
+    rules,
+    languages,
+  ]);
 
   return (
     <div className={styles.container}>

@@ -30,7 +30,7 @@ const SupportPage: React.FC<Props> = () => {
       <div className='flex flex-col lg:grid lg:grid-cols-2 w-full max-w-5xl px-6 py-6 lg:py-12 mx-auto gap-16'>
         <div>
           <h2>Community</h2>
-          <p className='text-base opacity-95 mt-2 mb-8'>
+          <p className='text-base opacity-95 mt-2 mb-4 lg:mb-8'>
             Open IPA is community-driven. With the amount of work that goes into
             the project, support from the community is crucial in making Open
             IPA the most accurate and helpful tool it can be. With each language
@@ -68,9 +68,9 @@ const SupportPage: React.FC<Props> = () => {
             </Button>
           </a>
         </div>
-        <div>
+        <div className='mt-8 lg:mt-0'>
           <h2>Donate</h2>
-          <p className='text-base opacity-95 mt-2 mb-8'>
+          <p className='text-base opacity-95 mt-2 mb-4 lg:mb-8'>
             Creating, developing, and hosting a web application does not come
             without costs. In order to ensure that Open IPA thrives and that
             development can continue, please consider supporting the project
