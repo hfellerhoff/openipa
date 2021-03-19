@@ -17,7 +17,7 @@ const NavbarLink = ({ href, children, hoverClassName }: Props) => {
   return (
     <Link href={href}>
       <a
-        className={`relative h-16 text-gray-200 font-semibold px-3 text-sm lg:text-base lg:px-8 flex flex-col align-center justify-center hover:bg-gray-700 ${hoverClassName}`}
+        className={`relative h-16 text-gray-200 font-semibold px-2 md:px-4 text-sm lg:text-base lg:px-8 flex flex-col align-center justify-center hover:bg-gray-700 ${hoverClassName}`}
         // onMouseEnter={() => setShowHoverMenu(true)}
         // onMouseLeave={() => setShowHoverMenu(false)}
       >
