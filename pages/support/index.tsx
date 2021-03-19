@@ -25,7 +25,7 @@ const SupportPage: React.FC<Props> = () => {
       <PageHeader
         title='Support'
         subtitle="Open IPA is a free service, and takes a lot of effort to maintain. If you've found the site useful, please consider donating your time or money to help keep it alive."
-        colorClassName='bg-purple-900 bg-opacity-75'
+        colorClassName='bg-yellow-800 bg-opacity-80'
       />
       <div className='flex flex-col lg:grid lg:grid-cols-2 w-full max-w-5xl px-6 py-6 lg:py-12 mx-auto gap-16'>
         <div>

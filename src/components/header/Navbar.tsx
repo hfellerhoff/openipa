@@ -56,7 +56,7 @@ const Navbar: React.FC<Props> = () => {
             </NavbarLink>
             <NavbarLink
               href='/support'
-              hoverClassName='hover:bg-purple-500 hover:bg-opacity-50'
+              hoverClassName='hover:bg-yellow-700 hover:bg-opacity-75'
             >
               Support
             </NavbarLink>
