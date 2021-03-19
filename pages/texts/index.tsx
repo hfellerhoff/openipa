@@ -6,16 +6,17 @@ import PageHeader from '../../src/components/header/PageHeader';
 import TextInput from '../../src/components/input/TextInput';
 import Layout from '../../src/components/layout/Layout';
 import useSupabaseTable from '../../src/hooks/useSupabaseTable';
+import supabase from '../../src/lib/supabase';
 import { Language } from '../../src/lib/supabase/models/Language';
 import { Text } from '../../src/lib/supabase/models/Text';
 import { capitalizeFirstLetter } from '../../src/util/StringHelper';
 
-interface Props {}
+interface Props {
+  languages: Language[];
+  texts: Text[];
+}
 
-const TextsPage = (props: Props) => {
-  const languages = useSupabaseTable<Language>('languages');
-  const texts = useSupabaseTable<Text>('texts');
-
+const TextsPage = ({ languages, texts }: Props) => {
   const [selectedText, setSelectedText] = useState<Text>();
 
   return (
@@ -107,3 +108,25 @@ const TextsPage = (props: Props) => {
 };
 
 export default TextsPage;
+
+export async function getStaticProps({ params }) {
+  // Call an external API endpoint to get posts
+  const { data: languages } = await supabase.from('languages').select('*');
+  const { data: texts } = await supabase.from('texts').select('*');
+
+  if (languages && texts) {
+    return {
+      props: {
+        languages,
+        texts,
+      },
+    };
+  } else {
+    return {
+      props: {
+        languages: [],
+        texts: [],
+      },
+    };
+  }
+}
