@@ -71,7 +71,7 @@ const TextsPage = ({ languages, texts }: Props) => {
         </div>
         <div className='mx-4 pb-8 lg:p-0'>
           <div className='sticky top-24'>
-            {selectedText ? (
+            {selectedText && languages[selectedText.language] ? (
               <>
                 <div className='mb-4 flex align-center justify-between'>
                   <div>
@@ -111,8 +111,13 @@ export default TextsPage;
 
 export async function getStaticProps({ params }) {
   // Call an external API endpoint to get posts
-  const { data: languages } = await supabase.from('languages').select('*');
-  const { data: texts } = await supabase.from('texts').select('*');
+  let languages = {};
+  const { data: languagesArray } = await supabase.from('languages').select('*');
+  languagesArray.forEach((language) => (languages[language.id] = language));
+
+  let texts = {};
+  const { data: textsArray } = await supabase.from('texts').select('*');
+  textsArray.forEach((text) => (texts[text.id] = text));
 
   if (languages && texts) {
     return {
