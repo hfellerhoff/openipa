@@ -98,7 +98,9 @@ const TextsPage = ({ languages, texts }: Props) => {
                 />
               </>
             ) : (
-              <p className='text-xl'>No text selected.</p>
+              <p className='text-lg quote'>
+                No text selected. Pick a piece to transcribe it!
+              </p>
             )}
           </div>
         </div>

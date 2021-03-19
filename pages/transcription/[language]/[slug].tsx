@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import LanguageSelectionButtons from '../../../src/components/button-containers/LanguageSelectionButtons';
+import PageHeader from '../../../src/components/header/PageHeader';
 import Layout from '../../../src/components/layout/Layout';
 import ExportButtons from '../../../src/components/transcription-page/ExportButtons';
 import TranscriptionDescription from '../../../src/components/transcription-page/TranscriptionDescription';
@@ -50,6 +51,7 @@ const TextPage = ({ text, language, author }: Props) => {
         />
         <link rel='icon' href='/favicon.ico' />
       </Head>
+
       <div className={styles.container}>
         <div className={styles['content-container']}>
           <h1 className='text-3xl md:text-4xl mb-1'>{text.title}</h1>

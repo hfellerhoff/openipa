@@ -7,22 +7,25 @@ interface Props
   > {
   colorScheme?: 'primary' | 'grayscale' | 'error' | 'warning';
   variant?: 'button' | 'wide';
+  color?: string;
 }
 
 const Button = ({
   colorScheme = 'primary',
   variant = 'button',
   className,
+  color,
   ...rest
 }: Props) => {
-  const color =
-    colorScheme === 'primary'
-      ? 'blue'
-      : colorScheme === 'error'
-      ? 'red'
-      : colorScheme === 'warning'
-      ? 'yellow'
-      : 'gray';
+  color = color
+    ? color
+    : colorScheme === 'primary'
+    ? 'blue'
+    : colorScheme === 'error'
+    ? 'red'
+    : colorScheme === 'warning'
+    ? 'yellow'
+    : 'gray';
 
   return (
     <button

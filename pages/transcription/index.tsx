@@ -11,6 +11,7 @@ import styles from './[language]/TranscriptionPage.module.scss';
 import { useRouter } from 'next/router';
 import Layout from '../../src/components/layout/Layout';
 import Head from 'next/head';
+import PageHeader from '../../src/components/header/PageHeader';
 
 type Props = {
   language: string;
@@ -51,6 +52,11 @@ const TranscriptionPage: React.FC<Props> = () => {
           />
           <link rel='icon' href='/favicon.ico' />
         </Head>
+        <PageHeader
+          title='Transcription'
+          subtitle='Type or paste your text below to transcribe it into the International Phonetic Alphabet.'
+          colorClassName='bg-blue-900 bg-opacity-75'
+        />
         <div className={styles.container}>
           <div className={styles['content-container']}>
             <TranscriptionDescription

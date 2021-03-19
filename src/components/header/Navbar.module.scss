@@ -15,7 +15,7 @@
 
   top: 0;
 
-  @extend %side-padding;
+  @extend %half-side-padding;
   transition: all 0.3s ease-in-out;
 }
 
@@ -45,6 +45,7 @@
 
 .title {
   margin-left: 7px;
+  margin-top: 4px;
 
   font-size: 22px;
   font-weight: 700;
@@ -52,6 +53,7 @@
 
   @include respond-to('tablet') {
     margin-left: 5px;
+    margin-top: 2px;
     font-size: 20px;
   }
 }

@@ -13,12 +13,22 @@ const Navbar: React.FC<Props> = () => {
 
   return (
     <div className={styles.container}>
-      <Link href='/'>
+      {/* <Link href='/'>
         <a className={styles['logo-container']}>
           <img src='/assets/logo.png' alt='Open IPA' className={styles.logo} />
           <h5 className={styles.title}>Open IPA</h5>
         </a>
-      </Link>
+      </Link> */}
+
+      <NavbarLink
+        href='/'
+        hoverClassName='hover:bg-blue-200 hover:bg-opacity-10'
+      >
+        <div className='flex align-center justify-center'>
+          <img src='/assets/logo.png' alt='Open IPA' className={styles.logo} />
+          <h1 className={styles.title}>Open IPA</h1>
+        </div>
+      </NavbarLink>
 
       <div className={styles['link-container']}>
         {router.pathname.includes('editor') ? (
@@ -39,7 +49,7 @@ const Navbar: React.FC<Props> = () => {
               Texts
             </NavbarLink>
             <NavbarLink
-              href='/transcription'
+              href='/transcription/latin'
               hoverClassName='hover:bg-blue-500 hover:bg-opacity-50'
             >
               Transcribe
