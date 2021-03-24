@@ -51,46 +51,45 @@ const TextPage = ({ text, language, author }: Props) => {
         />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <div className={styles.container}>
-        <div className='max-w-7xl mx-auto'>
-          <div className={styles['content-container']}>
-            <h1 className='text-3xl md:text-4xl mb-1'>{text.title}</h1>
-            <h2 className='text-xl font-normal mb-8'>
-              {language.label} {text.type}
-            </h2>
 
-            <TranscriptionDescription
-              language={language.label.toLowerCase()}
-              setLanguage={setLocalLanguage}
-              shouldAnalyzeElision={shouldAnalyzeElision}
-              setShouldAnalyzeElision={setShouldAnalyzeElision}
-              shouldAnalyzeLiason={shouldAnalyzeLiason}
-              setShouldAnalyzeLiason={setShouldAnalyzeLiason}
-              lockLanguage
-            />
-            <TranscriptionEditor
-              language={localLanguage}
-              shouldAnalyzeElision={shouldAnalyzeElision}
-              shouldAnalyzeLiason={shouldAnalyzeLiason}
-              result={result}
-              setResult={setResult}
-              text={text.text}
-            />
-            <p className='mt-2'>
-              This text is originally from{' '}
-              <a
-                href={text.source}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='underline'
-              >
-                this source.
-              </a>{' '}
-              It was last updated on{' '}
-              {dayjs(text.updated_at).format('MMMM DD, YYYY')}.
-            </p>
-            <ExportButtons language={language.label} result={result} />
-          </div>
+      <div className={styles.container}>
+        <div className={styles['content-container']}>
+          <h1 className='text-3xl md:text-4xl mb-1'>{text.title}</h1>
+          <h2 className='text-xl font-normal mb-8'>
+            {language.label} {text.type}
+          </h2>
+
+          <TranscriptionDescription
+            language={language.label.toLowerCase()}
+            setLanguage={setLocalLanguage}
+            shouldAnalyzeElision={shouldAnalyzeElision}
+            setShouldAnalyzeElision={setShouldAnalyzeElision}
+            shouldAnalyzeLiason={shouldAnalyzeLiason}
+            setShouldAnalyzeLiason={setShouldAnalyzeLiason}
+            lockLanguage
+          />
+          <TranscriptionEditor
+            language={localLanguage}
+            shouldAnalyzeElision={shouldAnalyzeElision}
+            shouldAnalyzeLiason={shouldAnalyzeLiason}
+            result={result}
+            setResult={setResult}
+            text={text.text}
+          />
+          <p className='mt-2'>
+            This text is originally from{' '}
+            <a
+              href={text.source}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='underline'
+            >
+              this source.
+            </a>{' '}
+            It was last updated on{' '}
+            {dayjs(text.updated_at).format('MMMM DD, YYYY')}.
+          </p>
+          <ExportButtons language={language.label} result={result} />
         </div>
       </div>
       <div
