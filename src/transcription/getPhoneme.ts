@@ -58,9 +58,8 @@ const getPhoneme = (
             const stringMatch = matchStringInput(step, text, adjustedIndex);
             if (stringMatch) {
               phonemeText += stringMatch;
-              adjustedIndex += stringMatch.length - 1;
+              adjustedIndex += stringMatch.length;
             }
-
             return !!stringMatch;
           case RuleInputType.Subcategories:
           case RuleInputType.Categories:
@@ -70,59 +69,23 @@ const getPhoneme = (
 
             const ids = (step as RuleInputCategory | RuleInputSubcategory).ids;
 
-            if (
-              rule.description.includes(
-                'When followed by a front vowel, "c" is transcribed as [23,38]'
-              )
-            ) {
-              console.log(step.type, ids);
-            }
-
             let phonemeToCheck: Phoneme;
-            const fetchedPhoneme = getPhoneme(
-              text,
-              charArray,
-              adjustedIndex,
-              result,
-              rules,
-              ipa,
-              subcategories,
-              categories,
-              true
-            );
-            console.log(phonemeToCheck);
-
-            if (!phonemeToCheck) return false;
-            phonemeToCheck = fetchedPhoneme.phoneme;
-            // if (adjustedIndex >= index) {
-            //   const fetchedPhoneme = getPhoneme(
-            //     text,
-            //     charArray,
-            //     adjustedIndex,
-            //     result,
-            //     rules,
-            //     ipa,
-            //     subcategories,
-            //     categories,
-            //     true
-            //   );
-            //   if (!phonemeToCheck) return false;
-            //   phonemeToCheck = fetchedPhoneme.phoneme;
-            // } else {
-            //   phonemeToCheck = lastPhoneme;
-            // }
-
-            if (
-              rule.description.includes(
-                'When followed by a front vowel, "c" is transcribed as [23,38]'
-              )
-            ) {
-              console.log(
-                phonemeToCheck,
-                ids,
-                step.type,
-                isPhonemeIn(phonemeToCheck, ids, ipa, step.type)
+            if (adjustedIndex >= index) {
+              const fetchedPhoneme = getPhoneme(
+                text,
+                charArray,
+                adjustedIndex,
+                result,
+                rules,
+                ipa,
+                subcategories,
+                categories,
+                true
               );
+              if (!phonemeToCheck) return false;
+              phonemeToCheck = fetchedPhoneme.phoneme;
+            } else {
+              phonemeToCheck = lastPhoneme;
             }
 
             if (isPhonemeIn(phonemeToCheck, ids, ipa, step.type)) {
@@ -134,14 +97,6 @@ const getPhoneme = (
             return false;
         }
       });
-
-      if (
-        rule.description.includes(
-          'When followed by a front vowel, "c" is transcribed as [23,38]'
-        )
-      ) {
-        console.log(doesStepMatch, rule.description);
-      }
 
       const matchingSteps = doesStepMatch.filter((s) => !!s);
       if (matchingSteps.length < doesStepMatch.length) return;
