@@ -1,47 +1,39 @@
-import { Phoneme } from '../../constants/Interfaces';
 import { Dictionary } from '../../hooks/useSupabaseTable';
-import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../lib/supabase/models/IPA';
-import { RuleInputType } from '../../lib/supabase/models/Rule';
+import { IPACategory, IPASubcategory } from '../../lib/supabase/models/IPA';
 
-export const isPhonemeIn = (
-  phoneme: Phoneme,
-  ids: number[],
-  ipa: Dictionary<IPA>,
-  type: RuleInputType.Subcategories | RuleInputType.Categories
-) => {
-  if (!phoneme) return false;
-  if (!phoneme.ipa) return false;
-
-  const possibleMatches: string[] = Object.values(ipa)
-    .filter((e: IPA) =>
-      ids.includes(
-        type === RuleInputType.Categories ? e.category : e.subcategory
-      )
-    )
-    .map((e: IPA) => e.symbol);
-
-  const regex = possibleMatches.join('');
-  const symbolToMatch = phoneme.ipa.charAt(phoneme.ipa.length - 1);
-
-  return !!symbolToMatch.match(RegExp(`[${regex}]`, 'i'));
-};
-
-export const isLetterIn = (
+export const isLetterInCategory = (
   char: string,
-  ids: number[],
-  dictionary: Dictionary<IPACategory | IPASubcategory>
+  categoryIds: number[],
+  categories: Dictionary<IPACategory>
 ) => {
-  if (!char || char === '\n') return false;
+  if (!char) return false;
 
   let hasMatch = false;
-  ids.forEach((id) => {
-    if (!dictionary[id]) return;
+  categoryIds.forEach((id) => {
+    if (!categories[id]) return;
 
-    const regex = dictionary[id].letters.join('');
+    const regex = categories[id].letters.join('');
+
+    if (!!char.match(RegExp(`[${regex}]`, 'i'))) {
+      hasMatch = true;
+    }
+  });
+
+  return hasMatch;
+};
+
+export const isLetterInSubcategory = (
+  char: string,
+  subcategoryIds: number[],
+  subcategories: Dictionary<IPASubcategory>
+) => {
+  if (!char) return false;
+
+  let hasMatch = false;
+  subcategoryIds.forEach((id) => {
+    if (!subcategories[id]) return;
+
+    const regex = subcategories[id].letters.join('');
 
     if (!!char.match(RegExp(`[${regex}]`, 'i'))) {
       hasMatch = true;
