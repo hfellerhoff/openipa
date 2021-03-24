@@ -27,6 +27,16 @@ export const isPhonemeIn = (
   const regex = possibleMatches.join('');
   const symbolToMatch = phoneme.ipa.charAt(phoneme.ipa.length - 1);
 
+  if (symbolToMatch === 'ɛ') {
+    console.log(
+      type,
+      ids,
+      symbolToMatch,
+      regex,
+      !!symbolToMatch.match(RegExp(`[${regex}]`, 'i'))
+    );
+  }
+
   return !!symbolToMatch.match(RegExp(`[${regex}]`, 'i'));
 };
 
