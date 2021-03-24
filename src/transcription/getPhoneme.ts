@@ -71,7 +71,7 @@ const getPhoneme = (
 
             let phonemeToCheck: Phoneme;
             if (adjustedIndex >= index) {
-              const fetchedPhoneme = getPhoneme(
+              phonemeToCheck = getPhoneme(
                 text,
                 charArray,
                 adjustedIndex,
@@ -81,9 +81,7 @@ const getPhoneme = (
                 subcategories,
                 categories,
                 true
-              );
-              if (!phonemeToCheck) return false;
-              phonemeToCheck = fetchedPhoneme.phoneme;
+              ).phoneme;
             } else {
               phonemeToCheck = lastPhoneme;
             }
