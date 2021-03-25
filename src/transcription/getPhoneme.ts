@@ -4,14 +4,14 @@ import { IPA, IPACategory, IPASubcategory } from '../lib/supabase/models/IPA';
 import {
   Rule,
   RuleInputCategory,
-  RuleInputString,
   RuleInputSubcategory,
   RuleInputType,
 } from '../lib/supabase/models/Rule';
 import idsToIPAString from '../util/supabase/idsToIPAString';
 import parseIPASymbolString from '../util/supabase/parseIPASymbolString';
-import { isLetterIn, isPhonemeIn } from './helper/isLetterIn';
+import { isPhonemeIn } from './helper/isLetterIn';
 import matchStringInput from './steps/matchStringInput';
+// import matchStringInput from './steps/matchStringInput';
 
 const getPhoneme = (
   text: string,
@@ -81,17 +81,6 @@ const getPhoneme = (
                 .ids;
 
               let phonemeToCheck: Phoneme;
-              // const fetchedPhoneme = getPhoneme(
-              //   text,
-              //   charArray,
-              //   adjustedIndex,
-              //   result,
-              //   rules,
-              //   ipa,
-              //   subcategories,
-              //   categories,
-              //   true
-              // );
 
               if (adjustedIndex >= index) {
                 const fetchedPhoneme = getPhoneme(

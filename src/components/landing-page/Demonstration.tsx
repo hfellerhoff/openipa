@@ -6,7 +6,7 @@ import styles from './Demonstration.module.scss';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
 import useSupabaseIPA from '../../hooks/useSupabaseIPA';
 import { Rule } from '../../lib/supabase/models/Rule';
-import transcribeText from '../../transcription/TranscribeText';
+import transcribeText from '../../transcription/transcribeText';
 import Template from '../../constants/Template';
 
 interface Props {}
