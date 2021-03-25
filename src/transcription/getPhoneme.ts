@@ -52,99 +52,83 @@ const getPhoneme = (
       });
       let adjustedIndex = index - indexOffset;
 
-      const doesStepMatch = rule.input.steps.map((step) => {
-        switch (step.type) {
-          case RuleInputType.String:
-            const stringMatch = matchStringInput(step, text, adjustedIndex);
-            if (stringMatch) {
-              phonemeText += stringMatch;
-              adjustedIndex += stringMatch.length - 1;
-            }
-
-            return !!stringMatch;
-          case RuleInputType.Subcategories:
-          case RuleInputType.Categories:
-            // Sometimes, getPhoneme will be called from within itself.
-            // This check is to prevent an infinite recursive depth.
-            if (recursive) return false;
-
-            const ids = (step as RuleInputCategory | RuleInputSubcategory).ids;
-
-            if (
-              rule.description.includes(
-                'When followed by a front vowel, "c" is transcribed as [23,38]'
-              )
-            ) {
-              console.log(step.type, ids);
-            }
-
-            let phonemeToCheck: Phoneme;
-            const fetchedPhoneme = getPhoneme(
-              text,
-              charArray,
-              adjustedIndex,
-              result,
-              rules,
-              ipa,
-              subcategories,
-              categories,
-              true
-            );
-            console.log(phonemeToCheck);
-
-            if (!phonemeToCheck) return false;
-            phonemeToCheck = fetchedPhoneme.phoneme;
-            // if (adjustedIndex >= index) {
-            //   const fetchedPhoneme = getPhoneme(
-            //     text,
-            //     charArray,
-            //     adjustedIndex,
-            //     result,
-            //     rules,
-            //     ipa,
-            //     subcategories,
-            //     categories,
-            //     true
-            //   );
-            //   if (!phonemeToCheck) return false;
-            //   phonemeToCheck = fetchedPhoneme.phoneme;
-            // } else {
-            //   phonemeToCheck = lastPhoneme;
-            // }
-
-            if (
-              rule.description.includes(
-                'When followed by a front vowel, "c" is transcribed as [23,38]'
-              )
-            ) {
-              console.log(
-                phonemeToCheck,
-                ids,
-                step.type,
-                isPhonemeIn(phonemeToCheck, ids, ipa, step.type)
-              );
-            }
-
-            if (isPhonemeIn(phonemeToCheck, ids, ipa, step.type)) {
-              adjustedIndex += 1;
-              return true;
-            }
-            return false;
-          default:
-            return false;
-        }
-      });
-
-      if (
-        rule.description.includes(
-          'When followed by a front vowel, "c" is transcribed as [23,38]'
-        )
+      // Check step validity
+      let matched = true;
+      for (
+        let stepIndex = 0;
+        stepIndex < rule.input.steps.length;
+        stepIndex++
       ) {
-        console.log(doesStepMatch, rule.description);
+        const step = rule.input.steps[stepIndex];
+
+        const processStep = () => {
+          switch (step.type) {
+            case RuleInputType.String:
+              const stringMatch = matchStringInput(step, text, adjustedIndex);
+              if (stringMatch) {
+                phonemeText += stringMatch;
+                adjustedIndex += stringMatch.length;
+              }
+
+              return !!stringMatch;
+            case RuleInputType.Subcategories:
+            case RuleInputType.Categories:
+              // Sometimes, getPhoneme will be called from within itself.
+              // This check is to prevent an infinite recursive depth.
+              if (recursive) return false;
+
+              const ids = (step as RuleInputCategory | RuleInputSubcategory)
+                .ids;
+
+              let phonemeToCheck: Phoneme;
+              // const fetchedPhoneme = getPhoneme(
+              //   text,
+              //   charArray,
+              //   adjustedIndex,
+              //   result,
+              //   rules,
+              //   ipa,
+              //   subcategories,
+              //   categories,
+              //   true
+              // );
+
+              if (adjustedIndex >= index) {
+                const fetchedPhoneme = getPhoneme(
+                  text,
+                  charArray,
+                  adjustedIndex,
+                  result,
+                  rules,
+                  ipa,
+                  subcategories,
+                  categories,
+                  true
+                );
+                if (!fetchedPhoneme) return false;
+                phonemeToCheck = fetchedPhoneme.phoneme;
+              } else {
+                phonemeToCheck = lastPhoneme;
+              }
+
+              if (!phonemeToCheck) return false;
+
+              if (isPhonemeIn(phonemeToCheck, ids, ipa, step, rule)) {
+                adjustedIndex += 1;
+                return true;
+              }
+              return false;
+            default:
+              return false;
+          }
+        };
+
+        matched = processStep();
+
+        if (!matched) return;
       }
 
-      const matchingSteps = doesStepMatch.filter((s) => !!s);
-      if (matchingSteps.length < doesStepMatch.length) return;
+      if (!matched) return;
 
       return {
         text: phonemeText,

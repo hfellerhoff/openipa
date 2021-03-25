@@ -5,13 +5,14 @@ import {
   IPACategory,
   IPASubcategory,
 } from '../../lib/supabase/models/IPA';
-import { RuleInputType } from '../../lib/supabase/models/Rule';
+import { RuleInput, RuleInputType } from '../../lib/supabase/models/Rule';
 
 export const isPhonemeIn = (
   phoneme: Phoneme,
   ids: number[],
   ipa: Dictionary<IPA>,
-  type: RuleInputType.Subcategories | RuleInputType.Categories
+  step: RuleInput,
+  rule: any
 ) => {
   if (!phoneme) return false;
   if (!phoneme.ipa) return false;
@@ -19,7 +20,7 @@ export const isPhonemeIn = (
   const possibleMatches: string[] = Object.values(ipa)
     .filter((e: IPA) =>
       ids.includes(
-        type === RuleInputType.Categories ? e.category : e.subcategory
+        step.type === RuleInputType.Categories ? e.category : e.subcategory
       )
     )
     .map((e: IPA) => e.symbol);
@@ -27,15 +28,27 @@ export const isPhonemeIn = (
   const regex = possibleMatches.join('');
   const symbolToMatch = phoneme.ipa.charAt(phoneme.ipa.length - 1);
 
-  if (symbolToMatch === 'ɛ') {
-    console.log(
-      type,
-      ids,
-      symbolToMatch,
-      regex,
-      !!symbolToMatch.match(RegExp(`[${regex}]`, 'i'))
-    );
+  if (rule.description.includes('glide')) {
+    if (step.type === RuleInputType.Subcategories)
+      console.log(
+        !!symbolToMatch.match(RegExp(`[${regex}]`, 'i')),
+        symbolToMatch,
+        ids,
+        step,
+        rule
+      );
+    else console.log('not subcategory');
   }
+
+  // if (symbolToMatch === 'ɛ') {
+  //   console.log(
+  //     type,
+  //     ids,
+  //     symbolToMatch,
+  //     regex,
+  //     !!symbolToMatch.match(RegExp(`[${regex}]`, 'i'))
+  //   );
+  // }
 
   return !!symbolToMatch.match(RegExp(`[${regex}]`, 'i'));
 };
