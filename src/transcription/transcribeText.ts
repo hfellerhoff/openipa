@@ -1,10 +1,10 @@
 import { Result } from '../constants/Interfaces';
-import { getCharArray } from './Helper';
+import { getCharArray } from '../util/Helper';
 import { Rule } from '../lib/supabase/models/Rule';
 import { IPA, IPACategory, IPASubcategory } from '../lib/supabase/models/IPA';
 import { Dictionary } from '../hooks/useSupabaseTable';
-import getPhoneme from '../transcription/getPhoneme';
-import processPunctuation from '../transcription/processPunctuation';
+import getPhoneme from './getPhoneme';
+import processPunctuation from './processPunctuation';
 
 const transcribeText = (
   text: string,

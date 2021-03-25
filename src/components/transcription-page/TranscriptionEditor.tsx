@@ -7,7 +7,7 @@ import styles from './TranscriptionEditor.module.scss';
 import HideButton from '../buttons/HideButton';
 import { Rule } from '../../lib/supabase/models/Rule';
 import useSupabaseIPA from '../../hooks/useSupabaseIPA';
-import transcribeText from '../../util/transcribeText';
+import transcribeText from '../../transcription/transcribeText';
 
 interface Props {
   language: string;
