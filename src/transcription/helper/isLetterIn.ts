@@ -1,44 +1,53 @@
+import { Phoneme } from '../../constants/Interfaces';
 import { Dictionary } from '../../hooks/useSupabaseTable';
-import { IPACategory, IPASubcategory } from '../../lib/supabase/models/IPA';
+import {
+  IPA,
+  IPACategory,
+  IPASubcategory,
+} from '../../lib/supabase/models/IPA';
+import { RuleInput, RuleInputType } from '../../lib/supabase/models/Rule';
 
-export const isLetterInCategory = (
-  char: string,
-  categoryIds: number[],
-  categories: Dictionary<IPACategory>
+export const isPhonemeIn = (
+  phoneme: Phoneme,
+  ids: number[],
+  ipa: Dictionary<IPA>,
+  step: RuleInput,
+  rule: any
 ) => {
-  if (!char) return false;
+  if (!phoneme) return false;
+  if (!phoneme.ipa) return false;
 
-  let hasMatch = false;
-  categoryIds.forEach((id) => {
-    if (!categories[id]) return;
+  const possibleMatches: string[] = Object.values(ipa)
+    .filter((e: IPA) =>
+      ids.includes(
+        step.type === RuleInputType.Categories ? e.category : e.subcategory
+      )
+    )
+    .map((e: IPA) => e.symbol);
 
-    const regex = categories[id].letters.join('');
+  const regex = possibleMatches.join('');
+  const symbolToMatch = phoneme.ipa.charAt(phoneme.ipa.length - 1);
 
-    if (!!char.match(RegExp(`[${regex}]`, 'i'))) {
-      hasMatch = true;
-    }
-  });
-
-  return hasMatch;
+  return !!symbolToMatch.match(RegExp(`[${regex}]`, 'i'));
 };
 
-export const isLetterInSubcategory = (
-  char: string,
-  subcategoryIds: number[],
-  subcategories: Dictionary<IPASubcategory>
-) => {
-  if (!char) return false;
+// export const isLetterInSubcategory = (
+//   char: string,
+//   subcategoryIds: number[],
+//   subcategories: Dictionary<IPASubcategory>
+// ) => {
+//   if (!char) return false;
 
-  let hasMatch = false;
-  subcategoryIds.forEach((id) => {
-    if (!subcategories[id]) return;
+//   let hasMatch = false;
+//   subcategoryIds.forEach((id) => {
+//     if (!subcategories[id]) return;
 
-    const regex = subcategories[id].letters.join('');
+//     const regex = subcategories[id].letters.join('');
 
-    if (!!char.match(RegExp(`[${regex}]`, 'i'))) {
-      hasMatch = true;
-    }
-  });
+//     if (!!char.match(RegExp(`[${regex}]`, 'i'))) {
+//       hasMatch = true;
+//     }
+//   });
 
-  return hasMatch;
-};
+//   return hasMatch;
+// };
