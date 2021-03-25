@@ -1,10 +1,10 @@
 import { Result } from '../constants/Interfaces';
-import { getCharArray } from '../util/Helper';
+import { getCharArray } from './Helper';
 import { Rule } from '../lib/supabase/models/Rule';
 import { IPA, IPACategory, IPASubcategory } from '../lib/supabase/models/IPA';
 import { Dictionary } from '../hooks/useSupabaseTable';
-import getPhoneme from './getPhoneme';
-import processPunctuation from './processPunctuation';
+import getPhoneme from '../transcription/getPhoneme';
+import processPunctuation from '../transcription/processPunctuation';
 
 const transcribeText = (
   text: string,
@@ -27,6 +27,7 @@ const transcribeText = (
     ],
   };
 
+  // Loop through text
   let index = 0;
   while (index < charArray.length) {
     // STEP 1: Check for punctuation
