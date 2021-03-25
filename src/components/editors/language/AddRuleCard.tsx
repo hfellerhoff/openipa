@@ -142,7 +142,6 @@ const AddRuleCard = ({
     <div>
       {!showAddNewRule ? (
         <Button
-          colorScheme='primary'
           variant='wide'
           onClick={() => setShowAddNewRule(true)}
           key='new-rule-button'
@@ -172,7 +171,7 @@ const AddRuleCard = ({
                       categories={categories}
                     />
                     <Button
-                      colorScheme='error'
+                      colorClassName='bg-red-600 hover:bg-red-700 focus:ring-red-700'
                       onClick={() => removeStep(i)}
                       className='ml-1'
                     >
@@ -181,21 +180,16 @@ const AddRuleCard = ({
                   </div>
                 ))}
                 <div>
-                  <Button
-                    colorScheme='primary'
-                    onClick={() => addStep(RuleInputType.String)}
-                  >
+                  <Button onClick={() => addStep(RuleInputType.String)}>
                     + Text
                   </Button>
                   <Button
-                    colorScheme='primary'
                     onClick={() => addStep(RuleInputType.Subcategories)}
                     className='ml-1'
                   >
                     + Subcategory
                   </Button>
                   <Button
-                    colorScheme='primary'
                     onClick={() => addStep(RuleInputType.Categories)}
                     className='ml-1'
                   >
@@ -233,7 +227,7 @@ const AddRuleCard = ({
             </div>
             <div className='flex align-center justify-end mt-4'>
               <Button
-                colorScheme='error'
+                colorClassName='bg-red-600 hover:bg-red-700 focus:ring-red-700'
                 onClick={() => {
                   editProps ? editProps.onCancel() : setShowAddNewRule(false);
                 }}

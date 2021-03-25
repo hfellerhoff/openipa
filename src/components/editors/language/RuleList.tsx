@@ -78,7 +78,7 @@ const RuleList = ({
             <div className='flex align-center justify-between'>
               <p>{parseIPASymbolString(rule.description, ipa)}</p>
               <Button
-                colorScheme='grayscale'
+                colorClassName='bg-gray-600 hover:bg-gray-700 focus:ring-gray-700'
                 onClick={() => setIdToBeEdited(rule.id)}
               >
                 Edit

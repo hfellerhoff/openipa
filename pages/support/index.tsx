@@ -42,7 +42,10 @@ const SupportPage: React.FC<Props> = () => {
             href='https://www.reddit.com/r/openipa/'
             target='_blank'
           >
-            <Button variant='wide' color='yellow'>
+            <Button
+              variant='wide'
+              colorClassName='bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-700'
+            >
               <img
                 src='assets/reddit-white.png'
                 alt='Reddit'
@@ -56,7 +59,10 @@ const SupportPage: React.FC<Props> = () => {
             href='https://www.reddit.com/r/openipa/'
             target='_blank'
           >
-            <Button variant='wide' color='gray'>
+            <Button
+              variant='wide'
+              colorClassName='bg-gray-600 hover:bg-gray-700 focus:ring-gray-700'
+            >
               <img
                 src='assets/github-white.png'
                 alt='GitHub'
@@ -83,7 +89,10 @@ const SupportPage: React.FC<Props> = () => {
             href='https://ko-fi.com/henryfellerhoff'
             target='_blank'
           >
-            <Button variant='wide' color='pink'>
+            <Button
+              variant='wide'
+              colorClassName='bg-pink-600 hover:bg-pink-700 focus:ring-pink-700'
+            >
               <img
                 src='assets/kofi.png'
                 alt='Buy me a coffee'
