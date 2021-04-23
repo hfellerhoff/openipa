@@ -1,34 +1,78 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<a href="https://www.openipa.org">
+<p align='center'>
+  <img src='readme/logo-circle.png' width='200' height='200' />
+</p>
 
-## Getting Started
+<p align='center'>
+  <img src='readme/OpenIPA-title.png' width='350' height='100' />
+</p>
+</a>
 
-First, run the development server:
+# What is Open IPA?
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Open IPA is a free, fast, community-focused transcription tool to transcribe Latin and French texts in into IPA (International Phonetic Alphabet). OpenIPA transcribes text in real-time, and provides in-depth transcription feedback for each letter or group of letters transcribed. Open IPA is meant primarily for Lyric Diction and to aid in song preparation for classical voice. In addition to Latin and French, we are planning to support Italian and German text in the future.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<p align='center'>
+  <img src='readme/showcase.gif' />
+</p>
+  
+# Features
+- Free: the Open IPA editor is available to everyone without the need to pay or sign up for an account
+- Fast: all transcriptions happen in front of you in real-time
+- Comprehensive: in addition to getting a transcription, Open IPA provides you with the methodology behind your transcription
+- Responsive: Open IPA is designed for all devices, with experiences tailored for both desktop and mobile
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+# Getting Started
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Getting started with Open IPA is easy. Simply head on over to www.openipa.org, pick the language your text is in, and type or paste it in the field provided. Open IPA will transcribe the text for you, which you are free to copy or export to a PDF using the buttons at the bottom of the editor. If you would like to know more about how your text was transcribed, simply hover over the outputted text (original or IPA) to see an in-depth analysis of how each letter, syllable, and word was transcribed.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+# Requirements
 
-## Learn More
+All you need to use Open IPA is a web browser and a song to transcribe!
 
-To learn more about Next.js, take a look at the following resources:
+# FAQ
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### How accurate is Open IPA?
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+While we strive to have our transcription algorithm be as accurate as possible, there are bound to be errors eventually. We are actively working to improve our database of exceptions, but some exception words may not be included at this time. In addition, certain transcription rules that revolve around more than just the letters themselves (e.g. part of speech) are still a work in progress. If your transcription does not seem correct, we encourage you to use the transcription feedback you get from Open IPA to your advantage – it can help determine where the issue may lie, and help you to track down the correct transcription.
 
-## Deploy on Vercel
+### How can I get involved?
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+As Open IPA is open-source, contributions are welcome. In addition, if you have any comments, questions, or feedback you are welcome to join us over at [r/openipa](https://www.reddit.com/r/openipa/). We hope to see you there!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### I don't know much about IPA Transcription. How can I try it out?
+
+#### Try using this French text from Massenet's _Vision Fugitive_:
+
+Ce breuvage pourrait me donner un tel rêve! </br>
+Je pourrais la revoir...</br>
+Comtempler sa beauté!</br>
+Divine volupté à mes regards promise!</br>
+Espérance trop brève</br>
+Qui viens bercer mon coeur</br>
+et troubler ma raison...</br>
+Ah! ne t'enfuis pas douce illusion! </br>
+
+Vision fugitive et toujours poursuivie</br>
+Ange mystérieux qui prend toute ma vie...</br>
+Ah! c'est toi! que je veux voir</br>
+Ô mon amour! ô mon espoir!</br>
+Vision fugitive! c'est toi!</br>
+Qui prends toute ma vie!</br>
+Te presser dans mes bras!</br>
+Sentir battre ton coeur</br>
+D'une amoureuse ardeur!</br>
+Puis mourir enlacés...</br>
+Dans une même ivresse...</br>
+Pour ces transports... pour cette flamme.</br>
+Ah! sans remords et sans plainte</br>
+Je donnerais mon âme</br>
+Pour toi mon amour! mon espoir!</br>
+Vision fugitive! c'est toi!</br>
+Qui prends toute ma vie!</br>
+Oui! c'est toi! mon amour!</br>
+Toi, mon seul amour! mon espoir!</br>
+
+# License
+
+Open IPA is under the GNU Affero General Public License v3.0. See the [LICENSE](https://github.com/hfellerhoff/openipa/blob/master/LICENSE) for more information.
