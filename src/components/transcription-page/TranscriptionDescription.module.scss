@@ -58,6 +58,7 @@
 .options-container {
   flex: 1;
   display: flex;
+  flex-wrap: wrap;
   @extend %flex-direction;
 }
 
@@ -72,6 +73,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media screen and (max-width: 800px) {
+    justify-content: flex-start;
+  }
 }
 
 .option-title {

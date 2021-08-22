@@ -14,6 +14,8 @@ interface Props {
   setShouldAnalyzeElision: React.Dispatch<React.SetStateAction<boolean>>;
   shouldAnalyzeLiason: boolean;
   setShouldAnalyzeLiason: React.Dispatch<React.SetStateAction<boolean>>;
+  shouldHideOriginalText: boolean;
+  setShouldHideOriginalText: React.Dispatch<React.SetStateAction<boolean>>;
   lockLanguage?: boolean;
 }
 
@@ -24,6 +26,8 @@ const TranscriptionDescription: React.FC<Props> = ({
   setShouldAnalyzeElision,
   shouldAnalyzeLiason,
   setShouldAnalyzeLiason,
+  shouldHideOriginalText,
+  setShouldHideOriginalText,
   lockLanguage = false,
 }) => {
   const router = useRouter();
@@ -61,27 +65,37 @@ const TranscriptionDescription: React.FC<Props> = ({
             </h2>
           )}
         </div>
-        {language === Languages.French ? (
-          <div className={styles['options-container']}>
-            <div className={styles['option-container']}>
-              <CheckboxButton
-                isChecked={shouldAnalyzeElision}
-                setIsChecked={setShouldAnalyzeElision}
-              />
-              <h5 className={styles['option-title']}>Analyze Elision</h5>
-            </div>
-            <div style={{ height: 10 }}></div>
-            <div className={styles['option-container']}>
-              <CheckboxButton
-                isChecked={shouldAnalyzeLiason}
-                setIsChecked={setShouldAnalyzeLiason}
-              />
-              <h5 className={styles['option-title']}>Analyze Liason</h5>
-            </div>
+        <div className={styles['options-container']}>
+          {language === Languages.French ? (
+            <>
+              <div className={styles['option-container']}>
+                <CheckboxButton
+                  isChecked={shouldAnalyzeElision}
+                  setIsChecked={setShouldAnalyzeElision}
+                />
+                <h5 className={styles['option-title']}>Analyze Elision</h5>
+              </div>
+              <div style={{ height: 10 }}></div>
+              <div className={styles['option-container']}>
+                <CheckboxButton
+                  isChecked={shouldAnalyzeLiason}
+                  setIsChecked={setShouldAnalyzeLiason}
+                />
+                <h5 className={styles['option-title']}>Analyze Liason</h5>
+              </div>
+              <div style={{ height: 10 }}></div>
+            </>
+          ) : (
+            <></>
+          )}
+          <div className={styles['option-container']}>
+            <CheckboxButton
+              isChecked={shouldHideOriginalText}
+              setIsChecked={setShouldHideOriginalText}
+            />
+            <h5 className={styles['option-title']}>Hide Original Text</h5>
           </div>
-        ) : (
-          <></>
-        )}
+        </div>
       </div>
     </div>
   );

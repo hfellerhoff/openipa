@@ -8,9 +8,14 @@ import styles from './ExportButtons.module.scss';
 interface Props {
   language: string;
   result: Result;
+  shouldHideOriginalText: boolean;
 }
 
-const ExportButtons: React.FC<Props> = ({ language, result }) => {
+const ExportButtons: React.FC<Props> = ({
+  language,
+  result,
+  shouldHideOriginalText,
+}) => {
   const [isPDFCreated, setIsPDFCreated] = useState(true);
 
   const createPDF = () => {
@@ -34,7 +39,7 @@ const ExportButtons: React.FC<Props> = ({ language, result }) => {
       <div style={{ width: 15, height: 15 }}></div>
       <ExportButton
         title='Copy'
-        onClick={() => copyResult(result)}
+        onClick={() => copyResult(result, shouldHideOriginalText)}
       ></ExportButton>
     </div>
   );

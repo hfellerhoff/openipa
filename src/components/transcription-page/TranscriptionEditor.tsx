@@ -13,6 +13,7 @@ interface Props {
   language: string;
   shouldAnalyzeElision: boolean;
   shouldAnalyzeLiason: boolean;
+  shouldHideOriginalText: boolean;
   result: Result;
   setResult: React.Dispatch<React.SetStateAction<Result>>;
   text?: string;
@@ -22,6 +23,7 @@ const TranscriptionEditor: React.FC<Props> = ({
   language,
   shouldAnalyzeElision,
   shouldAnalyzeLiason,
+  shouldHideOriginalText,
   result,
   setResult,
   text,
@@ -102,6 +104,7 @@ const TranscriptionEditor: React.FC<Props> = ({
           result={result}
           setHeight={(height) => setResultHeight(height)}
           shouldHide={!shouldShowOutput}
+          shouldHideOriginalText={shouldHideOriginalText}
         />
       </div>
     </div>

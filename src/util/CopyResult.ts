@@ -1,19 +1,19 @@
 import { Result } from '../constants/Interfaces';
 
-const copyResult = (result: Result) => {
+const copyResult = (result: Result, shouldHideOriginalText: boolean) => {
   let textToCopy = ``;
-  result.lines.forEach(line => {
+  result.lines.forEach((line) => {
     let textLine = '';
     let ipaLine = '';
-    line.words.forEach(word => {
-      word.syllables.forEach(syllable => {
+    line.words.forEach((word) => {
+      word.syllables.forEach((syllable) => {
         if (syllable.text !== '\n') {
           textLine += syllable.text;
           ipaLine += syllable.ipa;
         }
       });
     });
-    textToCopy += textLine + '\n';
+    if (!shouldHideOriginalText) textToCopy += textLine + '\n';
     textToCopy += ipaLine + '\n';
   });
   if (!navigator.clipboard) {

@@ -36,8 +36,9 @@ const PhonemeElement = ({ text, rule, isIPA = false, theme }: PhonemeProps) => {
 type WordProps = {
   word: Word;
   theme: 'light' | 'dark';
+  shouldHideOriginalText: boolean;
 };
-const WordElement = ({ word, theme }: WordProps) => {
+const WordElement = ({ word, theme, shouldHideOriginalText }: WordProps) => {
   const originalSyllableElements: JSX.Element[] = [];
   const syllableElements: JSX.Element[] = [];
   word.syllables.forEach((phoneme, index) => {
@@ -64,7 +65,7 @@ const WordElement = ({ word, theme }: WordProps) => {
   });
   return (
     <div className={styles['phoneme-block']}>
-      <div>{originalSyllableElements}</div>
+      {!shouldHideOriginalText && <div>{originalSyllableElements}</div>}
       <div>{syllableElements}</div>
     </div>
   );
@@ -73,11 +74,19 @@ const WordElement = ({ word, theme }: WordProps) => {
 type LineProps = {
   line: Line;
   theme: 'light' | 'dark';
+  shouldHideOriginalText: boolean;
 };
-const LineElement = ({ line, theme }: LineProps) => {
+const LineElement = ({ line, theme, shouldHideOriginalText }: LineProps) => {
   const wordElements: JSX.Element[] = [];
   line.words.forEach((word, index) => {
-    const wordElement = <WordElement word={word} key={index} theme={theme} />;
+    const wordElement = (
+      <WordElement
+        word={word}
+        key={index}
+        theme={theme}
+        shouldHideOriginalText={shouldHideOriginalText}
+      />
+    );
     let foundUndertie = false;
     word.syllables.forEach((syllable) => {
       if (syllable.ipa.indexOf(IPA.UNDERTIE) >= 0) {
@@ -97,12 +106,14 @@ const LineElement = ({ line, theme }: LineProps) => {
 
 type DisplayProps = {
   result: Result;
+  shouldHideOriginalText: boolean;
   theme?: 'light' | 'dark';
   setHeight?: (height: number) => void;
   shouldHide?: boolean;
 };
 const ResultElement = ({
   result,
+  shouldHideOriginalText,
   theme = 'light',
   setHeight,
   shouldHide,
@@ -114,7 +125,14 @@ const ResultElement = ({
 
   const lineElements: JSX.Element[] = [];
   result.lines.forEach((line, index) => {
-    const lineElement = <LineElement line={line} key={index} theme={theme} />;
+    const lineElement = (
+      <LineElement
+        line={line}
+        key={index}
+        theme={theme}
+        shouldHideOriginalText={shouldHideOriginalText}
+      />
+    );
     lineElements.push(lineElement);
   });
 
@@ -125,7 +143,7 @@ const ResultElement = ({
       const height = displayRef.offsetHeight;
       if (height !== 0) setHeight(height);
     }
-  }, [result, displayRef, setHeight]);
+  }, [result, displayRef, setHeight, shouldHideOriginalText]);
 
   return (
     <div

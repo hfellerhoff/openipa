@@ -22,6 +22,9 @@ const TranscriptionPage: React.FC<Props> = () => {
   const [result, setResult] = useState<Result>(Template.Result);
   const [language, setLanguage] = useState<Languages>(Languages.Latin);
 
+  // General Transcription Options
+  const [shouldHideOriginalText, setShouldHideOriginalText] = useState(false);
+
   // French Transcription Options
   const [shouldAnalyzeElision, setShouldAnalyzeElision] = useState(true);
   const [shouldAnalyzeLiason, setShouldAnalyzeLiason] = useState(true);
@@ -66,15 +69,22 @@ const TranscriptionPage: React.FC<Props> = () => {
               setShouldAnalyzeElision={setShouldAnalyzeElision}
               shouldAnalyzeLiason={shouldAnalyzeLiason}
               setShouldAnalyzeLiason={setShouldAnalyzeLiason}
+              shouldHideOriginalText={shouldHideOriginalText}
+              setShouldHideOriginalText={setShouldHideOriginalText}
             />
             <TranscriptionEditor
               language={language}
               shouldAnalyzeElision={shouldAnalyzeElision}
               shouldAnalyzeLiason={shouldAnalyzeLiason}
+              shouldHideOriginalText={shouldHideOriginalText}
               result={result}
               setResult={setResult}
             />
-            <ExportButtons language={language} result={result} />
+            <ExportButtons
+              language={language}
+              result={result}
+              shouldHideOriginalText={shouldHideOriginalText}
+            />
           </div>
         </div>
       </Layout>

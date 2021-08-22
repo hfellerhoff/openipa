@@ -28,6 +28,9 @@ const TextPage = ({ text, language, author }: Props) => {
     language.label.toLowerCase() as Languages
   );
 
+  // General Transcription Options
+  const [shouldHideOriginalText, setShouldHideOriginalText] = useState(false);
+
   // French Transcription Options
   const [shouldAnalyzeElision, setShouldAnalyzeElision] = useState(true);
   const [shouldAnalyzeLiason, setShouldAnalyzeLiason] = useState(true);
@@ -66,12 +69,15 @@ const TextPage = ({ text, language, author }: Props) => {
               setShouldAnalyzeElision={setShouldAnalyzeElision}
               shouldAnalyzeLiason={shouldAnalyzeLiason}
               setShouldAnalyzeLiason={setShouldAnalyzeLiason}
+              shouldHideOriginalText={shouldHideOriginalText}
+              setShouldHideOriginalText={setShouldHideOriginalText}
               lockLanguage
             />
             <TranscriptionEditor
               language={localLanguage}
               shouldAnalyzeElision={shouldAnalyzeElision}
               shouldAnalyzeLiason={shouldAnalyzeLiason}
+              shouldHideOriginalText={shouldHideOriginalText}
               result={result}
               setResult={setResult}
               text={text.text}
@@ -89,7 +95,11 @@ const TextPage = ({ text, language, author }: Props) => {
               It was last updated on{' '}
               {dayjs(text.updated_at).format('MMMM DD, YYYY')}.
             </p>
-            <ExportButtons language={language.label} result={result} />
+            <ExportButtons
+              language={language.label}
+              result={result}
+              shouldHideOriginalText={shouldHideOriginalText}
+            />
           </div>
         </div>
       </div>
