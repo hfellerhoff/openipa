@@ -106,14 +106,14 @@ const LineElement = ({ line, theme, shouldHideOriginalText }: LineProps) => {
 
 type DisplayProps = {
   result: Result;
-  shouldHideOriginalText: boolean;
+  shouldHideOriginalText?: boolean;
   theme?: 'light' | 'dark';
   setHeight?: (height: number) => void;
   shouldHide?: boolean;
 };
 const ResultElement = ({
   result,
-  shouldHideOriginalText,
+  shouldHideOriginalText = false,
   theme = 'light',
   setHeight,
   shouldHide,
