@@ -7,7 +7,7 @@ const Footer: React.FC<Props> = () => {
   return (
     <div className={styles.footer}>
       <a
-        href='https://www.henryfellerhoff.com'
+        href='https://www.henryfellerhoff.com?ref=openipa'
         target='_blank noopener noreferrer'
         className={styles['logo-container']}
       >
