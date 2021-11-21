@@ -66,7 +66,7 @@ const getPhoneme = (
             case RuleInputType.String:
               const stringMatch = matchStringInput(step, text, adjustedIndex);
               if (stringMatch) {
-                phonemeText += stringMatch;
+                if (step.replace) phonemeText += stringMatch;
                 adjustedIndex += stringMatch.length;
               }
 
@@ -142,6 +142,12 @@ const getPhoneme = (
       ipa: matchingPhonemes[0].ipa,
       rule: matchingPhonemes[0].rule,
     };
+
+    if (matchingPhonemes.length > 1) {
+      console.log(phoneme);
+      console.log(matchingPhonemes);
+    }
+
     index += matchingPhonemes[0].text.length - 1;
   }
 
