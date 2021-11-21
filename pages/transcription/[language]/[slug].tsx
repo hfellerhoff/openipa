@@ -103,22 +103,6 @@ const TextPage = ({ text, language, author }: Props) => {
           </div>
         </div>
       </div>
-      <div
-        className={`pb-16 pt-16 flex align-center justify-center flex-col ${styles['banner-container']} px-8`}
-      >
-        <div className='max-w-4xl flex align-center justify-center flex-col mx-auto text-center'>
-          <h2 className={`text-4xl ${styles['banner-title']} font-bold`}>
-            Open IPA
-          </h2>
-          <h2 className='text-gray-100 font-light text-2xl mt-2 mb-4'>
-            is a free, informative IPA transcription tool for Lyric Diction.
-          </h2>
-          <h2 className='text-gray-100 font-light text-2xl mt-8'>
-            Supported Languages:
-          </h2>
-          <LanguageSelectionButtons />
-        </div>
-      </div>
     </Layout>
   );
 };
