@@ -56,7 +56,7 @@ const SupportPage: React.FC<Props> = () => {
           </a>
           <a
             className='flex align-center mt-2'
-            href='https://www.reddit.com/r/openipa/'
+            href='https://github.com/hfellerhoff/openipa'
             target='_blank'
           >
             <Button
