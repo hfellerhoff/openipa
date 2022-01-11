@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ExportButton from '../buttons/ExportButton';
 import { Result, Languages } from '../../constants/Interfaces';
 import createPDFFromResult from '../../util/CreatePDF';
@@ -49,11 +49,17 @@ const ExportButtons: React.FC<Props> = ({
     // this is more responsive than having no delay whatsoever
   };
 
-  const handleTranslate = async () => {
-    if (dayjs().diff(dayjs(translationQuota.resetOn)) >= 0) {
-      resetQuota('translation');
-    }
+  useEffect(() => {
+    const checkForQuotaReset = () => {
+      if (dayjs().diff(dayjs(translationQuota.resetOn)) >= 0) {
+        resetQuota('translation');
+      }
+    };
 
+    checkForQuotaReset();
+  }, []);
+
+  const handleTranslate = async () => {
     if (translationsLeft <= 0) return;
 
     setIsTranslating(true);
