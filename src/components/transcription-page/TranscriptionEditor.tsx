@@ -105,6 +105,7 @@ const TranscriptionEditor: React.FC<Props> = ({
           setHeight={(height) => setResultHeight(height)}
           shouldHide={!shouldShowOutput}
           shouldHideOriginalText={shouldHideOriginalText}
+          language={language}
         />
       </div>
     </div>

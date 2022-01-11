@@ -13,7 +13,6 @@ const supabaseSignUp = async (
   if (error) {
     console.error(error);
   } else {
-    console.log(user);
     return user;
   }
 };

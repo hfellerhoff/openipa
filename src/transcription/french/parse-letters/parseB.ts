@@ -18,7 +18,6 @@ const parseB = ({ nextletter, phoneme }: ParseLetterProps): Phoneme => {
     IPA.P,
     'b'
   );
-  console.log(phoneme);
 
   return phoneme;
 };

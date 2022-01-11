@@ -24,6 +24,22 @@
   border: 1px solid $gray;
 }
 
+.translated-text--light {
+  font-size: 15pt;
+  user-select: none;
+  color: $darkgray;
+  line-height: 0px;
+  font-style: italic;
+}
+
+.translated-text--dark {
+  font-size: 15pt;
+  user-select: none;
+  color: $white;
+  line-height: 0px;
+  font-style: italic;
+}
+
 .display-text--light {
   font-size: 15pt;
   user-select: none;

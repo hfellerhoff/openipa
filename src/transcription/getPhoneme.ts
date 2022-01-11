@@ -143,11 +143,6 @@ const getPhoneme = (
       rule: matchingPhonemes[0].rule,
     };
 
-    if (matchingPhonemes.length > 1) {
-      console.log(phoneme);
-      console.log(matchingPhonemes);
-    }
-
     index += matchingPhonemes[0].text.length - 1;
   }
 

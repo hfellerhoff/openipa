@@ -68,6 +68,7 @@ const Demonstration: React.FC<Props> = () => {
             result={result}
             theme='dark'
             setHeight={(height) => setResultHeight(height)}
+            language={language}
           />
           <h3 className={styles['input-title']}>IPA Result</h3>
         </div>

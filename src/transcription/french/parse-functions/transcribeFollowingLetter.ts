@@ -41,12 +41,12 @@ const transcribeFollowingLetter = (
   ipa: string,
   text?: string
 ): Phoneme => {
-  followingLettersGroup.forEach(followingLetters => {
+  followingLettersGroup.forEach((followingLetters) => {
     let comparedLetters = '';
     for (let i = 0; i < followingLetters.length; i++) {
       comparedLetters += letters[i + 1];
     }
-    console.log(comparedLetters, followingLetters);
+
     if (comparedLetters === followingLetters) {
       if (text === undefined) text = letters[0] + comparedLetters;
       phoneme = {

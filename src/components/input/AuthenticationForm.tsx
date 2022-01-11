@@ -18,7 +18,6 @@ const AuthenticationForm = (props: Props) => {
           password: '',
         }}
         onSubmit={(values) => {
-          console.log(values);
           supabaseSignIn(supabase, values.email, values.password);
           // supabaseSignUp(supabase, values.email, values.password);
         }}

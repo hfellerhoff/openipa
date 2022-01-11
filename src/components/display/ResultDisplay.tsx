@@ -4,6 +4,8 @@ import { Word, Line, Result } from '../../constants/Interfaces';
 import styles from './ResultDisplay.module.scss';
 import useWindowDimensions from '../../hooks/UseWindowDimensions';
 import IPA from '../../constants/IPA';
+import { useTranslationStore } from '../../state/translation';
+import { resultToLines } from '../../util/resultToLines';
 
 type PhonemeProps = {
   text: string;
@@ -73,10 +75,18 @@ const WordElement = ({ word, theme, shouldHideOriginalText }: WordProps) => {
 
 type LineProps = {
   line: Line;
+  lineText: string;
   theme: 'light' | 'dark';
   shouldHideOriginalText: boolean;
+  translations: Map<string, string>;
 };
-const LineElement = ({ line, theme, shouldHideOriginalText }: LineProps) => {
+const LineElement = ({
+  line,
+  lineText,
+  translations,
+  theme,
+  shouldHideOriginalText,
+}: LineProps) => {
   const wordElements: JSX.Element[] = [];
   line.words.forEach((word, index) => {
     const wordElement = (
@@ -100,12 +110,20 @@ const LineElement = ({ line, theme, shouldHideOriginalText }: LineProps) => {
     if (!foundUndertie) wordElements.push(spaceElement);
   });
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap' }}>{wordElements}</div>
+    <div className='mt-2 mb-4'>
+      {translations && (
+        <span className={`${styles[`translated-text--${theme}`]}`}>
+          {translations.get(lineText)}
+        </span>
+      )}
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>{wordElements}</div>
+    </div>
   );
 };
 
 type DisplayProps = {
   result: Result;
+  language: string;
   shouldHideOriginalText?: boolean;
   theme?: 'light' | 'dark';
   setHeight?: (height: number) => void;
@@ -113,23 +131,34 @@ type DisplayProps = {
 };
 const ResultElement = ({
   result,
+  language,
   shouldHideOriginalText = false,
   theme = 'light',
   setHeight,
   shouldHide,
 }: DisplayProps) => {
   const [displayRef, setDisplayRef] = useState<HTMLDivElement>();
+  const { allTranslations } = useTranslationStore((store) => ({
+    allTranslations: store.translations,
+  }));
+
+  const countryCode = language.toLowerCase() === 'french' ? 'FR' : 'EN';
+  const translations = allTranslations[countryCode] || null;
 
   const { width } = useWindowDimensions();
   const isWidthSmallEnough = width <= 800 ? true : false;
 
+  const lines = resultToLines(result);
   const lineElements: JSX.Element[] = [];
+
   result.lines.forEach((line, index) => {
     const lineElement = (
       <LineElement
         line={line}
+        lineText={lines[index]}
         key={index}
         theme={theme}
+        translations={translations}
         shouldHideOriginalText={shouldHideOriginalText}
       />
     );

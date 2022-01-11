@@ -19,3 +19,8 @@
 
   @extend %half-side-padding;
 }
+
+.export-button--disabled {
+  background: $button-disabled;
+  cursor: not-allowed;
+}

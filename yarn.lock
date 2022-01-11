@@ -3068,6 +3068,11 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
+wretch@^1.7.7:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/wretch/-/wretch-1.7.7.tgz#f6fd75f73601dd23bc75581f6e3ced56718624d2"
+  integrity sha512-+CYMKQ3ulUFVND3eABUfhGWd43sSXE0UNpcLXcRPBCp/8wJR44yhALeXDhUjRyNDIygT77mMzXlJeGE4PS3iBg==
+
 xtend@^4.0.0, xtend@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
@@ -3110,3 +3115,8 @@ yup@^0.32.9:
     nanoclone "^0.2.1"
     property-expr "^2.0.4"
     toposort "^2.0.2"
+
+zustand@^3.6.9:
+  version "3.6.9"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.6.9.tgz#f61a756ddea9f95c7ee7cfd3af2f88c10078afbc"
+  integrity sha512-OvDNu/jEWpRnEC7k8xh8GKjqYog7td6FZrLMuHs/IeI8WhrCwV+FngVuwMIFhp5kysZXr6emaeReMqjLGaldAQ==
