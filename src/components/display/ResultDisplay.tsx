@@ -129,6 +129,7 @@ type DisplayProps = {
   theme?: 'light' | 'dark';
   setHeight?: (height: number) => void;
   shouldHide?: boolean;
+  hideFeedback?: boolean;
 };
 const ResultElement = ({
   result,
@@ -137,6 +138,7 @@ const ResultElement = ({
   theme = 'light',
   setHeight,
   shouldHide,
+  hideFeedback = false,
 }: DisplayProps) => {
   const [displayRef, setDisplayRef] = useState<HTMLDivElement>();
   const { allTranslations } = useTranslationStore((store) => ({
@@ -183,7 +185,7 @@ const ResultElement = ({
       hidden={isWidthSmallEnough ? shouldHide : false}
     >
       {lineElements}
-      <FeedbackModal result={result} />
+      {!hideFeedback && <FeedbackModal result={result} />}
     </div>
   );
 };
