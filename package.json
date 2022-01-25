@@ -10,6 +10,9 @@
     "script:texts": "ts-node ./scripts/addTextsToSupabase.ts"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.3",
+    "@heroicons/react": "^1.0.5",
+    "@sendgrid/mail": "^7.6.0",
     "@supabase/supabase-js": "^1.4.2",
     "autoprefixer": "^10.2.5",
     "dayjs": "^1.10.4",

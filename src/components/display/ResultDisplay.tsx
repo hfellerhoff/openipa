@@ -6,6 +6,7 @@ import useWindowDimensions from '../../hooks/UseWindowDimensions';
 import IPA from '../../constants/IPA';
 import { useTranslationStore } from '../../state/translation';
 import { resultToLines } from '../../util/resultToLines';
+import FeedbackModal from '../feedback/FeedbackModal';
 
 type PhonemeProps = {
   text: string;
@@ -177,11 +178,12 @@ const ResultElement = ({
   return (
     <div
       id='result'
-      className={className}
+      className={`${className} relative`}
       ref={(display) => setDisplayRef(display ? display : displayRef)}
       hidden={isWidthSmallEnough ? shouldHide : false}
     >
       {lineElements}
+      <FeedbackModal result={result} />
     </div>
   );
 };
