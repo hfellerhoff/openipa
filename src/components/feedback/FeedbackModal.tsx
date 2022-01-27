@@ -7,12 +7,13 @@ const reasons = [{ reason: 'Transcription Error' }, { reason: 'Other' }];
 
 type Props = {
   result: Result;
+  language: string;
 };
 
-export default function FeedbackModal({ result }: Props) {
+export default function FeedbackModal({ result, language }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [issueURL, setIssueURL] = useState('');
 
   const [selectedReason, setSelectedReason] = useState(reasons[0]);
 
@@ -21,18 +22,19 @@ export default function FeedbackModal({ result }: Props) {
 
     setIsSubmitting(true);
 
-    await fetch('/api/feedback', {
+    const res = await fetch('/api/feedback', {
       method: 'POST',
       body: JSON.stringify({
         ...Object.fromEntries(new FormData(e.target as HTMLFormElement)),
         reason: selectedReason.reason,
         result,
+        language,
       }),
     });
+    const data = await res.json();
 
-    setHasSubmitted(true);
+    setIssueURL(data.url);
     setIsSubmitting(false);
-    setTimeout(() => closeModal(), 1000);
   };
 
   function closeModal() {
@@ -40,7 +42,7 @@ export default function FeedbackModal({ result }: Props) {
   }
 
   function openModal() {
-    setHasSubmitted(false);
+    setIssueURL('');
     setIsSubmitting(false);
     setIsOpen(true);
   }
@@ -92,69 +94,84 @@ export default function FeedbackModal({ result }: Props) {
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <form
-                onSubmit={handleSubmit}
-                className='inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl'
-              >
-                <Dialog.Title
-                  as='h3'
-                  className='text-lg font-medium leading-6 text-gray-900'
+              {!issueURL ? (
+                <form
+                  onSubmit={handleSubmit}
+                  className='inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl'
                 >
-                  Submit Feedback
-                </Dialog.Title>
-                <div className='mt-2 mb-4'>
-                  <p className='text-sm text-gray-500'>
-                    Report transcription errors or give feedback below. Any
-                    inputted text will be attached to help us diagnose errors.
-                  </p>
-                </div>
-                <FeedbackSelect
-                  reasons={reasons}
-                  selected={selectedReason}
-                  setSelected={setSelectedReason}
-                />
-                <fieldset className='mt-4'>
-                  <label className='text-gray-700'>Anything else to add?</label>
-                  <textarea
-                    name='details'
-                    rows={4}
-                    className='w-full py-2 pl-3 pr-10 mt-2 text-left bg-white border-2 rounded-lg cursor-text focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm'
-                    placeholder="The word ______ isn't transcribed correctly..."
-                  />
-                </fieldset>
-                <fieldset className='mt-4'>
-                  <label className='flex items-center text-gray-700'>
-                    Email Address{' '}
-                    <span className='ml-1 text-sm text-gray-400'>
-                      (optional)
-                    </span>
-                  </label>
-                  <input
-                    name='email'
-                    placeholder='janedoe@example.com'
-                    className='w-full py-2 pl-3 pr-10 mt-2 text-left bg-white border-2 rounded-lg cursor-text focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm'
-                  />
-                </fieldset>
-                <div className='mt-4'>
-                  <button
-                    type='submit'
-                    className='inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500'
+                  <Dialog.Title
+                    as='h3'
+                    className='text-lg font-medium leading-6 text-gray-900'
                   >
-                    {hasSubmitted
-                      ? 'Feedback Sent!'
-                      : isSubmitting
-                      ? 'Sending...'
-                      : 'Send'}
-                  </button>
-                  <button
-                    type='button'
-                    className='inline-flex justify-center px-4 py-2 ml-2 text-sm font-medium text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500'
-                    onClick={closeModal}
-                  >
-                    Close
-                  </button>
+                    Submit Feedback
+                  </Dialog.Title>
+                  <div className='mt-2 mb-4'>
+                    <p className='text-sm text-gray-500'>
+                      Report transcription errors or give feedback below. Any
+                      inputted text will be attached to help us diagnose errors.
+                    </p>
+                    <a
+                      href='https://github.com/hfellerhoff/openipa/issues'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-sm font-bold text-blue-500'
+                    >
+                      View known issues →
+                    </a>
+                  </div>
+                  <FeedbackSelect
+                    reasons={reasons}
+                    selected={selectedReason}
+                    setSelected={setSelectedReason}
+                  />
+                  <fieldset className='mt-4'>
+                    <label className='text-gray-700'>
+                      Anything else to add?
+                    </label>
+                    <textarea
+                      name='details'
+                      rows={4}
+                      className='w-full py-2 pl-3 pr-10 mt-2 text-left bg-white border-2 rounded-lg cursor-text focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm'
+                      placeholder="The word ______ isn't transcribed correctly..."
+                    />
+                  </fieldset>
+                  <div className='mt-4'>
+                    <button
+                      type='submit'
+                      className='inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500'
+                    >
+                      {isSubmitting ? 'Sending...' : 'Send'}
+                    </button>
+                    <button
+                      type='button'
+                      className='inline-flex justify-center px-4 py-2 ml-2 text-sm font-medium text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500'
+                      onClick={closeModal}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className='inline-block w-full max-w-lg p-6 py-10 my-8 overflow-hidden text-center align-middle transition-all transform bg-white shadow-xl rounded-2xl'>
+                  <h4 className='mb-6'>Success! Your feedback was sent.</h4>
+                  <div className='flex items-center justify-center gap-1'>
+                    <a
+                      href={issueURL}
+                      target='blank'
+                      rel='noopener noreferrer'
+                      className='inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500'
+                    >
+                      View Feedback
+                    </a>
+                    <button
+                      onClick={closeModal}
+                      className='inline-flex justify-center px-4 py-2 ml-2 text-sm font-medium text-gray-900 bg-gray-100 border border-transparent rounded-md hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-500'
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
-              </form>
+              )}
             </Transition.Child>
           </div>
         </Dialog>

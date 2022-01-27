@@ -12,16 +12,16 @@ import Layout from '../../../src/components/layout/Layout';
 import Head from 'next/head';
 import PageHeader from '../../../src/components/header/PageHeader';
 
-type Props = {
-  text?: string;
-};
+type Props = {};
 
-const TranscriptionPage = ({ text }: Props) => {
+const TranscriptionPage = ({}: Props) => {
   const router = useRouter();
   const [result, setResult] = useState<Result>(Template.Result);
   const [language, setLanguage] = useState<Languages>(
     router.query.language as Languages
   );
+
+  const text = router.query.text as string;
 
   // General Transcription Options
   const [shouldHideOriginalText, setShouldHideOriginalText] = useState(false);
@@ -62,7 +62,7 @@ const TranscriptionPage = ({ text }: Props) => {
         colorClassName='bg-blue-900 bg-opacity-75'
       />
       <div className={styles.container}>
-        <div className='max-w-7xl mx-auto'>
+        <div className='mx-auto max-w-7xl'>
           <div className={styles['content-container']}>
             <TranscriptionDescription
               language={language}

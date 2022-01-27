@@ -185,7 +185,7 @@ const ResultElement = ({
       hidden={isWidthSmallEnough ? shouldHide : false}
     >
       {lineElements}
-      {!hideFeedback && <FeedbackModal result={result} />}
+      {!hideFeedback && <FeedbackModal result={result} language={language} />}
     </div>
   );
 };
