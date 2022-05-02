@@ -24,20 +24,7 @@ export default class CustomDocument extends Document {
           />
           {process.env.VERCEL_ENV === 'production' ? (
             <>
-              <script
-                async
-                src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-              ></script>
-              <script
-                async
-                dangerouslySetInnerHTML={{
-                  __html: `window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-            
-              gtag('config', '${GA_TRACKING_ID}');`,
-                }}
-              />
+              <script async defer data-website-id="b4fd1fc9-b874-4d5d-9a70-cdd887dee842" src="https://umami.henryfellerhoff.com/umami.js"></script>
             </>
           ) : (
             <></>
