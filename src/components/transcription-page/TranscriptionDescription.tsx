@@ -1,46 +1,33 @@
-import React, { useState } from 'react';
-import useWindowDimensions from '../../hooks/UseWindowDimensions';
+import React from 'react';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
 import { Languages } from '../../constants/Interfaces';
 import styles from './TranscriptionDescription.module.scss';
-import HideButton from '../buttons/HideButton';
 import CheckboxButton from '../buttons/CheckboxButton';
 import { useRouter } from 'next/router';
+import Blockquote from '../core/Blockquote';
+import { useEditorStore } from '../../state/editor';
+import TranscriptionEditorOptions from './TranscriptionEditorOptions';
 
 interface Props {
-  language: string;
+  language: Languages;
   setLanguage: (language: Languages) => void;
-  shouldAnalyzeElision: boolean;
-  setShouldAnalyzeElision: React.Dispatch<React.SetStateAction<boolean>>;
-  shouldAnalyzeLiason: boolean;
-  setShouldAnalyzeLiason: React.Dispatch<React.SetStateAction<boolean>>;
-  shouldHideOriginalText: boolean;
-  setShouldHideOriginalText: React.Dispatch<React.SetStateAction<boolean>>;
   lockLanguage?: boolean;
 }
 
 const TranscriptionDescription: React.FC<Props> = ({
   language,
   setLanguage,
-  shouldAnalyzeElision,
-  setShouldAnalyzeElision,
-  shouldAnalyzeLiason,
-  setShouldAnalyzeLiason,
-  shouldHideOriginalText,
-  setShouldHideOriginalText,
   lockLanguage = false,
 }) => {
   const router = useRouter();
-  const { width } = useWindowDimensions();
-  const isWidthSmallEnough = width <= 800 ? true : false;
 
   return (
     <div>
-      <blockquote className='quote'>
+      <Blockquote>
         Tip: Open IPA gives in-depth transcription guidelines for each character
         it transcribes. Try hovering over a letter in the IPA result to try it
         out!
-      </blockquote>
+      </Blockquote>
       <div className={styles['container']}>
         <div className={styles['language-select']}>
           {lockLanguage ? (
@@ -50,6 +37,7 @@ const TranscriptionDescription: React.FC<Props> = ({
               Transcribe from
               <select
                 value={language}
+                title='Select transcription language'
                 onChange={(e) => {
                   setLanguage(e.target.value as Languages);
                   router.push(
@@ -65,37 +53,7 @@ const TranscriptionDescription: React.FC<Props> = ({
             </h2>
           )}
         </div>
-        <div className={styles['options-container']}>
-          {language === Languages.French ? (
-            <>
-              <div className={styles['option-container']}>
-                <CheckboxButton
-                  isChecked={shouldAnalyzeElision}
-                  setIsChecked={setShouldAnalyzeElision}
-                />
-                <h5 className={styles['option-title']}>Analyze Elision</h5>
-              </div>
-              <div style={{ height: 10 }}></div>
-              <div className={styles['option-container']}>
-                <CheckboxButton
-                  isChecked={shouldAnalyzeLiason}
-                  setIsChecked={setShouldAnalyzeLiason}
-                />
-                <h5 className={styles['option-title']}>Analyze Liason</h5>
-              </div>
-              <div style={{ height: 10 }}></div>
-            </>
-          ) : (
-            <></>
-          )}
-          <div className={styles['option-container']}>
-            <CheckboxButton
-              isChecked={shouldHideOriginalText}
-              setIsChecked={setShouldHideOriginalText}
-            />
-            <h5 className={styles['option-title']}>Hide Original Text</h5>
-          </div>
-        </div>
+        <TranscriptionEditorOptions language={language} />
       </div>
     </div>
   );

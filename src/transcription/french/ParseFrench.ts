@@ -38,14 +38,12 @@ import parseV from './parse-letters/parseV';
 import parseX from './parse-letters/parseX';
 import parseY from './parse-letters/parseY';
 import parseZ from './parse-letters/parseZ';
+import { FrenchTranscriptionOptions } from '../../state/editor';
 
-const parseFrench = (
-  text: string,
-  shouldAnalyzeElision?: boolean,
-  shouldAnalyzeLiason?: boolean
-) => {
-  if (shouldAnalyzeElision === undefined) shouldAnalyzeElision = true;
-  if (shouldAnalyzeLiason === undefined) shouldAnalyzeLiason = true;
+const parseFrench = (text: string, options: FrenchTranscriptionOptions) => {
+  const shouldAnalyzeLiason = options.shouldAnalyzeLiason.value;
+  const shouldAnalyzeElision = options.shouldAnalyzeElision.value;
+
   const charArray = getCharArray(text);
 
   let result: Result = Template.getResultTemplate();
@@ -223,7 +221,7 @@ const parseFrench = (
     if (startOfNewWord) {
       const [word, newIndex] = getNextWord(index, charArray);
       const wordNoPunctuation = getCharArray(word)
-        .filter(char => !isPunctuation(char))
+        .filter((char) => !isPunctuation(char))
         .join('');
 
       if (wordNoPunctuation in Exceptions) {

@@ -55,41 +55,6 @@
   flex-direction: column;
 }
 
-.options-container {
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  @extend %flex-direction;
-}
-
-.options-title {
-  @media screen and (min-width: 800px) {
-    margin-top: 5px;
-  }
-}
-
-.option-container {
-  margin-left: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @media screen and (max-width: 800px) {
-    justify-content: flex-start;
-  }
-}
-
-.option-title {
-  color: $darkgray;
-  font-size: 14px;
-  font-weight: 400;
-  margin-left: 8px;
-
-  @media screen and (min-width: 800px) {
-    margin-right: 15px;
-  }
-}
-
 .note {
   flex: 1;
   font-size: 18px;

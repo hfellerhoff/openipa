@@ -15,6 +15,7 @@
     "@sendgrid/mail": "^7.6.0",
     "@supabase/supabase-js": "^1.4.2",
     "autoprefixer": "^10.2.5",
+    "clsx": "^1.2.1",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
     "formik": "^2.2.6",

@@ -1,10 +1,8 @@
 import dayjs from 'dayjs';
 import Head from 'next/head';
 import React, { useState } from 'react';
-import LanguageSelectionButtons from '../../../src/components/button-containers/LanguageSelectionButtons';
-import PageHeader from '../../../src/components/header/PageHeader';
 import Layout from '../../../src/components/layout/Layout';
-import ExportButtons from '../../../src/components/transcription-page/ExportButtons';
+import ExportButtons from '../../../src/components/transcription-page/TranscriptionActionButtons';
 import TranscriptionDescription from '../../../src/components/transcription-page/TranscriptionDescription';
 import TranscriptionEditor from '../../../src/components/transcription-page/TranscriptionEditor';
 import { Languages, Result } from '../../../src/constants/Interfaces';
@@ -13,7 +11,6 @@ import { Dictionary } from '../../../src/hooks/useSupabaseTable';
 import supabase from '../../../src/lib/supabase';
 import { Language } from '../../../src/lib/supabase/models/Language';
 import { Text } from '../../../src/lib/supabase/models/Text';
-import { capitalizeFirstLetter } from '../../../src/util/StringHelper';
 import styles from './TranscriptionPage.module.scss';
 
 interface Props {
@@ -27,13 +24,6 @@ const TextPage = ({ text, language, author }: Props) => {
   const [localLanguage, setLocalLanguage] = useState<Languages>(
     language.label.toLowerCase() as Languages
   );
-
-  // General Transcription Options
-  const [shouldHideOriginalText, setShouldHideOriginalText] = useState(false);
-
-  // French Transcription Options
-  const [shouldAnalyzeElision, setShouldAnalyzeElision] = useState(true);
-  const [shouldAnalyzeLiason, setShouldAnalyzeLiason] = useState(true);
 
   return (
     <Layout>
@@ -55,29 +45,20 @@ const TextPage = ({ text, language, author }: Props) => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <div className={styles.container}>
-        <div className='max-w-7xl mx-auto'>
+        <div className='mx-auto max-w-7xl'>
           <div className={styles['content-container']}>
-            <h1 className='text-3xl md:text-4xl mb-1'>{text.title}</h1>
-            <h2 className='text-xl font-normal mb-8'>
+            <h1 className='mb-1 text-3xl md:text-4xl'>{text.title}</h1>
+            <h2 className='mb-8 text-xl font-normal'>
               {language.label} {text.type}
             </h2>
 
             <TranscriptionDescription
-              language={language.label.toLowerCase()}
+              language={language.label as Languages}
               setLanguage={setLocalLanguage}
-              shouldAnalyzeElision={shouldAnalyzeElision}
-              setShouldAnalyzeElision={setShouldAnalyzeElision}
-              shouldAnalyzeLiason={shouldAnalyzeLiason}
-              setShouldAnalyzeLiason={setShouldAnalyzeLiason}
-              shouldHideOriginalText={shouldHideOriginalText}
-              setShouldHideOriginalText={setShouldHideOriginalText}
               lockLanguage
             />
             <TranscriptionEditor
               language={localLanguage}
-              shouldAnalyzeElision={shouldAnalyzeElision}
-              shouldAnalyzeLiason={shouldAnalyzeLiason}
-              shouldHideOriginalText={shouldHideOriginalText}
               result={result}
               setResult={setResult}
               text={text.text}
@@ -95,11 +76,7 @@ const TextPage = ({ text, language, author }: Props) => {
               It was last updated on{' '}
               {dayjs(text.updated_at).format('MMMM DD, YYYY')}.
             </p>
-            <ExportButtons
-              language={language.label}
-              result={result}
-              shouldHideOriginalText={shouldHideOriginalText}
-            />
+            <ExportButtons language={language.label} result={result} />
           </div>
         </div>
       </div>
@@ -110,8 +87,6 @@ const TextPage = ({ text, language, author }: Props) => {
 export default TextPage;
 
 export async function getStaticProps({ params }) {
-  console.log(params);
-
   // Call an external API endpoint to get posts
   const { data: languages } = await supabase.from('languages').select('*');
 

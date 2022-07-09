@@ -8,12 +8,15 @@ import HideButton from '../buttons/HideButton';
 import { Rule } from '../../lib/supabase/models/Rule';
 import useSupabaseIPA from '../../hooks/useSupabaseIPA';
 import transcribeText from '../../transcription/transcribeText';
+import {
+  FrenchTranscriptionOptions,
+  FullTranscriptionOptions,
+  GlobalTranscriptionOptions,
+  useEditorStore,
+} from '../../state/editor';
 
 interface Props {
-  language: string;
-  shouldAnalyzeElision: boolean;
-  shouldAnalyzeLiason: boolean;
-  shouldHideOriginalText: boolean;
+  language: Languages;
   result: Result;
   setResult: React.Dispatch<React.SetStateAction<Result>>;
   text?: string;
@@ -21,13 +24,14 @@ interface Props {
 
 const TranscriptionEditor: React.FC<Props> = ({
   language,
-  shouldAnalyzeElision,
-  shouldAnalyzeLiason,
-  shouldHideOriginalText,
   result,
   setResult,
   text,
 }) => {
+  const languageOptions: GlobalTranscriptionOptions = useEditorStore(
+    (store) => store.options[language]
+  );
+
   const [inputText, setInputText] = useState(text || '');
   const [shouldShowInput, setShouldShowInput] = useState(true);
   const [shouldShowOutput, setShouldShowOutput] = useState(true);
@@ -36,37 +40,39 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   const { categories, subcategories, ipa, rules, languages } = useSupabaseIPA();
 
-  const parseText = (text: string) => {
-    switch (language as Languages) {
-      case Languages.French:
-        return parseFrench(text, shouldAnalyzeElision, shouldAnalyzeLiason);
-      case Languages.Latin:
-      default:
-        // Filter rules for given language
-        const languageRules = Object.values(rules).filter((r: Rule) =>
-          languages[r.language]
-            ? languages[r.language].label.toLowerCase() === language
-            : false
-        );
-
-        // Transcribe text based on those rules
-        return transcribeText(
-          text,
-          languageRules,
-          categories,
-          subcategories,
-          ipa
-        );
-    }
-  };
-
   useEffect(() => {
+    const parseText = (text: string) => {
+      switch (language as Languages) {
+        case Languages.French:
+          return parseFrench(
+            text,
+            (languageOptions as any) as FrenchTranscriptionOptions
+          );
+        case Languages.Latin:
+        default:
+          // Filter rules for given language
+          const languageRules = Object.values(rules).filter((r: Rule) =>
+            languages[r.language]
+              ? languages[r.language].label.toLowerCase() === language
+              : false
+          );
+
+          // Transcribe text based on those rules
+          return transcribeText(
+            text,
+            languageRules,
+            categories,
+            subcategories,
+            ipa
+          );
+      }
+    };
+
     setResult(parseText(inputText));
   }, [
     inputText,
-    shouldAnalyzeElision,
-    shouldAnalyzeLiason,
     language,
+    languageOptions,
     categories,
     subcategories,
     ipa,
@@ -104,7 +110,7 @@ const TranscriptionEditor: React.FC<Props> = ({
           result={result}
           setHeight={(height) => setResultHeight(height)}
           shouldHide={!shouldShowOutput}
-          shouldHideOriginalText={shouldHideOriginalText}
+          shouldHideOriginalText={languageOptions.shouldHideOriginalText.value}
           language={language}
         />
       </div>

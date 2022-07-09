@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TranscriptionEditor from '../../../src/components/transcription-page/TranscriptionEditor';
 import TranscriptionDescription from '../../../src/components/transcription-page/TranscriptionDescription';
-import ExportButtons from '../../../src/components/transcription-page/ExportButtons';
+import ExportButtons from '../../../src/components/transcription-page/TranscriptionActionButtons';
 
 import { Languages, Result } from '../../../src/constants/Interfaces';
 import Template from '../../../src/constants/Template';
@@ -22,13 +22,6 @@ const TranscriptionPage = ({}: Props) => {
   );
 
   const text = router.query.text as string;
-
-  // General Transcription Options
-  const [shouldHideOriginalText, setShouldHideOriginalText] = useState(false);
-
-  // French Transcription Options
-  const [shouldAnalyzeElision, setShouldAnalyzeElision] = useState(true);
-  const [shouldAnalyzeLiason, setShouldAnalyzeLiason] = useState(true);
 
   useEffect(() => {
     if (
@@ -67,27 +60,14 @@ const TranscriptionPage = ({}: Props) => {
             <TranscriptionDescription
               language={language}
               setLanguage={setLanguage}
-              shouldAnalyzeElision={shouldAnalyzeElision}
-              setShouldAnalyzeElision={setShouldAnalyzeElision}
-              shouldAnalyzeLiason={shouldAnalyzeLiason}
-              setShouldAnalyzeLiason={setShouldAnalyzeLiason}
-              shouldHideOriginalText={shouldHideOriginalText}
-              setShouldHideOriginalText={setShouldHideOriginalText}
             />
             <TranscriptionEditor
               language={language}
-              shouldAnalyzeElision={shouldAnalyzeElision}
-              shouldAnalyzeLiason={shouldAnalyzeLiason}
-              shouldHideOriginalText={shouldHideOriginalText}
               result={result}
               setResult={setResult}
               text={text}
             />
-            <ExportButtons
-              language={language}
-              result={result}
-              shouldHideOriginalText={shouldHideOriginalText}
-            />
+            <ExportButtons language={language} result={result} />
           </div>
         </div>
       </div>

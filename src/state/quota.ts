@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface Quota {
+export interface TranslationQuota {
   count: number;
   limit: number;
   resetOn: string;
@@ -10,7 +10,7 @@ interface Quota {
 
 type QuotaKey = keyof Omit<QuotaStore, 'updateQuota' | 'resetQuota'>;
 interface QuotaStore {
-  translation: Quota;
+  translation: TranslationQuota;
   updateQuota: (name: QuotaKey, count?: number) => void;
   resetQuota: (name: QuotaKey) => void;
 }

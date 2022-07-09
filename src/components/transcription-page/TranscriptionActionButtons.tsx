@@ -3,24 +3,32 @@ import ExportButton from '../buttons/ExportButton';
 import { Result, Languages } from '../../constants/Interfaces';
 import createPDFFromResult from '../../util/CreatePDF';
 import copyResult from '../../util/CopyResult';
-import styles from './ExportButtons.module.scss';
 import wretch from 'wretch';
 import { useTranslationStore } from '../../state/translation';
 import { TranslationResponse } from '../../../pages/api/translate';
-import { useQuotaStore } from '../../state/quota';
+import { TranslationQuota, useQuotaStore } from '../../state/quota';
 import dayjs from 'dayjs';
+import Blockquote from '../core/Blockquote';
+import { useEditorStore } from '../../state/editor';
+
+const getQuotaText = (translationsLeft: number, quota: TranslationQuota) => {
+  if (translationsLeft > 0) {
+    return `You have ${translationsLeft} translation${
+      translationsLeft === 1 ? '' : 's'
+    } left this week.`;
+  }
+
+  return `Your translation quota will reset on ${dayjs(quota.resetOn).format(
+    'MMMM D'
+  )}.`;
+};
 
 interface Props {
   language: string;
   result: Result;
-  shouldHideOriginalText: boolean;
 }
 
-const ExportButtons: React.FC<Props> = ({
-  language,
-  result,
-  shouldHideOriginalText,
-}) => {
+const ExportButtons: React.FC<Props> = ({ language, result }) => {
   const [isPDFCreated, setIsPDFCreated] = useState(true);
   const [isTranslating, setIsTranslating] = useState(false);
   const { addTranslation } = useTranslationStore((store) => ({
@@ -34,6 +42,10 @@ const ExportButtons: React.FC<Props> = ({
       resetQuota: store.resetQuota,
       translationQuota: store.translation,
     })
+  );
+
+  const shouldHideOriginalText = useEditorStore(
+    (store) => store.options[language].shouldHideOriginalText.value
   );
 
   const translationsLeft = translationQuota.limit - translationQuota.count;
@@ -82,10 +94,12 @@ const ExportButtons: React.FC<Props> = ({
 
   const isNotLatin = language.toLowerCase() !== 'latin';
 
+  const quotaText = getQuotaText(translationsLeft, translationQuota);
+
   return (
     <>
       {isNotLatin && (
-        <blockquote className='quote mt-8'>
+        <Blockquote>
           Open IPA uses the{' '}
           <a
             href='https://www.deepl.com/translator'
@@ -96,17 +110,10 @@ const ExportButtons: React.FC<Props> = ({
             DeepL API
           </a>{' '}
           for language translation. Since this is a paid service, each user is
-          limited to a certain amount of translations.{' '}
-          {translationsLeft > 0
-            ? `You have ${translationsLeft} translation${
-                translationsLeft === 1 ? '' : 's'
-              } left this week.`
-            : `Your translation quota will reset on ${dayjs(
-                translationQuota.resetOn
-              ).format('MMMM D')}.`}
-        </blockquote>
+          limited to a certain amount of translations. {quotaText}
+        </Blockquote>
       )}
-      <div className={styles['export-container']}>
+      <div className='flex flex-wrap gap-2 mt-2'>
         {isNotLatin && (
           <ExportButton
             title='Translate'
@@ -115,13 +122,11 @@ const ExportButtons: React.FC<Props> = ({
             isDisabled={translationsLeft <= 0}
           ></ExportButton>
         )}
-        <div style={{ width: 15, height: 15 }}></div>
         <ExportButton
           title='Export as PDF'
           onClick={handleCreatePDF}
           isLoading={!isPDFCreated}
         ></ExportButton>
-        <div style={{ width: 15, height: 15 }}></div>
         <ExportButton
           title='Copy'
           onClick={() => copyResult(result, shouldHideOriginalText)}
