@@ -37,9 +37,10 @@ export default function TranscriptionEditorOptions({ language }: Props) {
     handleSetOption: store.handleSetOption,
   }));
 
-  const languageOptions: [string, TranscriptionOption][] = Object.entries(
-    options[language]
-  );
+  const languageOptions: [
+    string,
+    TranscriptionOption<boolean>
+  ][] = Object.entries(options[language]);
 
   return (
     <div className='flex flex-col flex-1 gap-4 md:flex-row'>
