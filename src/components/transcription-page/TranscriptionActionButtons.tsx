@@ -28,7 +28,7 @@ interface Props {
   result: Result;
 }
 
-const ExportButtons: React.FC<Props> = ({ language, result }) => {
+const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
   const [isPDFCreated, setIsPDFCreated] = useState(true);
   const [isTranslating, setIsTranslating] = useState(false);
   const { addTranslation } = useTranslationStore((store) => ({
@@ -44,8 +44,10 @@ const ExportButtons: React.FC<Props> = ({ language, result }) => {
     })
   );
 
-  const shouldHideOriginalText = useEditorStore(
-    (store) => store.options[language].shouldHideOriginalText.value
+  const shouldHideOriginalText = useEditorStore((store) =>
+    store?.options[language]?.shouldHideOriginalText
+      ? store.options[language].shouldHideOriginalText.value
+      : false
   );
 
   const translationsLeft = translationQuota.limit - translationQuota.count;
@@ -136,4 +138,4 @@ const ExportButtons: React.FC<Props> = ({ language, result }) => {
   );
 };
 
-export default ExportButtons;
+export default TranscriptionActionButtons;
