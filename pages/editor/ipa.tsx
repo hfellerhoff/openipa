@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
-import EditorIPA from '../../../src/components/editors/EditorIPA';
-import EditorIPALeftSidebar from '../../../src/components/editors/EditorIPALeftSidebar';
-import EditorIPARightSidebar from '../../../src/components/editors/EditorIPARightSidebar';
-import EditorLayout from '../../../src/components/layout/EditorLayout';
-import useSupabaseIPA from '../../../src/hooks/useSupabaseIPA';
+import EditorIPA from '../../src/components/editors/EditorIPA';
+import EditorIPALeftSidebar from '../../src/components/editors/EditorIPALeftSidebar';
+import EditorIPARightSidebar from '../../src/components/editors/EditorIPARightSidebar';
+import EditorLayout from '../../src/components/layout/EditorLayout';
+import useSupabaseIPA from '../../src/hooks/useSupabaseIPA';
 
 interface Props {}
 

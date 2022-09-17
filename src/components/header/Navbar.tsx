@@ -7,9 +7,26 @@ import NavbarLink from './NavbarLink';
 
 interface Props {}
 
+const CoreNavigation = () => (
+  <>
+    <NavbarLink href='/texts'>Texts</NavbarLink>
+    <NavbarLink href='/transcription/latin'>Transcribe</NavbarLink>
+    <NavbarLink href='/support'>Support</NavbarLink>
+  </>
+);
+
+const EditorNavigation = () => (
+  <>
+    <NavbarLink href='/editor/ipa'>IPA</NavbarLink>
+    <NavbarLink href='/editor/latin'>Latin</NavbarLink>
+    <NavbarLink href='/editor/french'>French</NavbarLink>
+  </>
+);
+
 const Navbar: React.FC<Props> = () => {
   const user = useContext(UserContext);
   const router = useRouter();
+  const isEditor = router.pathname.includes('editor');
 
   return (
     <div className={styles.container}>
@@ -22,20 +39,9 @@ const Navbar: React.FC<Props> = () => {
 
       <div className={styles['link-container']}>
         {router.pathname.includes('editor') ? (
-          <>
-            <Link href='/editor/ipa'>
-              <a className='button button--primary button--rounded'>IPA</a>
-            </Link>
-            <Link href='/editor/1'>
-              <a className='button button--primary button--rounded'>Latin</a>
-            </Link>
-          </>
+          <EditorNavigation />
         ) : (
-          <>
-            <NavbarLink href='/texts'>Texts</NavbarLink>
-            <NavbarLink href='/transcription/latin'>Transcribe</NavbarLink>
-            <NavbarLink href='/support'>Support</NavbarLink>
-          </>
+          <CoreNavigation />
         )}
       </div>
     </div>

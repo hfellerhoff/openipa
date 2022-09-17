@@ -7,16 +7,16 @@
   background: $gray-6;
 
   @include respond-to('wide') {
-    padding: 60px;
+    padding: 2.5rem;
   }
   @include respond-to('computer') {
-    padding: 40px;
+    padding: 2rem;
   }
   @include respond-to('tablet') {
-    padding: 20px;
+    padding: 1.5rem;
   }
   @include respond-to('phone') {
-    padding: 0px;
+    padding: 1rem;
   }
 }
 

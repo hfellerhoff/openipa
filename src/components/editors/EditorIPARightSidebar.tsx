@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import supabase from '../../lib/supabase';
-import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../lib/supabase/models/IPA';
+import { IPA, IPASubcategory } from '../../lib/supabase/models/IPA';
 import Button from '../buttons/Button';
 import styles from './EditorIPARightSidebar.module.scss';
 import IPAInput from './language/IPAInput';
@@ -77,6 +73,7 @@ const EditorIPARightSidebar = ({
             <label className={styles.label}>TYPE</label>
             {subcategory ? (
               <select
+                title='IPA Type'
                 value={subcategory}
                 className={styles.option}
                 onChange={(e) => setSubcategory(parseInt(e.target.value))}
@@ -97,6 +94,7 @@ const EditorIPARightSidebar = ({
             <label className={styles.label}>TAGS</label>
             {subcategory ? (
               <select
+                title='IPA Tags'
                 value={subcategory}
                 className={styles.option}
                 onChange={(e) => setSubcategory(parseInt(e.target.value))}
@@ -130,6 +128,7 @@ const EditorIPARightSidebar = ({
             <label className={styles.label}>TYPE</label>
             {ipaSubcategory ? (
               <select
+                title='IPA Subcategory'
                 value={ipaSubcategory}
                 className={styles.option}
                 onChange={(e) => setIpaSubcategory(parseInt(e.target.value))}

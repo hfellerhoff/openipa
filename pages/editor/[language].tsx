@@ -1,54 +1,84 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import Button from '../../src/components/buttons/Button';
+import { useEffect, useState } from 'react';
 import EditorLayout from '../../src/components/layout/EditorLayout';
-import PrivateLayout from '../../src/components/layout/PrivateLayout';
 import RuleList from '../../src/components/editors/language/RuleList';
-import { Rule } from '../../src/lib/supabase/models/Rule';
 import useSupabaseIPA from '../../src/hooks/useSupabaseIPA';
 import supabase from '../../src/lib/supabase';
 import { Language } from '../../src/lib/supabase/models/Language';
-import idsToIPAString from '../../src/util/supabase/idsToIPAString';
-import parseIPASymbolString from '../../src/util/supabase/parseIPASymbolString';
-import styles from './Language.module.scss';
+import { PulseLoader } from 'react-spinners';
+import TranscriptionDescription from '../../src/components/transcription-page/TranscriptionDescription';
+import TranscriptionEditor from '../../src/components/transcription-page/TranscriptionEditor';
+import { Languages, Result } from '../../src/constants/Interfaces';
+import Template from '../../src/constants/Template';
 
 interface Props {}
 
-const LanguageEditor = (props: Props) => {
-  const router = useRouter();
-  const [language, setLanguage] = useState<Language>({
-    label: '',
-    slug: '',
-    id: 0,
-  });
-
-  const { categories, subcategories, ipa, rules } = useSupabaseIPA();
+const useLanguage = (slug: string) => {
+  const [language, setLanguage] = useState<Language | null>();
 
   useEffect(() => {
     const getLanguage = async () => {
-      if (router.query.language) {
-        const id = parseInt(router.query.language as string);
-        if (!isNaN(id)) {
-          const { data, error } = await supabase
-            .from('languages')
-            .select('*')
-            .eq('id', id);
+      setLanguage(undefined);
 
-          if (!error && data.length > 0) {
-            setLanguage(data[0] as Language);
-          }
-        } else {
-          router.replace('/editor');
-        }
+      const { data, error } = await supabase
+        .from('languages')
+        .select('*')
+        .eq('slug', slug);
+
+      if (!error && data.length > 0) {
+        setLanguage(data[0] as Language);
+      } else {
+        setLanguage(null);
       }
     };
 
-    if (router.query.language && language.id === 0) getLanguage();
-  }, [router.query, language]);
+    if (!!slug && language !== null) getLanguage();
+  }, [slug]);
+
+  return language;
+};
+
+const LanguageEditor = (props: Props) => {
+  const router = useRouter();
+  const language = useLanguage(router.query.language as string);
+  const [result, setResult] = useState<Result>(Template.Result);
+
+  const { categories, subcategories, ipa, rules } = useSupabaseIPA();
+
+  if (!language) {
+    return (
+      <EditorLayout>
+        <Head>
+          <title>Language Editor - Open IPA</title>
+        </Head>
+        <div className='flex items-center justify-center p-16'>
+          <PulseLoader color='gray' />
+        </div>
+      </EditorLayout>
+    );
+  }
+
+  const typedLanguage = router.query.language as any as Languages;
 
   return (
-    <EditorLayout>
+    <EditorLayout
+      rightSidebar={
+        <div className='grid flex-1 gap-4 p-6'>
+          <TranscriptionDescription
+            language={typedLanguage}
+            lockLanguage
+            editorView
+          />
+          <TranscriptionEditor
+            language={typedLanguage}
+            result={result}
+            setResult={setResult}
+            editorView
+          />
+        </div>
+      }
+    >
       <Head>
         <title>{language.label} Editor - Open IPA</title>
       </Head>
