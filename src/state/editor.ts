@@ -51,6 +51,8 @@ type FullTranscriptionOptionsComposed = {
 // ===== STORE =====
 
 interface EditorStore {
+  isEditing: boolean;
+  toggleIsEditing: () => void;
   options: FullTranscriptionOptionsComposed;
   handleSetOption: (
     language: Languages,
@@ -59,6 +61,13 @@ interface EditorStore {
 }
 
 export const useEditorStore = create<EditorStore>((set, get) => ({
+  isEditing: false,
+  toggleIsEditing: () => {
+    set((store) => ({
+      ...store,
+      isEditing: !store.isEditing,
+    }));
+  },
   options: {
     [Languages.Latin]: {
       ...defaultLatinEditorOptions,

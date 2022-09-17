@@ -7,6 +7,9 @@ import IPA from '../../constants/IPA';
 import { useTranslationStore } from '../../state/translation';
 import { resultToLines } from '../../util/resultToLines';
 import FeedbackModal from '../feedback/FeedbackModal';
+import useSession from '../../hooks/useSession';
+import ResultEditButton from './ResultEditButton';
+import { useRef } from 'react';
 
 type PhonemeProps = {
   text: string;
@@ -105,7 +108,7 @@ const LineElement = ({
       }
     });
     const spaceElement = (
-      <span style={{ margin: '0px 5px' }} key={(index + 0.5).toString()}></span>
+      <span className='mx-1' key={(index + 0.5).toString()}></span>
     );
     wordElements.push(wordElement);
     if (!foundUndertie) wordElements.push(spaceElement);
@@ -117,7 +120,7 @@ const LineElement = ({
           {translations.get(lineText)}
         </span>
       )}
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>{wordElements}</div>
+      <div className='flex flex-wrap'>{wordElements}</div>
     </div>
   );
 };
@@ -140,7 +143,7 @@ const ResultElement = ({
   shouldHide,
   hideFeedback = false,
 }: DisplayProps) => {
-  const [displayRef, setDisplayRef] = useState<HTMLDivElement>();
+  const displayRef = useRef<HTMLDivElement>();
   const { allTranslations } = useTranslationStore((store) => ({
     allTranslations: store.translations,
   }));
@@ -171,8 +174,8 @@ const ResultElement = ({
   const className = `${styles[`display--${theme}`]}`;
 
   useEffect(() => {
-    if (displayRef && setHeight) {
-      const height = displayRef.offsetHeight;
+    if (displayRef.current && setHeight) {
+      const height = displayRef.current?.offsetHeight;
       if (height !== 0) setHeight(height);
     }
   }, [result, displayRef, setHeight, shouldHideOriginalText]);
@@ -181,11 +184,12 @@ const ResultElement = ({
     <div
       id='result'
       className={`${className} relative`}
-      ref={(display) => setDisplayRef(display ? display : displayRef)}
+      ref={displayRef}
       hidden={isWidthSmallEnough ? shouldHide : false}
     >
       {lineElements}
       {!hideFeedback && <FeedbackModal result={result} language={language} />}
+      <ResultEditButton />
     </div>
   );
 };

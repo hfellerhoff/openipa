@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import Head from 'next/head';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Layout from '../../../src/components/layout/Layout';
 import ExportButtons from '../../../src/components/transcription-page/TranscriptionActionButtons';
 import TranscriptionDescription from '../../../src/components/transcription-page/TranscriptionDescription';

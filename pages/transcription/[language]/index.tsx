@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import TranscriptionEditor from '../../../src/components/transcription-page/TranscriptionEditor';
 import TranscriptionDescription from '../../../src/components/transcription-page/TranscriptionDescription';
 import ExportButtons from '../../../src/components/transcription-page/TranscriptionActionButtons';
@@ -49,6 +49,7 @@ const TranscriptionPage = ({}: Props) => {
           } text into the International Phonetic Alphabet in real-time, and receive nuanced feedback for each transcription step.`}
         />
       </Head>
+
       <PageHeader
         title='Transcription'
         subtitle='Type or paste your text below to transcribe it into the International Phonetic Alphabet.'
