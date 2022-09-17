@@ -1,17 +1,10 @@
-import React from 'react';
-import ipa from '../../../../pages/editor/ipa';
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
   IPA,
   IPACategory,
   IPASubcategory,
 } from '../../../lib/supabase/models/IPA';
-import {
-  Rule,
-  RuleInput,
-  RuleInputString,
-} from '../../../lib/supabase/models/Rule';
-import IPADisplay from './IPADisplay';
+import { Rule } from '../../../lib/supabase/models/Rule';
 import RuleInputStep from './RuleInputStep';
 
 interface Props {
@@ -27,6 +20,7 @@ const RuleInputDisplay = ({ input, ipa, subcategories, categories }: Props) => {
       {input.steps.map((step, i) => (
         <div key={i} className='flex mb-1'>
           <input
+            title='Should replace text during transcription'
             type='checkbox'
             checked={!!step.replace}
             className='mr-2'

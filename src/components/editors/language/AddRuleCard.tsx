@@ -58,6 +58,12 @@ const AddRuleCard = ({
   );
 
   const handleCreateRule = async () => {
+    const isSilent = result.includes(51);
+
+    const transformedDescription = isSilent
+      ? description
+      : `${description} [${result.join(',')}].`;
+
     if (editProps) {
       await supabase
         .from('rules')
@@ -66,7 +72,7 @@ const AddRuleCard = ({
             language: languageId,
             output: result,
             input,
-            description: `${description} [${result.join(',')}].`,
+            description: transformedDescription,
           } as Rule,
         ])
         .eq('id', editProps.rule.id);
@@ -80,7 +86,7 @@ const AddRuleCard = ({
           language: languageId,
           output: result,
           input,
-          description: `${description} [${result.join(',')}].`,
+          description: transformedDescription,
         } as Rule,
       ]);
 
