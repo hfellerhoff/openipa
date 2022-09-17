@@ -13,18 +13,8 @@ const Navbar: React.FC<Props> = () => {
 
   return (
     <div className={styles.container}>
-      {/* <Link href='/'>
-        <a className={styles['logo-container']}>
-          <img src='/assets/logo.png' alt='Open IPA' className={styles.logo} />
-          <h5 className={styles.title}>Open IPA</h5>
-        </a>
-      </Link> */}
-
-      <NavbarLink
-        href='/'
-        hoverClassName='hover:bg-blue-200 hover:bg-opacity-10'
-      >
-        <div className='flex align-center justify-center'>
+      <NavbarLink href='/'>
+        <div className='flex justify-center align-center'>
           <img src='/assets/logo.png' alt='Open IPA' className={styles.logo} />
           <h1 className={styles.title}>Open IPA</h1>
         </div>
@@ -42,24 +32,9 @@ const Navbar: React.FC<Props> = () => {
           </>
         ) : (
           <>
-            <NavbarLink
-              href='/texts'
-              hoverClassName='hover:bg-green-500 hover:bg-opacity-50'
-            >
-              Texts
-            </NavbarLink>
-            <NavbarLink
-              href='/transcription/latin'
-              hoverClassName='hover:bg-blue-500 hover:bg-opacity-50'
-            >
-              Transcribe
-            </NavbarLink>
-            <NavbarLink
-              href='/support'
-              hoverClassName='hover:bg-yellow-700 hover:bg-opacity-75'
-            >
-              Support
-            </NavbarLink>
+            <NavbarLink href='/texts'>Texts</NavbarLink>
+            <NavbarLink href='/transcription/latin'>Transcribe</NavbarLink>
+            <NavbarLink href='/support'>Support</NavbarLink>
           </>
         )}
       </div>

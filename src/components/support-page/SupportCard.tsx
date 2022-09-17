@@ -5,6 +5,7 @@ interface Props {
   title: string;
   description: string;
   position: 'left' | 'right';
+  children: JSX.Element;
 }
 
 const SupportCard: React.FC<Props> = ({
