@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRef } from 'react';
 
+import clsx from 'clsx';
+
 import { Word, Line, Result } from '../../constants/Interfaces';
 import IPA from '../../constants/IPA';
 import useSession from '../../hooks/useSession';
@@ -70,7 +72,11 @@ const WordElement = ({ word, theme, shouldHideOriginalText }: WordProps) => {
     originalSyllableElements.push(originalPhonemeElement);
   });
   return (
-    <div className={styles['phoneme-block']}>
+    <div
+      className={clsx('inline-block flex-col', {
+        'my-2.5': !shouldHideOriginalText,
+      })}
+    >
       {!shouldHideOriginalText && <div>{originalSyllableElements}</div>}
       <div>{syllableElements}</div>
     </div>
@@ -114,7 +120,12 @@ const LineElement = ({
     if (!foundUndertie) wordElements.push(spaceElement);
   });
   return (
-    <div className='mt-2 mb-4'>
+    <div
+      className={clsx({
+        'mt-2 mb-4': !shouldHideOriginalText,
+        'mt-1': shouldHideOriginalText,
+      })}
+    >
       {translations && (
         <span className={`${styles[`translated-text--${theme}`]}`}>
           {translations.get(lineText)}
@@ -183,7 +194,9 @@ const ResultElement = ({
   return (
     <div
       id='result'
-      className={`${className} relative`}
+      className={clsx('relative', {
+        [className]: !!className,
+      })}
       ref={displayRef}
       hidden={isWidthSmallEnough ? shouldHide : false}
     >
