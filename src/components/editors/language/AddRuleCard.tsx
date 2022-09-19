@@ -70,7 +70,7 @@ const AddRuleCard = ({
         .from('rules')
         .update([
           {
-            language: languageId,
+            language_id: languageId,
             output: result,
             input,
             description: transformedDescription,
@@ -84,7 +84,7 @@ const AddRuleCard = ({
 
       await supabase.from('rules').insert([
         {
-          language: languageId,
+          language_id: languageId,
           output: result,
           input,
           description: transformedDescription,

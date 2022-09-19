@@ -10,8 +10,9 @@ export default function TranscriptionLanguagePage(
   return <TranscriptionPage transcriptionProps={props} />;
 }
 
-export async function getStaticProps() {
-  const props = await getTranscriptionPageStaticProps();
+export async function getStaticProps({ params }) {
+  const language = params.language;
+  const props = await getTranscriptionPageStaticProps(language);
 
   return {
     props,

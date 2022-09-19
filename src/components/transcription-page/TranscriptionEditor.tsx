@@ -51,8 +51,8 @@ const TranscriptionEditor: React.FC<Props> = ({
   const languageRules = useMemo(
     () =>
       Object.values(rules).filter((r: Rule) =>
-        languages[r.language]
-          ? languages[r.language].label.toLowerCase() === language
+        languages[r.language_id]
+          ? languages[r.language_id].label.toLowerCase() === language
           : false
       ),
     [rules, languages, language]

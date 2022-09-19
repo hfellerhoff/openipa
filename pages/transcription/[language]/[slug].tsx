@@ -23,9 +23,9 @@ const TextPage = ({ text, transcriptionProps }: Props) => {
 export default TextPage;
 
 export async function getStaticProps({ params }) {
-  const transcriptionProps = await getTranscriptionPageStaticProps();
+  const language = params.language;
+  const transcriptionProps = await getTranscriptionPageStaticProps(language);
 
-  // Call an external API endpoint to get posts
   const { data: languages } = await supabase.from('languages').select('*');
 
   const currentLanguage = languages.filter(
@@ -38,9 +38,6 @@ export async function getStaticProps({ params }) {
     .eq('slug', params.slug);
 
   texts = texts.filter((t) => t.language === currentLanguage.id);
-
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
 
   if (texts.length > 0) {
     let { data: languages } = await supabase
