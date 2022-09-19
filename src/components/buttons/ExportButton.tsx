@@ -1,6 +1,8 @@
-import clsx from 'clsx';
 import React from 'react';
+
+import clsx from 'clsx';
 import { PulseLoader } from 'react-spinners';
+
 import styles from './ExportButton.module.scss';
 
 interface Props {

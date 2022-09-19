@@ -1,19 +1,21 @@
 import { useState } from 'react';
-import { Rule } from '../../../lib/supabase/models/Rule';
-import idsToIPAString from '../../../util/supabase/idsToIPAString';
-import parseIPASymbolString from '../../../util/supabase/parseIPASymbolString';
-import Button from '../../buttons/Button';
-import Card from '../../cards/Card';
-import IPADisplay from './IPADisplay';
+import { useMemo } from 'react';
+
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
   IPA,
   IPACategory,
   IPASubcategory,
 } from '../../../lib/supabase/models/IPA';
-import RuleInputDisplay from './RuleInputDisplay';
+import { Rule } from '../../../lib/supabase/models/Rule';
+import idsToIPAString from '../../../util/supabase/idsToIPAString';
+import parseIPASymbolString from '../../../util/supabase/parseIPASymbolString';
+import Button from '../../buttons/Button';
+import Card from '../../cards/Card';
 import AddRuleCard from './AddRuleCard';
-import { useMemo } from 'react';
+import IPADisplay from './IPADisplay';
+import RuleInputDisplay from './RuleInputDisplay';
+
 
 interface Props {
   rules: Rule[];

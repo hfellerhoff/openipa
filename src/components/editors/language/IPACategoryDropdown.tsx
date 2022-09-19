@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
+
+import Dropdown from 'react-dropdown';
+
+import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
   IPA,
   IPACategory,
   IPASubcategory,
 } from '../../../lib/supabase/models/IPA';
-import Dropdown from 'react-dropdown';
-import IPADisplay from './IPADisplay';
-import idsToIPAString from '../../../util/supabase/idsToIPAString';
-import { Dictionary } from '../../../hooks/useSupabaseTable';
 import idsToCategoryString from '../../../util/supabase/idsToCategoryString';
+import idsToIPAString from '../../../util/supabase/idsToIPAString';
+import IPADisplay from './IPADisplay';
 
 interface Props {
   ipa: Dictionary<IPA>;

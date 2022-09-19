@@ -1,16 +1,18 @@
+import { useEffect, useState } from 'react';
+
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import EditorLayout from '../../src/components/layout/EditorLayout';
-import RuleList from '../../src/components/editors/language/RuleList';
-import useSupabaseIPA from '../../src/hooks/useSupabaseIPA';
-import supabase from '../../src/lib/supabase';
-import { Language } from '../../src/lib/supabase/models/Language';
 import { PulseLoader } from 'react-spinners';
+
+import RuleList from '../../src/components/editors/language/RuleList';
+import EditorLayout from '../../src/components/layout/EditorLayout';
 import TranscriptionDescription from '../../src/components/transcription-page/TranscriptionDescription';
 import TranscriptionEditor from '../../src/components/transcription-page/TranscriptionEditor';
 import { Languages, Result } from '../../src/constants/Interfaces';
 import Template from '../../src/constants/Template';
+import useSupabaseIPA from '../../src/hooks/useSupabaseIPA';
+import supabase from '../../src/lib/supabase';
+import { Language } from '../../src/lib/supabase/models/Language';
 
 interface Props {}
 
@@ -34,7 +36,7 @@ const useLanguage = (slug: string) => {
     };
 
     if (!!slug && language !== null) getLanguage();
-  }, [slug]);
+  }, [slug, language]);
 
   return language;
 };

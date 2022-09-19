@@ -1,4 +1,5 @@
 import Head from 'next/head';
+
 import Layout from '../../src/components/layout/Layout';
 
 interface Props {}

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styles from './Description.module.scss';
 
 interface Props {}
@@ -16,18 +17,18 @@ const Description: React.FC<Props> = () => {
             time singing.
           </p>
         </div>
-        <div style={{ width: 40, height: 40 }}></div>
+        <div className='w-10 h-10'></div>
         <div className={styles['overview-content']}>
           <h3 className={styles['overview-title']}>Education-Focused</h3>
           <p className={styles['overview-paragraph']}>
-            Many transcription tools function as a bit of a "black box",
-            spitting out IPA with seemingly no clear process. With Open IPA,
-            transcriptions include not only the IPA but the thought process
-            behind it, allowing you to better understand the transcriptions you
-            use.
+            Many transcription tools function as a bit of a &quot;black
+            box&quot;, spitting out IPA with seemingly no clear process. With
+            Open IPA, transcriptions include not only the IPA but the thought
+            process behind it, allowing you to better understand the
+            transcriptions you use.
           </p>
         </div>
-        <div style={{ width: 40, height: 40 }}></div>
+        <div className='w-10 h-10'></div>
         <div className={styles['overview-content']}>
           <h3 className={styles['overview-title']}>Community-Driven</h3>
           <p className={styles['overview-paragraph']}>

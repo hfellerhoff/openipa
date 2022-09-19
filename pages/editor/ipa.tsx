@@ -1,5 +1,7 @@
-import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
+
+import Head from 'next/head';
+
 import EditorIPA from '../../src/components/editors/EditorIPA';
 import EditorIPALeftSidebar from '../../src/components/editors/EditorIPALeftSidebar';
 import EditorIPARightSidebar from '../../src/components/editors/EditorIPARightSidebar';

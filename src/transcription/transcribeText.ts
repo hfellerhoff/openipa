@@ -1,8 +1,8 @@
 import { Result } from '../constants/Interfaces';
-import { getCharArray } from '../util/Helper';
-import { Rule } from '../lib/supabase/models/Rule';
-import { IPA, IPACategory, IPASubcategory } from '../lib/supabase/models/IPA';
 import { Dictionary } from '../hooks/useSupabaseTable';
+import { IPA, IPACategory, IPASubcategory } from '../lib/supabase/models/IPA';
+import { Rule } from '../lib/supabase/models/Rule';
+import { getCharArray } from '../util/Helper';
 import getPhoneme from './getPhoneme';
 import processPunctuation from './processPunctuation';
 

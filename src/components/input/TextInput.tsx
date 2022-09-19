@@ -1,6 +1,7 @@
 import React, { CSSProperties, useRef, useState } from 'react';
-import styles from './TextInput.module.scss';
+
 import useWindowDimensions from '../../hooks/UseWindowDimensions';
+import styles from './TextInput.module.scss';
 
 interface Props {
   inputText: string;

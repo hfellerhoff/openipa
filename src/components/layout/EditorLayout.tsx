@@ -1,4 +1,5 @@
 import React from 'react';
+
 import PrivateLayout from './PrivateLayout';
 
 interface Props {

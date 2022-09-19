@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import TextInput from '../input/TextInput';
-import ResultDisplay from '../display/ResultDisplay';
-import parseFrench from '../../transcription/french/ParseFrench';
+import { useMemo } from 'react';
+
+import clsx from 'clsx';
+
 import { Result, Languages } from '../../constants/Interfaces';
-import styles from './TranscriptionEditor.module.scss';
-import HideButton from '../buttons/HideButton';
-import { Rule } from '../../lib/supabase/models/Rule';
 import useSupabaseIPA from '../../hooks/useSupabaseIPA';
-import transcribeText from '../../transcription/transcribeText';
+import { Rule } from '../../lib/supabase/models/Rule';
 import {
   FrenchTranscriptionOptions,
   GlobalTranscriptionOptions,
   useEditorStore,
 } from '../../state/editor';
-import clsx from 'clsx';
-import { useMemo } from 'react';
+import parseFrench from '../../transcription/french/ParseFrench';
+import transcribeText from '../../transcription/transcribeText';
+import HideButton from '../buttons/HideButton';
+import ResultDisplay from '../display/ResultDisplay';
+import TextInput from '../input/TextInput';
+import styles from './TranscriptionEditor.module.scss';
 
 interface Props {
   language: Languages;
@@ -50,7 +52,7 @@ const TranscriptionEditor: React.FC<Props> = ({
           ? languages[r.language].label.toLowerCase() === language
           : false
       ),
-    [rules, languages]
+    [rules, languages, language]
   );
 
   useEffect(() => {
@@ -95,6 +97,8 @@ const TranscriptionEditor: React.FC<Props> = ({
     rules,
     languages,
     languageRules,
+    editorView,
+    setResult,
   ]);
 
   return (

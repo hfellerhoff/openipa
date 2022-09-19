@@ -1,7 +1,8 @@
-import { BASE_URL, getCPDLTextSeachQuery } from './API';
-import { Language } from '../supabase/models/Language';
 import Wikiapi from 'wikiapi';
+
 import supabase from '../supabase';
+import { Language } from '../supabase/models/Language';
+import { BASE_URL, getCPDLTextSeachQuery } from './API';
 
 const cpdlGetTexts = async (text: string) => {
   const textResult = await fetch(getCPDLTextSeachQuery(text));

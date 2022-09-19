@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Word, Line, Result } from '../../constants/Interfaces';
+import { useRef } from 'react';
 
-import styles from './ResultDisplay.module.scss';
-import useWindowDimensions from '../../hooks/UseWindowDimensions';
+import { Word, Line, Result } from '../../constants/Interfaces';
 import IPA from '../../constants/IPA';
+import useSession from '../../hooks/useSession';
+import useWindowDimensions from '../../hooks/UseWindowDimensions';
 import { useTranslationStore } from '../../state/translation';
 import { resultToLines } from '../../util/resultToLines';
 import FeedbackModal from '../feedback/FeedbackModal';
-import useSession from '../../hooks/useSession';
+import styles from './ResultDisplay.module.scss';
 import ResultEditButton from './ResultEditButton';
-import { useRef } from 'react';
 
 type PhonemeProps = {
   text: string;

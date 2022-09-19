@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
 import supabase from '../lib/supabase';
 
 export interface Dictionary<T> {
@@ -11,24 +12,24 @@ const useSupabaseTable = <T extends unknown>(
 ) => {
   const [dictionary, setDictionary] = useState<Dictionary<T>>({});
 
-  // Fetch the table data initially
-  const fetchTable = async () => {
-    const { data, error } = await supabase
-      .from<T>(table)
-      .select('*')
-      .order(primaryKeyColumn as any, { ascending: true });
-    if (error) console.log('error', error);
-    else {
-      let updatedDictionary = {};
-      data.forEach((element) => {
-        updatedDictionary[element[primaryKeyColumn]] = element;
-      });
-
-      setDictionary(updatedDictionary);
-    }
-  };
-
   useEffect(() => {
+    // Fetch the table data initially
+    const fetchTable = async () => {
+      const { data, error } = await supabase
+        .from<T>(table)
+        .select('*')
+        .order(primaryKeyColumn as any, { ascending: true });
+      if (error) console.log('error', error);
+      else {
+        let updatedDictionary = {};
+        data.forEach((element) => {
+          updatedDictionary[element[primaryKeyColumn]] = element;
+        });
+
+        setDictionary(updatedDictionary);
+      }
+    };
+
     fetchTable();
 
     // Subscribe to future table changes
@@ -59,7 +60,7 @@ const useSupabaseTable = <T extends unknown>(
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [table, primaryKeyColumn]);
 
   return dictionary;
 };

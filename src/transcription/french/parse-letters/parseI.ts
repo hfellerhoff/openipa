@@ -1,10 +1,10 @@
 import { ParseLetterProps, Phoneme } from '../../../constants/Interfaces';
 import IPA from '../../../constants/IPA';
-import Rules from '../FrenchRules';
 import { isEndOfSentence, isConsonant, isVowel } from '../../../util/Helper';
 import { isNasalCanceling } from '../FrenchHelper';
-import transcribeLetter from '../parse-functions/transcribeLetter';
+import Rules from '../FrenchRules';
 import transcribeDefault from '../parse-functions/transcribeDefault';
+import transcribeLetter from '../parse-functions/transcribeLetter';
 
 const parseI = ({
   nextletter,

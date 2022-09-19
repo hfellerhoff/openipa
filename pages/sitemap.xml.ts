@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Dictionary } from '../src/hooks/useSupabaseTable';
 import supabase from '../src/lib/supabase';
 import { Language } from '../src/lib/supabase/models/Language';

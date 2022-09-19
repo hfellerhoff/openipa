@@ -1,7 +1,7 @@
 import { ParseLetterProps, Phoneme } from '../../../constants/Interfaces';
 import IPA from '../../../constants/IPA';
-import transcribeFinalConsonant from '../parse-functions/transcribeFinalConsonant';
 import transcribeDoubleLetter from '../parse-functions/transcribeDoubleLetter';
+import transcribeFinalConsonant from '../parse-functions/transcribeFinalConsonant';
 import transcribeLetter from '../parse-functions/transcribeLetter';
 
 const parseP = ({ nextletter, phoneme }: ParseLetterProps): Phoneme => {

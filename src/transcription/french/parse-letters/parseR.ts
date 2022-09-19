@@ -1,10 +1,10 @@
 import { ParseLetterProps, Phoneme } from '../../../constants/Interfaces';
 import IPA from '../../../constants/IPA';
 import { isNasalCanceling } from '../FrenchHelper';
-import transcribePrefix from '../parse-functions/transcribePrefix';
+import transcribeDefault from '../parse-functions/transcribeDefault';
 import transcribeDoubleLetter from '../parse-functions/transcribeDoubleLetter';
 import transcribeFinalConsonant from '../parse-functions/transcribeFinalConsonant';
-import transcribeDefault from '../parse-functions/transcribeDefault';
+import transcribePrefix from '../parse-functions/transcribePrefix';
 
 const parseR = ({
   phoneme,

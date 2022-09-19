@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import { IPACategory } from '../../lib/supabase/models/IPA';
 import styles from './EditorIPALeftSidebar.module.scss';

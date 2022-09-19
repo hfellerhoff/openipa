@@ -1,5 +1,5 @@
-import { isConsonant, isEndOfSentence, isVowel } from '../../util/Helper';
 import Letters from '../../constants/Letters';
+import { isConsonant, isEndOfSentence, isVowel } from '../../util/Helper';
 
 const PRONOUNCED_CONSONANTS = ['c', 'r', 'f', 'l'];
 

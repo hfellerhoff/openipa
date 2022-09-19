@@ -1,12 +1,12 @@
 import { ParseLetterProps, Phoneme } from '../../../constants/Interfaces';
 import IPA from '../../../constants/IPA';
-import Rules from '../FrenchRules';
 import { isConsonant, isEndOfSentence, isVowel } from '../../../util/Helper';
 import {
   isNasalCanceling,
   isPronouncedConsonant,
   isGlideFollowing,
 } from '../FrenchHelper';
+import Rules from '../FrenchRules';
 import transcribeLetter from '../parse-functions/transcribeLetter';
 
 const parseZ = ({ nextletter, phoneme }: ParseLetterProps): Phoneme => {

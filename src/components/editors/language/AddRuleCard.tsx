@@ -1,5 +1,7 @@
 import { useState } from 'react';
+
 import { Dictionary } from '../../../hooks/useSupabaseTable';
+import supabase from '../../../lib/supabase';
 import {
   IPASubcategory,
   IPACategory,
@@ -18,7 +20,6 @@ import Card from '../../cards/Card';
 import IPADisplay from './IPADisplay';
 import IPADropdown from './IPADropdown';
 import RuleInputStep from './RuleInputStep';
-import supabase from '../../../lib/supabase';
 
 interface Props {
   rules: Rule[];

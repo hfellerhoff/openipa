@@ -1,8 +1,8 @@
 import { ParseLetterProps, Phoneme } from '../../../constants/Interfaces';
 import IPA from '../../../constants/IPA';
-import Rules from '../FrenchRules';
 import { isEndOfSentence } from '../../../util/Helper';
 import { isPronouncedConsonant, isGlideFollowing } from '../FrenchHelper';
+import Rules from '../FrenchRules';
 
 const parseŒ = ({ nextletter, phoneme }: ParseLetterProps): Phoneme => {
   // final -œu + final silent consonant

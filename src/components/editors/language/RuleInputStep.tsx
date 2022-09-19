@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
   IPA,

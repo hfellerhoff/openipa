@@ -1,8 +1,11 @@
-import Head from 'next/head';
 import React from 'react';
+
+import Head from 'next/head';
+import Image from 'next/image';
+
+import Button from '../../src/components/buttons/Button';
 import PageHeader from '../../src/components/header/PageHeader';
 import Layout from '../../src/components/layout/Layout';
-import Button from '../../src/components/buttons/Button';
 
 interface SupportButtonProps {
   imageSrc: string;
@@ -26,7 +29,7 @@ const SupportButton: React.FC<SupportButtonProps> = ({
     target='_blank'
     rel='noopener noreferrer'
   >
-    <img src={imageSrc} alt={imageAlt} className='w-5 h-5' />
+    <Image src={imageSrc} alt={imageAlt} height={20} width={20} />
     <span className='ml-2 font-semibold'>{children}</span>
   </Button>
 );
@@ -46,7 +49,7 @@ const SupportPage: React.FC<Props> = () => {
       <PageHeader
         title='Support'
         subtitle="Open IPA is a free service, and takes a lot of effort to maintain. If you've found the site useful, please consider donating your time or money to help keep it alive."
-        colorClassName='bg-purple-800 bg-opacity-80'
+        colorClassName='bg-indigo-900 bg-opacity-80'
       />
       <div className='flex flex-col w-full max-w-5xl gap-16 px-6 py-6 mx-auto lg:grid lg:grid-cols-2 lg:py-12'>
         <div>
@@ -60,7 +63,7 @@ const SupportPage: React.FC<Props> = () => {
           </p>
 
           <SupportButton
-            imageSrc='assets/reddit-white.png'
+            imageSrc='/assets/reddit-white.png'
             imageAlt='Reddit'
             href='https://www.reddit.com/r/openipa/'
             buttonClassName='bg-orange-500 hover:bg-orange-600 focus:ring-orange-600'
@@ -68,7 +71,7 @@ const SupportPage: React.FC<Props> = () => {
             Join the Community
           </SupportButton>
           <SupportButton
-            imageSrc='assets/github-white.png'
+            imageSrc='/assets/github-white.png'
             imageAlt='GitHub'
             href='https://github.com/hfellerhoff/openipa'
             buttonClassName='bg-gray-600 hover:bg-gray-700 focus:ring-gray-700'
@@ -88,7 +91,7 @@ const SupportPage: React.FC<Props> = () => {
           </p>
 
           <SupportButton
-            imageSrc='assets/kofi.png'
+            imageSrc='/assets/kofi.png'
             imageAlt='Buy me a coffee'
             href='https://ko-fi.com/henryfellerhoff'
             buttonClassName='bg-pink-600 hover:bg-pink-700 focus:ring-pink-700'

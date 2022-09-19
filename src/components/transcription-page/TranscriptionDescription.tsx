@@ -1,13 +1,16 @@
 import React from 'react';
-import { capitalizeFirstLetter } from '../../util/StringHelper';
-import { Languages } from '../../constants/Interfaces';
-import styles from './TranscriptionDescription.module.scss';
-import CheckboxButton from '../buttons/CheckboxButton';
-import { useRouter } from 'next/router';
-import Blockquote from '../core/Blockquote';
-import { useEditorStore } from '../../state/editor';
-import TranscriptionEditorOptions from './TranscriptionEditorOptions';
+
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
+
+import { Languages } from '../../constants/Interfaces';
+import { useEditorStore } from '../../state/editor';
+import { capitalizeFirstLetter } from '../../util/StringHelper';
+import CheckboxButton from '../buttons/CheckboxButton';
+import Blockquote from '../core/Blockquote';
+import styles from './TranscriptionDescription.module.scss';
+import TranscriptionEditorOptions from './TranscriptionEditorOptions';
+
 
 interface Props {
   language: Languages;

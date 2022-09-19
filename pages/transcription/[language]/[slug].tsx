@@ -1,17 +1,8 @@
-import dayjs from 'dayjs';
-import Head from 'next/head';
-import { useState } from 'react';
-import Layout from '../../../src/components/layout/Layout';
-import ExportButtons from '../../../src/components/transcription-page/TranscriptionActionButtons';
-import TranscriptionDescription from '../../../src/components/transcription-page/TranscriptionDescription';
-import TranscriptionEditor from '../../../src/components/transcription-page/TranscriptionEditor';
-import { Languages, Result } from '../../../src/constants/Interfaces';
-import Template from '../../../src/constants/Template';
+import TranscriptionPage from '../../../src/components/transcription-page';
 import { Dictionary } from '../../../src/hooks/useSupabaseTable';
 import supabase from '../../../src/lib/supabase';
 import { Language } from '../../../src/lib/supabase/models/Language';
 import { Text } from '../../../src/lib/supabase/models/Text';
-import styles from './TranscriptionPage.module.scss';
 
 interface Props {
   text?: Text;
@@ -19,69 +10,8 @@ interface Props {
   author?: any;
 }
 
-const TextPage = ({ text, language, author }: Props) => {
-  const [result, setResult] = useState<Result>(Template.Result);
-  const [localLanguage, setLocalLanguage] = useState<Languages>(
-    language.label.toLowerCase() as Languages
-  );
-
-  return (
-    <Layout>
-      <Head>
-        <title>
-          {text && language ? `${text.title} - ${language.label} to ` : ''}
-          IPA Text Transcription - Open IPA
-        </title>
-        <meta
-          name='description'
-          content={
-            text && language
-              ? `Free, fast, real-time transcription of the ${language.label.toLowerCase()} text ${
-                  text.title
-                }, with detailed explanations of each transcription rule.`
-              : 'Free, fast, real-time foreign language to IPA transcription, with detailed explanations of each transcription rule.'
-          }
-        />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-      <div className={styles.container}>
-        <div className='mx-auto max-w-7xl'>
-          <div className={styles['content-container']}>
-            <h1 className='mb-1 text-3xl md:text-4xl'>{text.title}</h1>
-            <h2 className='mb-8 text-xl font-normal'>
-              {language.label} {text.type}
-            </h2>
-
-            <TranscriptionDescription
-              language={language.label as Languages}
-              setLanguage={setLocalLanguage}
-              lockLanguage
-            />
-            <TranscriptionEditor
-              language={localLanguage}
-              result={result}
-              setResult={setResult}
-              text={text.text}
-            />
-            <p className='mt-2'>
-              This text is originally from{' '}
-              <a
-                href={text.source}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='underline'
-              >
-                this source.
-              </a>{' '}
-              It was last updated on{' '}
-              {dayjs(text.updated_at).format('MMMM DD, YYYY')}.
-            </p>
-            <ExportButtons language={language.label} result={result} />
-          </div>
-        </div>
-      </div>
-    </Layout>
-  );
+const TextPage = ({ text }: Props) => {
+  return <TranscriptionPage text={text} />;
 };
 
 export default TextPage;

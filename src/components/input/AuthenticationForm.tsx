@@ -1,6 +1,9 @@
-import { Field, Form, Formik } from 'formik';
 import { stringify } from 'querystring';
+
 import React from 'react';
+
+import { Field, Form, Formik } from 'formik';
+
 import supabase from '../../lib/supabase';
 import supabaseSignIn from '../../lib/supabase/supabaseSignIn';
 import supabaseSignUp from '../../lib/supabase/supabaseSignUp';

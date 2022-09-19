@@ -1,4 +1,5 @@
 import create from 'zustand';
+
 import { Languages } from '../constants/Interfaces';
 
 export type TranscriptionOption<T> = {

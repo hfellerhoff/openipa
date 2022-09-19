@@ -1,6 +1,8 @@
+import React, { useState } from 'react';
+
 import Head from 'next/head';
 import Link from 'next/link';
-import React, { useState } from 'react';
+
 import Button from '../../src/components/buttons/Button';
 import PageHeader from '../../src/components/header/PageHeader';
 import TextInput from '../../src/components/input/TextInput';

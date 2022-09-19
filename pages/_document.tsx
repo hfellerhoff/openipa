@@ -1,6 +1,7 @@
 // adjust your pages/_document.js
-import Document, { Html, Head, Main, NextScript } from 'next/document';
 import React from 'react';
+
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 const GA_TRACKING_ID = 'UA-159326184-1';
 
