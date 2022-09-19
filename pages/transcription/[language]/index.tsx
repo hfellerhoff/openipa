@@ -6,7 +6,6 @@ import ExportButtons from '../../../src/components/transcription-page/Transcript
 import { Languages, Result } from '../../../src/constants/Interfaces';
 import Template from '../../../src/constants/Template';
 import { capitalizeFirstLetter } from '../../../src/util/StringHelper';
-import styles from './TranscriptionPage.module.scss';
 import { useRouter } from 'next/router';
 import Layout from '../../../src/components/layout/Layout';
 import Head from 'next/head';
@@ -34,6 +33,7 @@ const TranscriptionPage = ({}: Props) => {
   }, [router.query.language]);
 
   if (!(capitalizeFirstLetter(language) in Languages)) return <></>;
+
   return (
     <Layout>
       <Head>
@@ -55,22 +55,18 @@ const TranscriptionPage = ({}: Props) => {
         subtitle='Type or paste your text below to transcribe it into the International Phonetic Alphabet.'
         colorClassName='bg-blue-900 bg-opacity-75'
       />
-      <div className={styles.container}>
-        <div className='mx-auto max-w-7xl'>
-          <div className={styles['content-container']}>
-            <TranscriptionDescription
-              language={language}
-              setLanguage={setLanguage}
-            />
-            <TranscriptionEditor
-              language={language}
-              result={result}
-              setResult={setResult}
-              text={text}
-            />
-            <ExportButtons language={language} result={result} />
-          </div>
-        </div>
+      <div className='px-4 py-4 mx-auto max-w-7xl lg:py-8'>
+        <TranscriptionDescription
+          language={language}
+          setLanguage={setLanguage}
+        />
+        <TranscriptionEditor
+          language={language}
+          result={result}
+          setResult={setResult}
+          text={text}
+        />
+        <ExportButtons language={language} result={result} />
       </div>
     </Layout>
   );
