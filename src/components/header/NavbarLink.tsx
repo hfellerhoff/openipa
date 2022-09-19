@@ -6,9 +6,7 @@ interface Props {
   hoverClassName?: string;
 }
 
-const NavbarLink = ({ href, children, hoverClassName }: Props) => {
-  // const [showHoverMenu, setShowHoverMenu] = useState(false);
-
+const NavbarLink = ({ href, children }: Props) => {
   return (
     <Link href={href}>
       <a

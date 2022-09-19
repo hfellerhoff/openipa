@@ -2,9 +2,7 @@ import Head from 'next/head';
 
 import Layout from '../../src/components/layout/Layout';
 
-interface Props {}
-
-const index = (props: Props) => {
+const EditorBasePage = () => {
   return (
     <Layout>
       <Head>
@@ -14,4 +12,4 @@ const index = (props: Props) => {
   );
 };
 
-export default index;
+export default EditorBasePage;

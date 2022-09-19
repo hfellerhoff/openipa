@@ -17,13 +17,13 @@ interface QuotaStore {
 
 export const useQuotaStore = create<QuotaStore>(
   persist(
-    (set, get) => ({
+    (set) => ({
       translation: {
         count: 0,
         limit: 3,
         resetOn: dayjs().add(1, 'week').toISOString(),
       },
-      updateQuota: (name: QuotaKey, count: number = 1) =>
+      updateQuota: (name: QuotaKey, count = 1) =>
         set((store) => ({
           ...store,
           [name]: {
@@ -43,7 +43,6 @@ export const useQuotaStore = create<QuotaStore>(
     }),
     {
       name: '@openipa/storage/quota',
-      //   storage: sessionStorage, // (optional) default is 'localStorage'
     }
   )
 );

@@ -1,3 +1,5 @@
+import { GetStaticProps } from 'next';
+
 import TranscriptionPage from '../../../src/components/transcription-page';
 import getTranscriptionPageStaticProps, {
   TranscriptionPageStaticProps,
@@ -10,7 +12,6 @@ import { Text } from '../../../src/lib/supabase/models/Text';
 interface Props {
   text?: Text;
   language?: Language;
-  author?: any;
   transcriptionProps: TranscriptionPageStaticProps;
 }
 
@@ -22,41 +23,41 @@ const TextPage = ({ text, transcriptionProps }: Props) => {
 
 export default TextPage;
 
-export async function getStaticProps({ params }) {
-  const language = params.language;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const language = params?.language as string;
   const transcriptionProps = await getTranscriptionPageStaticProps(language);
 
-  const { data: languages } = await supabase.from('languages').select('*');
+  const { data: languages } = await supabase
+    .from<Language>('languages')
+    .select('*');
+
+  if (!languages) {
+    throw new Error('something went wrong fetching from supabase');
+  }
 
   const currentLanguage = languages.filter(
-    (l) => l.label.toLowerCase() === params.language
+    (l) => l.label.toLowerCase() === params?.language
   )[0];
 
   let { data: texts } = await supabase
-    .from('texts')
+    .from<Text>('texts')
     .select('*')
-    .eq('slug', params.slug);
+    .eq('slug', params?.slug as string);
 
-  texts = texts.filter((t) => t.language === currentLanguage.id);
+  if (!texts) {
+    throw new Error('something went wrong fetching from supabase');
+  }
+
+  texts = texts?.filter((t) => t.language === currentLanguage.id);
 
   if (texts.length > 0) {
-    let { data: languages } = await supabase
-      .from('languages')
-      .select('*')
-      .eq('id', texts[0].language);
-
-    let { data: authors } = await supabase
-      .from('authors')
-      .select('*')
-      .eq('id', texts[0].author);
-
-    if (languages.length > 0 && authors.length > 0) {
+    const text = texts[0];
+    if (languages.length > 0) {
       return {
         props: {
           transcriptionProps,
-          text: texts[0],
-          language: languages[0],
-          author: authors[0],
+          text,
+          language: languages.find((language) => language.id === text.language),
         },
       };
     }
@@ -74,14 +75,18 @@ export async function getStaticProps({ params }) {
       text: undefined,
     },
   };
-}
+};
 
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
-  let { data: texts } = await supabase.from('texts').select('*');
-  let { data: languages } = await supabase.from('languages').select('*');
+  const { data: texts } = await supabase.from('texts').select('*');
+  const { data: languages } = await supabase.from('languages').select('*');
 
-  let languageDictionary: Dictionary<string> = {};
+  if (!texts || !languages) {
+    throw new Error('something went wrong fetching from supabase');
+  }
+
+  const languageDictionary: Dictionary<string> = {};
   languages.forEach((language: Language) => {
     languageDictionary[language.id] = language.label;
   });

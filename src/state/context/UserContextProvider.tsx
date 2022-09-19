@@ -12,7 +12,7 @@ export const UserContext = createContext<{
   session: null,
 });
 
-export const UserContextProvider = (props: any) => {
+export const UserContextProvider = (props) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
@@ -28,7 +28,7 @@ export const UserContextProvider = (props: any) => {
     );
 
     return () => {
-      authListener!.unsubscribe();
+      authListener?.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -6,7 +6,7 @@ import { Octokit } from 'octokit';
 
 import { Result } from '../../../src/constants/Interfaces';
 
-sendgridMail.setApiKey(process.env.SENDGRID_API_KEY);
+sendgridMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 
 // Create a personal access token at https://github.com/settings/tokens/new?scopes=repo
 const octokit = new Octokit({ auth: process.env.GITHUB_PERSONAL_ACCESS_TOKEN });

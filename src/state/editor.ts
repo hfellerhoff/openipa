@@ -21,7 +21,7 @@ const defaultGlobalEditorOptions: GlobalTranscriptionOptions = {
 
 // ===== LATIN OPTIONS =====
 
-export type LatinTranscriptionOptions = {};
+export type LatinTranscriptionOptions = Record<string, unknown>;
 const defaultLatinEditorOptions: LatinTranscriptionOptions = {};
 
 // ===== FRENCH OPTIONS =====
@@ -58,10 +58,10 @@ interface EditorStore {
   handleSetOption: (
     language: Languages,
     option: string
-  ) => (value: any) => void;
+  ) => (value: boolean) => void;
 }
 
-export const useEditorStore = create<EditorStore>((set, get) => ({
+export const useEditorStore = create<EditorStore>((set) => ({
   isEditing: false,
   toggleIsEditing: () => {
     set((store) => ({

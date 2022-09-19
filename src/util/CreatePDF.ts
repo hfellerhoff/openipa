@@ -8,7 +8,6 @@ import { Result, Languages } from '../constants/Interfaces';
 import IPA from '../constants/IPA';
 import { capitalizeFirstLetter } from './StringHelper';
 
-
 const createPDFFromResult = async (language: Languages, result: Result) => {
   return new Promise<void>((resolve) => {
     const pdf = new jsPDF();
@@ -63,7 +62,7 @@ const createPDFFromResult = async (language: Languages, result: Result) => {
         let textWord = '';
         let ipaWord = '';
 
-        word.syllables.forEach((syllable, index) => {
+        word.syllables.forEach((syllable) => {
           if (syllable.text !== '\n') {
             textWord += syllable.text;
             ipaWord += syllable.ipa;

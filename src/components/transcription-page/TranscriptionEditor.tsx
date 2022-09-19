@@ -45,7 +45,7 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   const [resultHeight, setResultHeight] = useState(0);
 
-  const { ipa, subcategories, categories, tags, rules, languages } =
+  const { ipa, subcategories, categories, rules, languages } =
     transcriptionProps;
 
   const languageRules = useMemo(
@@ -74,7 +74,7 @@ const TranscriptionEditor: React.FC<Props> = ({
         case Languages.French:
           return parseFrench(
             text,
-            languageOptions as any as FrenchTranscriptionOptions
+            languageOptions as unknown as FrenchTranscriptionOptions
           );
         case Languages.Latin:
         default:

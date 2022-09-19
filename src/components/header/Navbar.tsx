@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext } from 'react';
 
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -6,8 +6,6 @@ import { useRouter } from 'next/router';
 import { UserContext } from '../../state/context/UserContextProvider';
 import styles from './Navbar.module.scss';
 import NavbarLink from './NavbarLink';
-
-interface Props {}
 
 const CoreNavigation = () => (
   <>
@@ -25,7 +23,7 @@ const EditorNavigation = () => (
   </>
 );
 
-const Navbar: React.FC<Props> = () => {
+const Navbar: React.FC = () => {
   const user = useContext(UserContext);
   const router = useRouter();
 

@@ -23,7 +23,6 @@ interface Props {
 
 const EditorIPA = ({
   category,
-  categories,
   subcategories,
   ipa,
   selectedIPA,

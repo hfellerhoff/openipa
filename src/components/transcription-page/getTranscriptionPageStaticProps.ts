@@ -18,28 +18,28 @@ export interface TranscriptionPageStaticProps {
   languages: Dictionary<Language>;
 }
 
-const fetchFromTable = async <T extends unknown>(
+const fetchFromTable = async <T>(
   table: string,
-  primaryKeyColumn = 'id',
+  primaryKeyColumn: keyof T,
   language?: Language
 ) => {
   if (!language) {
     return await supabase
       .from<T>(table)
       .select('*')
-      .order(primaryKeyColumn as any, { ascending: true });
+      .order(primaryKeyColumn, { ascending: true });
   }
 
   return await supabase
     .from<T>(table)
     .select('*')
-    .eq('language_id' as any, language.id as any)
-    .order(primaryKeyColumn as any, { ascending: true });
+    .eq('language_id' as keyof T, language.id as T[keyof T])
+    .order(primaryKeyColumn, { ascending: true });
 };
 
-const fetchSupabaseTableAsDict = async <T extends unknown>(
+const fetchSupabaseTableAsDict = async <T>(
   table: string,
-  primaryKeyColumn = 'id',
+  primaryKeyColumn: keyof T,
   language?: Language
 ) => {
   const { data, error } = await fetchFromTable<T>(
@@ -51,7 +51,7 @@ const fetchSupabaseTableAsDict = async <T extends unknown>(
   if (error) console.error(`${error.code}: ${error.message}`);
 
   return data.reduce((dictionary, row) => {
-    dictionary[row[primaryKeyColumn]] = row;
+    dictionary[row[primaryKeyColumn] as number] = row;
     return dictionary;
   }, {} as Dictionary<T>);
 };
@@ -67,12 +67,12 @@ export default async function getTranscriptionPageStaticProps(
   const supabaseLanguage = data[0];
 
   const tableDictionaries = await Promise.all([
-    fetchSupabaseTableAsDict<IPA>('ipa'),
-    fetchSupabaseTableAsDict<IPASubcategory>('ipa_subcategory'),
-    fetchSupabaseTableAsDict<IPACategory>('ipa_category'),
-    fetchSupabaseTableAsDict<IPATag>('ipa_tags'),
+    fetchSupabaseTableAsDict<IPA>('ipa', 'id'),
+    fetchSupabaseTableAsDict<IPASubcategory>('ipa_subcategory', 'id'),
+    fetchSupabaseTableAsDict<IPACategory>('ipa_category', 'id'),
+    fetchSupabaseTableAsDict<IPATag>('ipa_tags', 'id'),
     fetchSupabaseTableAsDict<Rule>('rules', 'id', supabaseLanguage),
-    fetchSupabaseTableAsDict<Language>('languages'),
+    fetchSupabaseTableAsDict<Language>('languages', 'id'),
   ]);
 
   const [ipa, subcategories, categories, tags, rules, languages] =

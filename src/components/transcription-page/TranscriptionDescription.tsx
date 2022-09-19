@@ -4,13 +4,10 @@ import clsx from 'clsx';
 import { useRouter } from 'next/router';
 
 import { Languages } from '../../constants/Interfaces';
-import { useEditorStore } from '../../state/editor';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
-import CheckboxButton from '../buttons/CheckboxButton';
 import Blockquote from '../core/Blockquote';
 import styles from './TranscriptionDescription.module.scss';
 import TranscriptionEditorOptions from './TranscriptionEditorOptions';
-
 
 interface Props {
   language: Languages;
@@ -21,7 +18,7 @@ interface Props {
 
 const TranscriptionDescription: React.FC<Props> = ({
   language,
-  setLanguage = () => {},
+  setLanguage,
   lockLanguage = false,
   editorView = false,
 }) => {
@@ -54,6 +51,8 @@ const TranscriptionDescription: React.FC<Props> = ({
                   value={language}
                   title='Select transcription language'
                   onChange={(e) => {
+                    if (!setLanguage) return;
+
                     setLanguage(e.target.value as Languages);
                     router.push(
                       `/transcription/${language}`,

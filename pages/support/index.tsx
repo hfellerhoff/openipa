@@ -34,8 +34,7 @@ const SupportButton: React.FC<SupportButtonProps> = ({
   </Button>
 );
 
-interface Props {}
-const SupportPage: React.FC<Props> = () => {
+const SupportPage: React.FC = () => {
   return (
     <Layout>
       <Head>

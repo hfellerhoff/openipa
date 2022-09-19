@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRef } from 'react';
 
 import clsx from 'clsx';
 
 import { Word, Line, Result } from '../../constants/Interfaces';
 import IPA from '../../constants/IPA';
-import useSession from '../../hooks/useSession';
 import useWindowDimensions from '../../hooks/UseWindowDimensions';
 import { useTranslationStore } from '../../state/translation';
 import { resultToLines } from '../../util/resultToLines';

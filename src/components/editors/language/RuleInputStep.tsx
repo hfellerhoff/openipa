@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
@@ -7,7 +7,6 @@ import {
   IPASubcategory,
 } from '../../../lib/supabase/models/IPA';
 import {
-  Rule,
   RuleInput,
   RuleInputCategory,
   RuleInputString,

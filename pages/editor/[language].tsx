@@ -14,8 +14,6 @@ import useSupabaseIPA from '../../src/hooks/useSupabaseIPA';
 import supabase from '../../src/lib/supabase';
 import { Language } from '../../src/lib/supabase/models/Language';
 
-interface Props {}
-
 const useLanguage = (slug: string) => {
   const [language, setLanguage] = useState<Language | null>();
 
@@ -41,7 +39,7 @@ const useLanguage = (slug: string) => {
   return language;
 };
 
-const LanguageEditor = (props: Props) => {
+const LanguageEditor = () => {
   const router = useRouter();
   const language = useLanguage(router.query.language as string);
   const [result, setResult] = useState<Result>(Template.Result);
@@ -62,7 +60,7 @@ const LanguageEditor = (props: Props) => {
     );
   }
 
-  const typedLanguage = router.query.language as any as Languages;
+  const typedLanguage = router.query.language as unknown as Languages;
 
   return (
     <EditorLayout

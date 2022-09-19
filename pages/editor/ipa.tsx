@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import Head from 'next/head';
 
@@ -8,9 +8,7 @@ import EditorIPARightSidebar from '../../src/components/editors/EditorIPARightSi
 import EditorLayout from '../../src/components/layout/EditorLayout';
 import useSupabaseIPA from '../../src/hooks/useSupabaseIPA';
 
-interface Props {}
-
-const IPAEditor = (props: Props) => {
+const IPAEditor = () => {
   const [categoryID, setCategoryID] = useState<number>(1);
   const [ipaID, setSelectedIPAID] = useState<number>(0);
   const { categories, subcategories, ipa } = useSupabaseIPA();

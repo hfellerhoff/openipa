@@ -4,8 +4,6 @@ import { Session } from '@supabase/supabase-js';
 
 import supabase from '../lib/supabase';
 
-type Props = {};
-
 export default function useSession() {
   const [isLoading, setIsLoading] = useState(true);
   const [session, setSession] = useState<Session | null>(null);

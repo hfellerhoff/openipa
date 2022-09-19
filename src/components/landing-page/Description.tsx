@@ -2,9 +2,7 @@ import React from 'react';
 
 import styles from './Description.module.scss';
 
-interface Props {}
-
-const Description: React.FC<Props> = () => {
+const Description: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles['overview-container']}>

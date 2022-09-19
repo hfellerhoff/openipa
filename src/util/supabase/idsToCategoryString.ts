@@ -1,5 +1,5 @@
 import { Dictionary } from '../../hooks/useSupabaseTable';
-import { IPA, IPACategory } from '../../lib/supabase/models/IPA';
+import { IPACategory } from '../../lib/supabase/models/IPA';
 
 const idsToCategoryString = (ids: number[], ipa: Dictionary<IPACategory>) => {
   let string = '';

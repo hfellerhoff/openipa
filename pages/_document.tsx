@@ -1,15 +1,6 @@
-// adjust your pages/_document.js
-import React from 'react';
-
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-const GA_TRACKING_ID = 'UA-159326184-1';
-
 export default class CustomDocument extends Document {
-  static getInitialProps(ctx) {
-    return Document.getInitialProps(ctx);
-  }
-
   render() {
     return (
       <Html lang='en'>
@@ -25,7 +16,12 @@ export default class CustomDocument extends Document {
           />
           {process.env.VERCEL_ENV === 'production' ? (
             <>
-              <script async defer data-website-id="b4fd1fc9-b874-4d5d-9a70-cdd887dee842" src="https://umami.henryfellerhoff.com/umami.js"></script>
+              <script
+                async
+                defer
+                data-website-id='b4fd1fc9-b874-4d5d-9a70-cdd887dee842'
+                src='https://umami.henryfellerhoff.com/umami.js'
+              ></script>
             </>
           ) : (
             <></>
@@ -39,3 +35,5 @@ export default class CustomDocument extends Document {
     );
   }
 }
+
+CustomDocument.getInitialProps = (ctx) => Document.getInitialProps(ctx);

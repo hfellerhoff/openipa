@@ -63,8 +63,3 @@ export const getNextWord = (
   }
   return [word, index - 1];
 };
-
-// TODO: this
-export const getStressedSyllableItalian = (word: string, letter: string) => {
-  for (let i = word.length; i >= 0; i--) {}
-};

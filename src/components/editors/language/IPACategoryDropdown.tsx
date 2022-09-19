@@ -9,7 +9,6 @@ import {
   IPASubcategory,
 } from '../../../lib/supabase/models/IPA';
 import idsToCategoryString from '../../../util/supabase/idsToCategoryString';
-import idsToIPAString from '../../../util/supabase/idsToIPAString';
 import IPADisplay from './IPADisplay';
 
 interface Props {
@@ -65,7 +64,7 @@ const IPADropdown = ({
     <div className='flex h-10'>
       <IPADisplay>
         <input
-          className='bg-gray-200 w-64 text-center'
+          className='w-64 text-center bg-gray-200'
           value={
             result.length > 0
               ? `${prefix ? prefix + ' ' : ''}${idsToCategoryString(

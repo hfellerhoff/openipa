@@ -1,8 +1,8 @@
 require('dotenv').config();
+import * as fs from 'fs';
+
 import cpdlGetTexts from '../src/lib/cpdl/cpdlGetTexts';
 import supabase from '../src/lib/supabase/index';
-
-import * as fs from 'fs';
 import { Language } from '../src/lib/supabase/models/Language';
 
 const getSlug = (text: string) => {
@@ -23,7 +23,7 @@ const fetchWorks = async () => {
     const res = await supabase.from('languages').select('*');
     const languages: Language[] = res.body;
 
-    let languageDictionary = {};
+    const languageDictionary = {};
     languages.forEach((element) => {
       languageDictionary[element['id']] = element;
     });
@@ -37,7 +37,7 @@ const fetchWorks = async () => {
 
     works.forEach((w) => {
       w.forEach((e) => {
-        let variationsByLanguage = {};
+        const variationsByLanguage = {};
         e.variations.forEach(async (v) => {
           const language = languages.filter(
             (l) => l.label.toLowerCase() === v.language.toLowerCase()

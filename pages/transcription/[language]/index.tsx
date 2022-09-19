@@ -1,3 +1,5 @@
+import { GetStaticProps } from 'next';
+
 import TranscriptionPage from '../../../src/components/transcription-page';
 import getTranscriptionPageStaticProps, {
   TranscriptionPageStaticProps,
@@ -10,14 +12,14 @@ export default function TranscriptionLanguagePage(
   return <TranscriptionPage transcriptionProps={props} />;
 }
 
-export async function getStaticProps({ params }) {
-  const language = params.language;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const language = params?.language as string;
   const props = await getTranscriptionPageStaticProps(language);
 
   return {
     props,
   };
-}
+};
 
 export async function getStaticPaths() {
   const languages = Object.values(Languages);

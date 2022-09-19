@@ -7,10 +7,7 @@ import Description from '../src/components/landing-page/Description';
 import Hero from '../src/components/landing-page/Hero';
 import Layout from '../src/components/layout/Layout';
 
-
-interface Props {}
-
-const LandingPage: React.FC<Props> = () => {
+const LandingPage: React.FC = () => {
   return (
     <Layout>
       <Head>

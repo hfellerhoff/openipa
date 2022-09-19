@@ -14,8 +14,8 @@ const cpdlGetTexts = async (text: string) => {
 
   const wiki = new Wikiapi(BASE_URL);
 
-  const pagePromises: any[] = textData.query.search.map(async (result) => {
-    let page_data = await wiki.page(result.title);
+  const pagePromises = textData.query.search.map(async (result) => {
+    const page_data = await wiki.page(result.title);
 
     const checkForLanguageText = (line: string) => {
       let label = '';

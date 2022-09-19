@@ -4,9 +4,7 @@ import { Languages } from '../../constants/Interfaces';
 import LanguageSelectButton from '../buttons/LanguageSelectButton';
 import styles from './LanguageSelectionButtons.module.scss';
 
-interface Props {}
-
-const LanguageSelectionButtons: React.FC<Props> = () => {
+const LanguageSelectionButtons: React.FC = () => {
   return (
     <div className={styles['button-container']}>
       <LanguageSelectButton language={Languages.Latin} status='active' />

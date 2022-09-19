@@ -46,7 +46,7 @@ const parseFrench = (text: string, options: FrenchTranscriptionOptions) => {
 
   const charArray = getCharArray(text);
 
-  let result: Result = Template.getResultTemplate();
+  const result: Result = Template.getResultTemplate();
 
   let previousPhoneme = '';
   let startOfNewWord = true;
@@ -66,7 +66,7 @@ const parseFrench = (text: string, options: FrenchTranscriptionOptions) => {
       letters away from the current
       letter.
     */
-    let nextletter = [];
+    const nextletter = [];
 
     // Do not transcribe '
     for (let i = 0; i < 10; i++) {

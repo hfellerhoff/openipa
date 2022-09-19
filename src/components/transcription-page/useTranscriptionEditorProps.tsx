@@ -8,7 +8,7 @@ export default function useTranscriptionEditorProps(
 ) {
   const [language, setLanguage] = useState(initialLanguage);
   const [inputText, setInputText] = useState(initialText);
-  const [result, setResult] = useState(Template.Result);
+  const [result] = useState(Template.Result);
 
   return {
     language,

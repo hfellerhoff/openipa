@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 
 import { Languages, Result } from '../../constants/Interfaces';
 import Template from '../../constants/Template';
-import { Text } from '../../lib/supabase/models/Text';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
 import PageHeader from '../header/PageHeader';
 import Layout from '../layout/Layout';
@@ -16,7 +15,7 @@ import TranscriptionDescription from './TranscriptionDescription';
 import TranscriptionEditor from './TranscriptionEditor';
 
 interface TextInformationProps {
-  text?: Text;
+  text?;
 }
 
 const PredefinedTextInformation = ({ text }: TextInformationProps) => (
@@ -43,7 +42,7 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
   const [result, setResult] = useState<Result>(Template.Result);
 
   const initialText = text?.text || (router.query.text as string) || '';
-  const [inputText, setInputText] = useState(text);
+  const [inputText] = useState(text);
 
   const language = router.query.language as string as Languages;
   const languageLabel = capitalizeFirstLetter(language);
@@ -60,7 +59,7 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
       router.replace({
         pathname: `/transcription/${updatedLanguage}`,
         query: {
-          text: inputText as any,
+          text: inputText,
         },
       });
     }

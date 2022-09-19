@@ -44,7 +44,7 @@ const EditorIPARightSidebar = ({
   const handleSave = async () => {
     if (ipaElement && subcategory && initialSubcategory) {
       if (subcategory !== initialSubcategory.id) {
-        const { data, error } = await supabase
+        await supabase
           .from('ipa')
           .update({ subcategory })
           .eq('id', ipaElement.id);
@@ -53,7 +53,7 @@ const EditorIPARightSidebar = ({
   };
 
   const handleCreate = async () => {
-    const { data, error } = await supabase
+    await supabase
       .from('ipa')
       .insert([
         { symbol: ipaSymbol, subcategory: ipaSubcategory, tags: [], category },

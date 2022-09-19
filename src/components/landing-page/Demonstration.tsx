@@ -10,9 +10,7 @@ import ResultDisplay from '../display/ResultDisplay';
 import TextInput from '../input/TextInput';
 import styles from './Demonstration.module.scss';
 
-interface Props {}
-
-const Demonstration: React.FC<Props> = () => {
+const Demonstration: React.FC = () => {
   const [inputText, setInputText] = useState('Ave maria, gratia plena.');
   const [language] = useState(Languages.Latin);
   const [resultHeight, setResultHeight] = useState(0);
@@ -23,8 +21,8 @@ const Demonstration: React.FC<Props> = () => {
     const parseText = (text: string) => {
       // Filter rules for given language
       const languageRules = Object.values(rules).filter((r: Rule) =>
-        languages[r.language]
-          ? languages[r.language].label.toLowerCase() === language
+        languages[r.language_id]
+          ? languages[r.language_id].label.toLowerCase() === language
           : false
       );
 
