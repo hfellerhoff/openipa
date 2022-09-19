@@ -1,4 +1,7 @@
 import TranscriptionPage from '../../../src/components/transcription-page';
+import getTranscriptionPageStaticProps, {
+  TranscriptionPageStaticProps,
+} from '../../../src/components/transcription-page/getTranscriptionPageStaticProps';
 import { Dictionary } from '../../../src/hooks/useSupabaseTable';
 import supabase from '../../../src/lib/supabase';
 import { Language } from '../../../src/lib/supabase/models/Language';
@@ -8,15 +11,20 @@ interface Props {
   text?: Text;
   language?: Language;
   author?: any;
+  transcriptionProps: TranscriptionPageStaticProps;
 }
 
-const TextPage = ({ text }: Props) => {
-  return <TranscriptionPage text={text} />;
+const TextPage = ({ text, transcriptionProps }: Props) => {
+  return (
+    <TranscriptionPage text={text} transcriptionProps={transcriptionProps} />
+  );
 };
 
 export default TextPage;
 
 export async function getStaticProps({ params }) {
+  const transcriptionProps = await getTranscriptionPageStaticProps();
+
   // Call an external API endpoint to get posts
   const { data: languages } = await supabase.from('languages').select('*');
 
@@ -48,6 +56,7 @@ export async function getStaticProps({ params }) {
     if (languages.length > 0 && authors.length > 0) {
       return {
         props: {
+          transcriptionProps,
           text: texts[0],
           language: languages[0],
           author: authors[0],
@@ -56,6 +65,7 @@ export async function getStaticProps({ params }) {
     }
     return {
       props: {
+        transcriptionProps,
         text: texts[0],
         language: undefined,
       },
@@ -63,6 +73,7 @@ export async function getStaticProps({ params }) {
   }
   return {
     props: {
+      transcriptionProps,
       text: undefined,
     },
   };

@@ -10,15 +10,16 @@ import { Text } from '../../lib/supabase/models/Text';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
 import PageHeader from '../header/PageHeader';
 import Layout from '../layout/Layout';
+import { TranscriptionPageStaticProps } from './getTranscriptionPageStaticProps';
 import TranscriptionActionButtons from './TranscriptionActionButtons';
 import TranscriptionDescription from './TranscriptionDescription';
 import TranscriptionEditor from './TranscriptionEditor';
 
-interface Props {
+interface TextInformationProps {
   text?: Text;
 }
 
-const PredefinedTextInformation = ({ text }: Props) => (
+const PredefinedTextInformation = ({ text }: TextInformationProps) => (
   <p className='mt-2'>
     This text is originally from{' '}
     <a
@@ -33,7 +34,11 @@ const PredefinedTextInformation = ({ text }: Props) => (
   </p>
 );
 
-export default function TranscriptionPage({ text }: Props) {
+interface Props extends TextInformationProps {
+  transcriptionProps: TranscriptionPageStaticProps;
+}
+
+export default function TranscriptionPage({ text, transcriptionProps }: Props) {
   const router = useRouter();
   const [result, setResult] = useState<Result>(Template.Result);
 
@@ -86,6 +91,7 @@ export default function TranscriptionPage({ text }: Props) {
           result={result}
           setResult={setResult}
           text={initialText}
+          transcriptionProps={transcriptionProps}
         />
         {text && <PredefinedTextInformation text={text} />}
         <TranscriptionActionButtons language={language} result={result} />

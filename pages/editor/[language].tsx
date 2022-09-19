@@ -46,7 +46,8 @@ const LanguageEditor = (props: Props) => {
   const language = useLanguage(router.query.language as string);
   const [result, setResult] = useState<Result>(Template.Result);
 
-  const { categories, subcategories, ipa, rules } = useSupabaseIPA();
+  const { categories, subcategories, ipa, rules, tags, languages } =
+    useSupabaseIPA();
 
   if (!language) {
     return (
@@ -77,6 +78,14 @@ const LanguageEditor = (props: Props) => {
             result={result}
             setResult={setResult}
             editorView
+            transcriptionProps={{
+              ipa,
+              subcategories,
+              categories,
+              tags,
+              rules,
+              languages,
+            }}
           />
         </div>
       }

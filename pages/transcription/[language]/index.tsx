@@ -4,8 +4,10 @@ import getTranscriptionPageStaticProps, {
 } from '../../../src/components/transcription-page/getTranscriptionPageStaticProps';
 import { Languages } from '../../../src/constants/Interfaces';
 
-export default function TranscriptionLanguagePage({}: TranscriptionPageStaticProps) {
-  return <TranscriptionPage />;
+export default function TranscriptionLanguagePage(
+  props: TranscriptionPageStaticProps
+) {
+  return <TranscriptionPage transcriptionProps={props} />;
 }
 
 export async function getStaticProps() {

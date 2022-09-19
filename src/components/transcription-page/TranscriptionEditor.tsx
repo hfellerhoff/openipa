@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 import clsx from 'clsx';
 
 import { Result, Languages } from '../../constants/Interfaces';
-import useSupabaseIPA from '../../hooks/useSupabaseIPA';
 import { Rule } from '../../lib/supabase/models/Rule';
 import {
   FrenchTranscriptionOptions,
@@ -16,6 +15,7 @@ import transcribeText from '../../transcription/transcribeText';
 import HideButton from '../buttons/HideButton';
 import ResultDisplay from '../display/ResultDisplay';
 import TextInput from '../input/TextInput';
+import { TranscriptionPageStaticProps } from './getTranscriptionPageStaticProps';
 import styles from './TranscriptionEditor.module.scss';
 
 interface Props {
@@ -24,6 +24,7 @@ interface Props {
   setResult: React.Dispatch<React.SetStateAction<Result>>;
   text?: string;
   editorView?: boolean;
+  transcriptionProps: TranscriptionPageStaticProps;
 }
 
 const TranscriptionEditor: React.FC<Props> = ({
@@ -32,6 +33,7 @@ const TranscriptionEditor: React.FC<Props> = ({
   setResult,
   text,
   editorView,
+  transcriptionProps,
 }) => {
   const languageOptions: GlobalTranscriptionOptions = useEditorStore(
     (store) => store.options[language]
@@ -43,7 +45,8 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   const [resultHeight, setResultHeight] = useState(0);
 
-  const { categories, subcategories, ipa, rules, languages } = useSupabaseIPA();
+  const { ipa, subcategories, categories, tags, rules, languages } =
+    transcriptionProps;
 
   const languageRules = useMemo(
     () =>

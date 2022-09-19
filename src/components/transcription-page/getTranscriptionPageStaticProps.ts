@@ -1,7 +1,7 @@
-import IPA from '../../constants/IPA';
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import supabase from '../../lib/supabase';
 import {
+  IPA,
   IPACategory,
   IPASubcategory,
   IPATag,
