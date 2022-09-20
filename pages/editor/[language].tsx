@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -11,41 +11,19 @@ import TranscriptionEditor from '../../src/components/transcription-page/Transcr
 import { Languages, Result } from '../../src/constants/Interfaces';
 import Template from '../../src/constants/Template';
 import useSupabaseIPA from '../../src/hooks/useSupabaseIPA';
-import supabase from '../../src/lib/supabase';
 import { Language } from '../../src/lib/supabase/models/Language';
-
-const useLanguage = (slug: string) => {
-  const [language, setLanguage] = useState<Language | null>();
-
-  useEffect(() => {
-    const getLanguage = async () => {
-      setLanguage(undefined);
-
-      const { data, error } = await supabase
-        .from('languages')
-        .select('*')
-        .eq('slug', slug);
-
-      if (!error && data.length > 0) {
-        setLanguage(data[0] as Language);
-      } else {
-        setLanguage(null);
-      }
-    };
-
-    if (!!slug && language !== null) getLanguage();
-  }, [slug, language]);
-
-  return language;
-};
 
 const LanguageEditor = () => {
   const router = useRouter();
-  const language = useLanguage(router.query.language as string);
   const [result, setResult] = useState<Result>(Template.Result);
 
   const { categories, subcategories, ipa, rules, tags, languages } =
     useSupabaseIPA();
+
+  const languageSlug = router.query.language as string;
+  const language = (Object.values(languages) as Language[]).find(
+    (language) => language.slug === languageSlug
+  );
 
   if (!language) {
     return (
