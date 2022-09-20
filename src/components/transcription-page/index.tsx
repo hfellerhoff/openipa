@@ -43,7 +43,6 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
   const queryParamsText = router.query.text as string;
 
   const initialText = supabaseText?.text || queryParamsText || '';
-  const [inputText] = useState(text);
 
   const language = router.query.language as string as Languages;
   const languageLabel = capitalizeFirstLetter(language);
@@ -56,12 +55,9 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
   if (!isLanguageSupported) return <></>;
 
   const setLanguage = (updatedLanguage: Languages) => {
-    if (!text) {
-      router.replace({
+    if (!supabaseText) {
+      router.push({
         pathname: `/transcription/${updatedLanguage}`,
-        query: {
-          text: inputText as string,
-        },
       });
     }
   };

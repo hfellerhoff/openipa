@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
+import { PulseLoader } from 'react-spinners';
 
 import { Languages } from '../../constants/Interfaces';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
@@ -22,7 +22,9 @@ const TranscriptionDescription: React.FC<Props> = ({
   lockLanguage = false,
   editorView = false,
 }) => {
-  const router = useRouter();
+  const [localLanguage, setLocalLanguage] = useState(language);
+
+  const isLoading = language !== localLanguage;
 
   return (
     <div>
@@ -47,22 +49,26 @@ const TranscriptionDescription: React.FC<Props> = ({
             ) : (
               <h2>
                 Transcribe from
-                <select
-                  value={language}
-                  title='Select transcription language'
-                  onChange={(e) => {
-                    if (!setLanguage) return;
+                {isLoading ? (
+                  <div className='inline-block mx-4 mb-[2px]'>
+                    <PulseLoader size={14} />
+                  </div>
+                ) : (
+                  <select
+                    value={language}
+                    title='Select transcription language'
+                    onChange={(e) => {
+                      if (!setLanguage) return;
 
-                    setLanguage(e.target.value as Languages);
-                    router.push(
-                      `/transcription/${language}`,
-                      `/transcription/${e.target.value}`
-                    );
-                  }}
-                >
-                  <option value='latin'>Latin</option>
-                  <option value='french'>French</option>
-                </select>
+                      const newLanguage = e.target.value as Languages;
+                      setLocalLanguage(newLanguage);
+                      setLanguage(newLanguage);
+                    }}
+                  >
+                    <option value='latin'>Latin</option>
+                    <option value='french'>French</option>
+                  </select>
+                )}
                 into IPA
               </h2>
             )}
