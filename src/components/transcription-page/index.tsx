@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 
 import { Languages, Result } from '../../constants/Interfaces';
 import Template from '../../constants/Template';
+import { Text } from '../../lib/supabase/models/Text';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
 import PageHeader from '../header/PageHeader';
 import Layout from '../layout/Layout';
@@ -14,11 +15,7 @@ import TranscriptionActionButtons from './TranscriptionActionButtons';
 import TranscriptionDescription from './TranscriptionDescription';
 import TranscriptionEditor from './TranscriptionEditor';
 
-interface TextInformationProps {
-  text?;
-}
-
-const PredefinedTextInformation = ({ text }: TextInformationProps) => (
+const PredefinedTextInformation = ({ text }: { text: Text }) => (
   <p className='mt-2'>
     This text is originally from{' '}
     <a
@@ -33,7 +30,8 @@ const PredefinedTextInformation = ({ text }: TextInformationProps) => (
   </p>
 );
 
-interface Props extends TextInformationProps {
+interface Props {
+  text?: Text | string;
   transcriptionProps: TranscriptionPageStaticProps;
 }
 
@@ -41,7 +39,10 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
   const router = useRouter();
   const [result, setResult] = useState<Result>(Template.Result);
 
-  const initialText = text?.text || (router.query.text as string) || '';
+  const supabaseText = text as Text;
+  const queryParamsText = router.query.text as string;
+
+  const initialText = supabaseText.text || queryParamsText || '';
   const [inputText] = useState(text);
 
   const language = router.query.language as string as Languages;
@@ -59,7 +60,7 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
       router.replace({
         pathname: `/transcription/${updatedLanguage}`,
         query: {
-          text: inputText,
+          text: inputText as string,
         },
       });
     }
@@ -92,7 +93,7 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
           text={initialText}
           transcriptionProps={transcriptionProps}
         />
-        {text && <PredefinedTextInformation text={text} />}
+        {text && <PredefinedTextInformation text={supabaseText} />}
         <TranscriptionActionButtons language={language} result={result} />
       </div>
     </Layout>

@@ -153,7 +153,7 @@ const ResultElement = ({
   shouldHide,
   hideFeedback = false,
 }: DisplayProps) => {
-  const displayRef = useRef<HTMLDivElement>();
+  const displayRef = useRef<HTMLDivElement>(null);
   const { allTranslations } = useTranslationStore((store) => ({
     allTranslations: store.translations,
   }));

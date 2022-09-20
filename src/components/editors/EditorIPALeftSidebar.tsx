@@ -5,7 +5,7 @@ import { IPACategory } from '../../lib/supabase/models/IPA';
 import styles from './EditorIPALeftSidebar.module.scss';
 
 interface ItemProps {
-  category?: IPACategory;
+  category: IPACategory;
   isSelected: boolean;
   onSelectCategory: (c: number) => void;
 }

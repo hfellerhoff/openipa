@@ -21,7 +21,10 @@ const defaultGlobalEditorOptions: GlobalTranscriptionOptions = {
 
 // ===== LATIN OPTIONS =====
 
-export type LatinTranscriptionOptions = Record<string, unknown>;
+export type LatinTranscriptionOptions = Record<never, unknown>;
+export type LatinTranscriptionOptionKeys =
+  keyof FullTranscriptionOptions<LatinTranscriptionOptions>;
+
 const defaultLatinEditorOptions: LatinTranscriptionOptions = {};
 
 // ===== FRENCH OPTIONS =====
@@ -30,6 +33,9 @@ export type FrenchTranscriptionOptions = {
   shouldAnalyzeElision: TranscriptionOption<boolean>;
   shouldAnalyzeLiason: TranscriptionOption<boolean>;
 };
+export type FrenchTranscriptionOptionKeys =
+  keyof FullTranscriptionOptions<FrenchTranscriptionOptions>;
+
 const defaultFrenchEditorOptions: FrenchTranscriptionOptions = {
   shouldAnalyzeElision: {
     label: 'Analyze Elision',
@@ -55,9 +61,11 @@ interface EditorStore {
   isEditing: boolean;
   toggleIsEditing: () => void;
   options: FullTranscriptionOptionsComposed;
-  handleSetOption: (
-    language: Languages,
-    option: string
+  handleSetLatinOption: (
+    option: LatinTranscriptionOptionKeys
+  ) => (value: boolean) => void;
+  handleSetFrenchOption: (
+    option: FrenchTranscriptionOptionKeys
   ) => (value: boolean) => void;
 }
 
@@ -79,15 +87,30 @@ export const useEditorStore = create<EditorStore>((set) => ({
       ...defaultGlobalEditorOptions,
     },
   },
-  handleSetOption: (language, option) => (value) => {
+  handleSetLatinOption: (option) => (value) => {
     set((store) => ({
       ...store,
       options: {
         ...store.options,
-        [language]: {
-          ...store.options[language],
+        [Languages.Latin]: {
+          ...store.options[Languages.Latin],
           [option]: {
-            ...store.options[language][option],
+            ...store.options[Languages.Latin][option],
+            value,
+          },
+        },
+      },
+    }));
+  },
+  handleSetFrenchOption: (option) => (value) => {
+    set((store) => ({
+      ...store,
+      options: {
+        ...store.options,
+        [Languages.French]: {
+          ...store.options[Languages.French],
+          [option]: {
+            ...store.options[Languages.French][option],
             value,
           },
         },

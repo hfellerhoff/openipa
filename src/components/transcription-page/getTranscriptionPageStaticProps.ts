@@ -50,6 +50,8 @@ const fetchSupabaseTableAsDict = async <T>(
 
   if (error) console.error(`${error.code}: ${error.message}`);
 
+  if (!data) return {};
+
   return data.reduce((dictionary, row) => {
     dictionary[row[primaryKeyColumn] as number] = row;
     return dictionary;
@@ -64,6 +66,18 @@ export default async function getTranscriptionPageStaticProps(
     .select('*')
     .eq('slug', language)
     .limit(1);
+
+  if (!data) {
+    return {
+      ipa: {},
+      subcategories: {},
+      categories: {},
+      tags: {},
+      rules: {},
+      languages: {},
+    };
+  }
+
   const supabaseLanguage = data[0];
 
   const tableDictionaries = await Promise.all([

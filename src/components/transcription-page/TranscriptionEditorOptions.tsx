@@ -1,5 +1,10 @@
 import { Languages } from '../../constants/Interfaces';
-import { TranscriptionOption, useEditorStore } from '../../state/editor';
+import {
+  FrenchTranscriptionOptionKeys,
+  LatinTranscriptionOptionKeys,
+  TranscriptionOption,
+  useEditorStore,
+} from '../../state/editor';
 import CheckboxButton from '../buttons/CheckboxButton';
 
 type OptionCheckboxProps = {
@@ -32,16 +37,26 @@ type Props = {
 };
 
 export default function TranscriptionEditorOptions({ language }: Props) {
-  const { options, handleSetOption } = useEditorStore((store) => ({
-    options: store.options,
-    handleSetOption: store.handleSetOption,
-  }));
+  const { options, handleSetLatinOption, handleSetFrenchOption } =
+    useEditorStore((store) => ({
+      options: store.options,
+      handleSetLatinOption: store.handleSetLatinOption,
+      handleSetFrenchOption: store.handleSetFrenchOption,
+    }));
 
   const languageOptions: [string, TranscriptionOption<boolean>][] = options[
     language
   ]
     ? Object.entries(options[language])
     : [];
+
+  const handleSetOption = (language: Languages, optionName: string) => {
+    if (language === Languages.French) {
+      return handleSetFrenchOption(optionName as FrenchTranscriptionOptionKeys);
+    }
+
+    return handleSetLatinOption(optionName as LatinTranscriptionOptionKeys);
+  };
 
   return (
     <div className='flex flex-col flex-1 gap-4 md:flex-row'>

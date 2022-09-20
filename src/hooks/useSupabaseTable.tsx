@@ -16,12 +16,14 @@ const useSupabaseTable = <T,>(table: string, primaryKeyColumn = 'id') => {
         .from<T>(table)
         .select('*')
         .order(primaryKeyColumn as keyof T, { ascending: true });
+
       if (error) console.log('error', error);
       else {
-        const updatedDictionary = {};
-        data.forEach((element) => {
-          updatedDictionary[element[primaryKeyColumn]] = element;
-        });
+        const updatedDictionary = data.reduce((dict, element) => {
+          const key = element[primaryKeyColumn as keyof T] as number;
+          dict[key] = element;
+          return dict;
+        }, {} as Dictionary<T>);
 
         setDictionary(updatedDictionary);
       }

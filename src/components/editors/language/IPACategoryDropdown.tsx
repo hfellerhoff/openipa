@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import Dropdown from 'react-dropdown';
+import Dropdown, { Option, ReactDropdownProps } from 'react-dropdown';
 
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
@@ -28,21 +28,20 @@ const IPADropdown = ({
   setResult,
   prefix,
 }: Props) => {
-  const [selectedElement, setSelectedElement] = useState(null);
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<unknown[]>([]);
 
   useEffect(() => {
     if (ipa && subcategories && categories) {
       setOptions([
         {
           key: `clear`,
-          value: 0,
+          value: '0',
           label: 'Clear Result',
         },
         ...Object.values(categories).map((category: IPACategory) => {
           const block = {
             key: `ipa-${category.id}`,
-            value: category.id,
+            value: category.id.toString(),
             label: category.label,
           };
           return block;
@@ -51,19 +50,19 @@ const IPADropdown = ({
     }
   }, [ipa, subcategories, categories]);
 
-  const handleChange = (selectedOption) => {
-    if (selectedOption.value == 0) {
+  const handleChange = (selectedOption: Option) => {
+    if (selectedOption.value == '0') {
       setResult([]);
     } else {
-      setResult([...result, selectedOption.value]);
+      setResult([...result, parseInt(selectedOption.value)]);
     }
-    setSelectedElement(null);
   };
 
   return (
     <div className='flex h-10'>
       <IPADisplay>
         <input
+          title='IPA category display'
           className='w-64 text-center bg-gray-200'
           value={
             result.length > 0
@@ -77,9 +76,10 @@ const IPADropdown = ({
         ></input>
       </IPADisplay>
       <Dropdown
-        options={options}
+        // really strange hacky typescript assertion to get around type error
+        // in useState
+        options={options as ReactDropdownProps['options']}
         onChange={handleChange}
-        value={selectedElement}
         placeholder='...'
         className={`rounded-md`}
         controlClassName='bg-gray-200 shadow-inner border-none h-10 w-4'

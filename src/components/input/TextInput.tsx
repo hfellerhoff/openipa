@@ -26,7 +26,7 @@ const TextInput: React.FC<Props> = ({
     const text = e.target.value;
     setInputText(text);
   };
-  const inputRef = useRef<HTMLTextAreaElement>();
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const className = styles[`input--${theme}`];
   const { width } = useWindowDimensions();
   const isWidthSmallEnough = width <= 800 ? true : false;

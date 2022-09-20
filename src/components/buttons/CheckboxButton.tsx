@@ -6,7 +6,7 @@ import styles from './CheckboxButton.module.scss';
 
 interface Props {
   isChecked: boolean;
-  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsChecked: (v: boolean) => void;
   id: string;
 }
 

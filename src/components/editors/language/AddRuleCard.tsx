@@ -116,14 +116,14 @@ const AddRuleCard = ({
             type,
             ids: [],
             replace: false,
-          } as RuleInputCategory);
+          } as unknown as RuleInputCategory);
           break;
         case RuleInputType.Subcategories:
           oldInput.steps.push({
             type,
             ids: [],
             replace: false,
-          } as RuleInputSubcategory);
+          } as unknown as RuleInputSubcategory);
           break;
       }
 

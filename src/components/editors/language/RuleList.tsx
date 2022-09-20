@@ -16,7 +16,6 @@ import AddRuleCard from './AddRuleCard';
 import IPADisplay from './IPADisplay';
 import RuleInputDisplay from './RuleInputDisplay';
 
-
 interface Props {
   rules: Rule[];
   ipa: Dictionary<IPA>;
@@ -36,7 +35,7 @@ const RuleList = ({
 
   const languageRules = useMemo(() => {
     if (!languageId || !rules) return [];
-    return rules.filter((rule) => rule.language === languageId);
+    return rules.filter((rule) => rule.language_id === languageId);
   }, [languageId, rules]);
 
   if (
@@ -81,7 +80,7 @@ const RuleList = ({
               <p>{parseIPASymbolString(rule.description, ipa)}</p>
               <Button
                 colorClassName='bg-gray-600 hover:bg-gray-700 focus:ring-gray-700'
-                onClick={() => setIdToBeEdited(rule.id)}
+                onClick={() => setIdToBeEdited(rule.id || -1)}
               >
                 Edit
               </Button>

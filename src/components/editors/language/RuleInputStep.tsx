@@ -46,6 +46,8 @@ const RuleInputStep = ({
 }: Props) => {
   // ==== Input Type: Text ====
   const updateText = (value: string, i: number) => {
+    if (!setInput || index === undefined) return;
+
     setInput((input) => {
       const text = (input.steps[index] as RuleInputString).text;
       text[i] = value;
@@ -59,6 +61,8 @@ const RuleInputStep = ({
   };
 
   const addTextOption = () => {
+    if (!setInput || index === undefined) return;
+
     setInput((input) => {
       const text = (input.steps[index] as RuleInputString).text;
       text.push('');
@@ -71,6 +75,8 @@ const RuleInputStep = ({
   };
 
   const removeTextOption = () => {
+    if (!setInput || index === undefined) return;
+
     setInput((input) => {
       const text = (input.steps[index] as RuleInputString).text;
       text.pop();
@@ -84,6 +90,8 @@ const RuleInputStep = ({
 
   // ==== Input Type: Category, Subcategory ====
   const updateIds = (ids: number[]) => {
+    if (!setInput || index === undefined) return;
+
     setInput((input) => {
       input.steps[index] = {
         ...input.steps[index],

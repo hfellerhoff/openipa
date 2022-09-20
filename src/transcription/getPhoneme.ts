@@ -61,7 +61,7 @@ const getPhoneme = (
         const step = rule.input.steps[stepIndex];
 
         const processStep = () => {
-          let stringMatch: string;
+          let stringMatch: string | undefined;
           let ids: number[];
           let phonemeToCheck: Phoneme;
 
@@ -129,21 +129,27 @@ const getPhoneme = (
     .filter((p) => !!p);
 
   if (matchingPhonemes.length > 0) {
-    matchingPhonemes.sort((a, b) => {
-      const a_specificity = a.steps * a.text.length;
-      const b_specificity = b.steps * b.text.length;
+    matchingPhonemes.sort((prevPhoneme, nextPhoneme) => {
+      if (!prevPhoneme || !nextPhoneme) return 0;
 
-      if (a_specificity > b_specificity) return -1;
+      const prevPhonemeSpecificity =
+        prevPhoneme.steps * prevPhoneme.text.length;
+      const nextPhonemeSpecificity =
+        nextPhoneme.steps * nextPhoneme.text.length;
+
+      if (prevPhonemeSpecificity > nextPhonemeSpecificity) return -1;
       else return 1;
     });
 
-    phoneme = {
-      text: matchingPhonemes[0].text,
-      ipa: matchingPhonemes[0].ipa,
-      rule: matchingPhonemes[0].rule,
-    };
+    if (matchingPhonemes[0]) {
+      phoneme = {
+        text: matchingPhonemes[0].text,
+        ipa: matchingPhonemes[0].ipa,
+        rule: matchingPhonemes[0].rule,
+      };
 
-    index += matchingPhonemes[0].text.length - 1;
+      index += matchingPhonemes[0].text.length - 1;
+    }
   }
 
   return { phoneme, index };

@@ -1,6 +1,6 @@
 interface Props {
   className?: string;
-  children: JSX.Element | JSX.Element[];
+  children: React.ReactNode;
 }
 
 const Card = ({ className, children }: Props) => (

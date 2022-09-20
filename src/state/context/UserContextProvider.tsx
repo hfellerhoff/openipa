@@ -12,7 +12,11 @@ export const UserContext = createContext<{
   session: null,
 });
 
-export const UserContextProvider = (props) => {
+type Props = {
+  children: JSX.Element;
+};
+
+export const UserContextProvider = (props: Props) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
 

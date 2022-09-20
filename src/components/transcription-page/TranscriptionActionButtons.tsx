@@ -26,7 +26,7 @@ const getQuotaText = (translationsLeft: number, quota: TranslationQuota) => {
 };
 
 interface Props {
-  language: string;
+  language: Languages;
   result: Result;
 }
 
