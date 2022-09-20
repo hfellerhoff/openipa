@@ -39,10 +39,10 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
   const router = useRouter();
   const [result, setResult] = useState<Result>(Template.Result);
 
-  const supabaseText = text as Text;
+  const supabaseText = text as Text | undefined;
   const queryParamsText = router.query.text as string;
 
-  const initialText = supabaseText.text || queryParamsText || '';
+  const initialText = supabaseText?.text || queryParamsText || '';
   const [inputText] = useState(text);
 
   const language = router.query.language as string as Languages;
@@ -93,7 +93,7 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
           text={initialText}
           transcriptionProps={transcriptionProps}
         />
-        {text && <PredefinedTextInformation text={supabaseText} />}
+        {!!supabaseText && <PredefinedTextInformation text={supabaseText} />}
         <TranscriptionActionButtons language={language} result={result} />
       </div>
     </Layout>
