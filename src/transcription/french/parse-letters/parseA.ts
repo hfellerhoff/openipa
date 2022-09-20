@@ -2,8 +2,8 @@ import { ParseLetterProps, Phoneme } from '../../../constants/Interfaces';
 import IPA from '../../../constants/IPA';
 import { isEndOfSentence, isConsonant } from '../../../util/Helper';
 import { isNasalCanceling, isGlideFollowing } from '../FrenchHelper';
-import Rules from '../FrenchRules';
 import Notes from '../FrenchNotes';
+import Rules from '../FrenchRules';
 import transcribeLetter from '../parse-functions/transcribeLetter';
 
 const parseA = ({ nextletter, phoneme }: ParseLetterProps): Phoneme => {

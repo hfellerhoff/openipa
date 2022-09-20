@@ -1,14 +1,10 @@
 import { Field, Form, Formik } from 'formik';
-import { stringify } from 'querystring';
-import React from 'react';
+
 import supabase from '../../lib/supabase';
 import supabaseSignIn from '../../lib/supabase/supabaseSignIn';
-import supabaseSignUp from '../../lib/supabase/supabaseSignUp';
 import styles from './AuthenticationForm.module.scss';
 
-interface Props {}
-
-const AuthenticationForm = (props: Props) => {
+const AuthenticationForm = () => {
   return (
     <div className={styles['content-container']}>
       <h1 className={styles['page-title']}>Transcription Editor</h1>

@@ -1,5 +1,7 @@
-import { Dialog, Transition } from '@headlessui/react';
 import { FormEvent, Fragment, useState } from 'react';
+
+import { Dialog, Transition } from '@headlessui/react';
+
 import { Result } from '../../constants/Interfaces';
 import FeedbackSelect from './FeedbackSelect';
 

@@ -1,18 +1,13 @@
 import { Phoneme } from '../../constants/Interfaces';
 import { Dictionary } from '../../hooks/useSupabaseTable';
-import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../lib/supabase/models/IPA';
+import { IPA } from '../../lib/supabase/models/IPA';
 import { RuleInput, RuleInputType } from '../../lib/supabase/models/Rule';
 
 export const isPhonemeIn = (
   phoneme: Phoneme,
   ids: number[],
   ipa: Dictionary<IPA>,
-  step: RuleInput,
-  rule: any
+  step: RuleInput
 ) => {
   if (!phoneme) return false;
   if (!phoneme.ipa) return false;

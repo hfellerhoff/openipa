@@ -1,38 +1,43 @@
 import React, { useEffect, useState } from 'react';
+
 import { Languages, Result } from '../../constants/Interfaces';
-import TextInput from '../input/TextInput';
-import ResultDisplay from '../display/ResultDisplay';
-import styles from './Demonstration.module.scss';
-import { capitalizeFirstLetter } from '../../util/StringHelper';
+import Template from '../../constants/Template';
 import useSupabaseIPA from '../../hooks/useSupabaseIPA';
 import { Rule } from '../../lib/supabase/models/Rule';
 import transcribeText from '../../transcription/transcribeText';
-import Template from '../../constants/Template';
+import { capitalizeFirstLetter } from '../../util/StringHelper';
+import ResultDisplay from '../display/ResultDisplay';
+import TextInput from '../input/TextInput';
+import styles from './Demonstration.module.scss';
 
-interface Props {}
-
-const Demonstration: React.FC<Props> = () => {
+const Demonstration: React.FC = () => {
   const [inputText, setInputText] = useState('Ave maria, gratia plena.');
   const [language] = useState(Languages.Latin);
   const [resultHeight, setResultHeight] = useState(0);
   const [result, setResult] = useState<Result>(Template.Result);
   const { rules, languages, categories, subcategories, ipa } = useSupabaseIPA();
 
-  const parseText = (text: string) => {
-    // Filter rules for given language
-    const languageRules = Object.values(rules).filter((r: Rule) =>
-      languages[r.language]
-        ? languages[r.language].label.toLowerCase() === language
-        : false
-    );
-
-    // Transcribe text based on those rules
-    return transcribeText(text, languageRules, categories, subcategories, ipa);
-  };
-
   useEffect(() => {
+    const parseText = (text: string) => {
+      // Filter rules for given language
+      const languageRules = Object.values(rules).filter((r: Rule) =>
+        languages[r.language_id]
+          ? languages[r.language_id].label.toLowerCase() === language
+          : false
+      );
+
+      // Transcribe text based on those rules
+      return transcribeText(
+        text,
+        languageRules,
+        categories,
+        subcategories,
+        ipa
+      );
+    };
+
     setResult(parseText(inputText));
-  }, [inputText, language, rules, languages]);
+  }, [inputText, language, rules, languages, categories, ipa, subcategories]);
 
   return (
     <div className={styles.container}>
@@ -50,7 +55,7 @@ const Demonstration: React.FC<Props> = () => {
           result to see!
         </p>
       </div>
-      <div style={{ width: 40, height: 40 }} />
+      <div className='w-10 h-10' />
       <div className={styles['container-right']}>
         <div className={styles['container-right-container-left']}>
           <TextInput

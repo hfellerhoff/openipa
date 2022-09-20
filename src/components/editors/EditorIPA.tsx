@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import useSupabaseIPA from '../../hooks/useSupabaseIPA';
+import { useState } from 'react';
+
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import supabase from '../../lib/supabase';
 import {
@@ -23,7 +23,6 @@ interface Props {
 
 const EditorIPA = ({
   category,
-  categories,
   subcategories,
   ipa,
   selectedIPA,
@@ -55,7 +54,7 @@ const EditorIPA = ({
                 <Card className='p-6 mb-4'>
                   <h3>{subcategory.label}</h3>
                   <div className='flex align-center'>
-                    <ul className='flex flex-1 flex-wrap'>
+                    <ul className='flex flex-wrap flex-1'>
                       {Object.values(ipa)
                         .filter((ipa) => ipa.subcategory === subcategory.id)
                         .map((ipa) => (
@@ -101,9 +100,10 @@ const EditorIPA = ({
             </div>
           ) : (
             <Card>
-              <div className='flex align-center justify-between'>
+              <div className='flex justify-between align-center'>
                 <IPADisplay>
                   <input
+                    title='Category label'
                     name='rule-description'
                     className={`bg-gray-200 font-sans w-full flex-1`}
                     value={categoryLabel}

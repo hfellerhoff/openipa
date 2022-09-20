@@ -1,3 +1,7 @@
+import { Result, Phoneme, ParseLetterProps } from '../../constants/Interfaces';
+import IPA from '../../constants/IPA';
+import Template from '../../constants/Template';
+import { FrenchTranscriptionOptions } from '../../state/editor';
 import {
   getCharArray,
   isConsonant,
@@ -6,13 +10,10 @@ import {
   isPunctuation,
   isEndOfSentence,
 } from '../../util/Helper';
-import IPA from '../../constants/IPA';
-import { Result, Phoneme, ParseLetterProps } from '../../constants/Interfaces';
-import Rules from './FrenchRules';
 import Exceptions from './FrenchExceptions';
-import Notes from './FrenchNotes';
 import { isPronouncedConsonant } from './FrenchHelper';
-import Template from '../../constants/Template';
+import Notes from './FrenchNotes';
+import Rules from './FrenchRules';
 import parseA from './parse-letters/parseA';
 import parseB from './parse-letters/parseB';
 import parseC from './parse-letters/parseC';
@@ -27,7 +28,6 @@ import parseL from './parse-letters/parseL';
 import parseM from './parse-letters/parseM';
 import parseN from './parse-letters/parseN';
 import parseO from './parse-letters/parseO';
-import parseŒ from './parse-letters/parseŒ';
 import parseP from './parse-letters/parseP';
 import parseQ from './parse-letters/parseQ';
 import parseR from './parse-letters/parseR';
@@ -38,7 +38,7 @@ import parseV from './parse-letters/parseV';
 import parseX from './parse-letters/parseX';
 import parseY from './parse-letters/parseY';
 import parseZ from './parse-letters/parseZ';
-import { FrenchTranscriptionOptions } from '../../state/editor';
+import parseŒ from './parse-letters/parseŒ';
 
 const parseFrench = (text: string, options: FrenchTranscriptionOptions) => {
   const shouldAnalyzeLiason = options.shouldAnalyzeLiason.value;
@@ -46,7 +46,7 @@ const parseFrench = (text: string, options: FrenchTranscriptionOptions) => {
 
   const charArray = getCharArray(text);
 
-  let result: Result = Template.getResultTemplate();
+  const result: Result = Template.getResultTemplate();
 
   let previousPhoneme = '';
   let startOfNewWord = true;
@@ -66,7 +66,7 @@ const parseFrench = (text: string, options: FrenchTranscriptionOptions) => {
       letters away from the current
       letter.
     */
-    let nextletter = [];
+    const nextletter = [];
 
     // Do not transcribe '
     for (let i = 0; i < 10; i++) {

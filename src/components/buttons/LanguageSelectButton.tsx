@@ -1,8 +1,10 @@
 import React from 'react';
-import { Languages } from '../../constants/Interfaces';
-import styles from './LanguageSelectButton.module.scss';
-import { capitalizeFirstLetter } from '../../util/StringHelper';
+
 import Link from 'next/link';
+
+import { Languages } from '../../constants/Interfaces';
+import { capitalizeFirstLetter } from '../../util/StringHelper';
+import styles from './LanguageSelectButton.module.scss';
 
 interface Props {
   language: Languages;

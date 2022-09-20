@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import ExportButton from '../buttons/ExportButton';
-import { Result, Languages } from '../../constants/Interfaces';
-import createPDFFromResult from '../../util/CreatePDF';
-import copyResult from '../../util/CopyResult';
-import wretch from 'wretch';
-import { useTranslationStore } from '../../state/translation';
-import { TranslationResponse } from '../../../pages/api/translate';
-import { TranslationQuota, useQuotaStore } from '../../state/quota';
+
 import dayjs from 'dayjs';
-import Blockquote from '../core/Blockquote';
+import wretch from 'wretch';
+
+import { TranslationResponse } from '../../../pages/api/translate';
+import { Result, Languages } from '../../constants/Interfaces';
 import { useEditorStore } from '../../state/editor';
+import { TranslationQuota, useQuotaStore } from '../../state/quota';
+import { useTranslationStore } from '../../state/translation';
+import copyResult from '../../util/CopyResult';
+import createPDFFromResult from '../../util/CreatePDF';
+import ExportButton from '../buttons/ExportButton';
+import Blockquote from '../core/Blockquote';
 
 const getQuotaText = (translationsLeft: number, quota: TranslationQuota) => {
   if (translationsLeft > 0) {
@@ -24,7 +26,7 @@ const getQuotaText = (translationsLeft: number, quota: TranslationQuota) => {
 };
 
 interface Props {
-  language: string;
+  language: Languages;
   result: Result;
 }
 
@@ -71,7 +73,7 @@ const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
     };
 
     checkForQuotaReset();
-  }, []);
+  }, [resetQuota, translationQuota.resetOn]);
 
   const handleTranslate = async () => {
     if (translationsLeft <= 0) return;

@@ -11,7 +11,6 @@ import idsToIPAString from '../util/supabase/idsToIPAString';
 import parseIPASymbolString from '../util/supabase/parseIPASymbolString';
 import { isPhonemeIn } from './helper/isLetterIn';
 import matchStringInput from './steps/matchStringInput';
-// import matchStringInput from './steps/matchStringInput';
 
 const getPhoneme = (
   text: string,
@@ -22,7 +21,7 @@ const getPhoneme = (
   ipa: Dictionary<IPA>,
   subcategories: Dictionary<IPASubcategory>,
   categories: Dictionary<IPACategory>,
-  recursive: boolean = false
+  recursive = false
 ) => {
   const char = charArray[index];
   let phoneme: Phoneme = {
@@ -62,9 +61,13 @@ const getPhoneme = (
         const step = rule.input.steps[stepIndex];
 
         const processStep = () => {
+          let stringMatch: string | undefined;
+          let ids: number[];
+          let phonemeToCheck: Phoneme;
+
           switch (step.type) {
             case RuleInputType.String:
-              const stringMatch = matchStringInput(step, text, adjustedIndex);
+              stringMatch = matchStringInput(step, text, adjustedIndex);
               if (stringMatch) {
                 if (step.replace) phonemeText += stringMatch;
                 adjustedIndex += stringMatch.length;
@@ -77,10 +80,7 @@ const getPhoneme = (
               // This check is to prevent an infinite recursive depth.
               if (recursive) return false;
 
-              const ids = (step as RuleInputCategory | RuleInputSubcategory)
-                .ids;
-
-              let phonemeToCheck: Phoneme;
+              ids = (step as RuleInputCategory | RuleInputSubcategory).ids;
 
               if (adjustedIndex >= index) {
                 const fetchedPhoneme = getPhoneme(
@@ -102,7 +102,7 @@ const getPhoneme = (
 
               if (!phonemeToCheck) return false;
 
-              if (isPhonemeIn(phonemeToCheck, ids, ipa, step, rule)) {
+              if (isPhonemeIn(phonemeToCheck, ids, ipa, step)) {
                 adjustedIndex += 1;
                 return true;
               }
@@ -129,21 +129,27 @@ const getPhoneme = (
     .filter((p) => !!p);
 
   if (matchingPhonemes.length > 0) {
-    matchingPhonemes.sort((a, b) => {
-      const a_specificity = a.steps * a.text.length;
-      const b_specificity = b.steps * b.text.length;
+    matchingPhonemes.sort((prevPhoneme, nextPhoneme) => {
+      if (!prevPhoneme || !nextPhoneme) return 0;
 
-      if (a_specificity > b_specificity) return -1;
+      const prevPhonemeSpecificity =
+        prevPhoneme.steps * prevPhoneme.text.length;
+      const nextPhonemeSpecificity =
+        nextPhoneme.steps * nextPhoneme.text.length;
+
+      if (prevPhonemeSpecificity > nextPhonemeSpecificity) return -1;
       else return 1;
     });
 
-    phoneme = {
-      text: matchingPhonemes[0].text,
-      ipa: matchingPhonemes[0].ipa,
-      rule: matchingPhonemes[0].rule,
-    };
+    if (matchingPhonemes[0]) {
+      phoneme = {
+        text: matchingPhonemes[0].text,
+        ipa: matchingPhonemes[0].ipa,
+        rule: matchingPhonemes[0].rule,
+      };
 
-    index += matchingPhonemes[0].text.length - 1;
+      index += matchingPhonemes[0].text.length - 1;
+    }
   }
 
   return { phoneme, index };

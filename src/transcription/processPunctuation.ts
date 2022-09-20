@@ -7,7 +7,7 @@ const processPunctuation = (
 ) => {
   const char = charArray[index];
 
-  let phoneme: Phoneme;
+  let phoneme: Phoneme | undefined;
 
   // PUNCTUATION
   switch (char) {

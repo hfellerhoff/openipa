@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import TextInput from '../input/TextInput';
-import ResultDisplay from '../display/ResultDisplay';
-import parseFrench from '../../transcription/french/ParseFrench';
+import { useMemo } from 'react';
+
+import clsx from 'clsx';
+
 import { Result, Languages } from '../../constants/Interfaces';
-import styles from './TranscriptionEditor.module.scss';
-import HideButton from '../buttons/HideButton';
 import { Rule } from '../../lib/supabase/models/Rule';
-import useSupabaseIPA from '../../hooks/useSupabaseIPA';
-import transcribeText from '../../transcription/transcribeText';
 import {
   FrenchTranscriptionOptions,
-  FullTranscriptionOptions,
   GlobalTranscriptionOptions,
   useEditorStore,
 } from '../../state/editor';
+import parseFrench from '../../transcription/french/ParseFrench';
+import transcribeText from '../../transcription/transcribeText';
+import HideButton from '../buttons/HideButton';
+import ResultDisplay from '../display/ResultDisplay';
+import TextInput from '../input/TextInput';
+import { TranscriptionPageStaticProps } from './getTranscriptionPageStaticProps';
+import styles from './TranscriptionEditor.module.scss';
 
 interface Props {
   language: Languages;
   result: Result;
   setResult: React.Dispatch<React.SetStateAction<Result>>;
   text?: string;
+  editorView?: boolean;
+  transcriptionProps: TranscriptionPageStaticProps;
 }
 
 const TranscriptionEditor: React.FC<Props> = ({
@@ -27,6 +32,8 @@ const TranscriptionEditor: React.FC<Props> = ({
   result,
   setResult,
   text,
+  editorView,
+  transcriptionProps,
 }) => {
   const languageOptions: GlobalTranscriptionOptions = useEditorStore(
     (store) => store.options[language]
@@ -38,25 +45,39 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   const [resultHeight, setResultHeight] = useState(0);
 
-  const { categories, subcategories, ipa, rules, languages } = useSupabaseIPA();
+  const { ipa, subcategories, categories, rules, languages } =
+    transcriptionProps;
+
+  const languageRules = useMemo(
+    () =>
+      Object.values(rules).filter((r: Rule) =>
+        languages[r.language_id]
+          ? languages[r.language_id].label.toLowerCase() === language
+          : false
+      ),
+    [rules, languages, language]
+  );
 
   useEffect(() => {
     const parseText = (text: string) => {
+      if (editorView) {
+        return transcribeText(
+          text,
+          languageRules,
+          categories,
+          subcategories,
+          ipa
+        );
+      }
+
       switch (language as Languages) {
         case Languages.French:
           return parseFrench(
             text,
-            (languageOptions as any) as FrenchTranscriptionOptions
+            languageOptions as unknown as FrenchTranscriptionOptions
           );
         case Languages.Latin:
         default:
-          // Filter rules for given language
-          const languageRules = Object.values(rules).filter((r: Rule) =>
-            languages[r.language]
-              ? languages[r.language].label.toLowerCase() === language
-              : false
-          );
-
           // Transcribe text based on those rules
           return transcribeText(
             text,
@@ -78,11 +99,18 @@ const TranscriptionEditor: React.FC<Props> = ({
     ipa,
     rules,
     languages,
+    languageRules,
+    editorView,
+    setResult,
   ]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles['container-left']}>
+    <div
+      className={clsx('grid grid-cols-1 gap-4', {
+        'md:grid-cols-2 md:gap-2': !editorView,
+      })}
+    >
+      <div className='relative'>
         <div className={styles['container-top']}>
           <h2 className='text-lg'>Text Input</h2>
           <HideButton
@@ -98,7 +126,7 @@ const TranscriptionEditor: React.FC<Props> = ({
           autofocus
         />
       </div>
-      <div className={styles['container-right']}>
+      <div className='relative'>
         <div className={styles['container-top']}>
           <h2 className='text-lg'>Transcription Result</h2>
           <HideButton

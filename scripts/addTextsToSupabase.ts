@@ -1,8 +1,10 @@
-require('dotenv').config();
+import * as fs from 'fs';
+
+import dotenv from 'dotenv';
+dotenv.config();
+
 import cpdlGetTexts from '../src/lib/cpdl/cpdlGetTexts';
 import supabase from '../src/lib/supabase/index';
-
-import * as fs from 'fs';
 import { Language } from '../src/lib/supabase/models/Language';
 
 const getSlug = (text: string) => {
@@ -20,10 +22,13 @@ const fetchWorks = async () => {
     const worksToFetch = data.split('\n');
 
     // Get current texts
-    const res = await supabase.from('languages').select('*');
-    const languages: Language[] = res.body;
+    const { data: languages } = await supabase
+      .from<Language>('languages')
+      .select('*');
 
-    let languageDictionary = {};
+    if (!languages) return;
+
+    const languageDictionary: Record<number, Language> = {};
     languages.forEach((element) => {
       languageDictionary[element['id']] = element;
     });
@@ -33,34 +38,36 @@ const fetchWorks = async () => {
 
     const works = await Promise.all(fetchPromises);
 
-    const worksToAdd = [];
+    const worksToAdd: unknown[] = [];
 
     works.forEach((w) => {
-      w.forEach((e) => {
-        let variationsByLanguage = {};
-        e.variations.forEach(async (v) => {
-          const language = languages.filter(
-            (l) => l.label.toLowerCase() === v.language.toLowerCase()
-          )[0].id;
+      w?.forEach((e) => {
+        const variationsByLanguage: Record<string, number> = {};
+        e.variations.forEach(
+          async (v: { language: string; text: string; type: string }) => {
+            const language = languages.filter(
+              (l) => l.label.toLowerCase() === v.language.toLowerCase()
+            )[0].id;
 
-          worksToAdd.push({
-            slug: `${getSlug(e.title)}${
-              +variationsByLanguage[v.language]
-                ? `-${variationsByLanguage[v.language]}`
-                : ''
-            }`,
-            title: e.title,
-            text: v.text,
-            language,
-            source: e.url,
-            updated_at: 'now()',
-            type: v.type,
-          });
+            worksToAdd.push({
+              slug: `${getSlug(e.title)}${
+                +variationsByLanguage[v.language]
+                  ? `-${variationsByLanguage[v.language]}`
+                  : ''
+              }`,
+              title: e.title,
+              text: v.text,
+              language,
+              source: e.url,
+              updated_at: 'now()',
+              type: v.type,
+            });
 
-          if (variationsByLanguage[v.language])
-            variationsByLanguage[v.language] += 1;
-          else variationsByLanguage[v.language] = 1;
-        });
+            if (variationsByLanguage[v.language])
+              variationsByLanguage[v.language] += 1;
+            else variationsByLanguage[v.language] = 1;
+          }
+        );
       });
     });
 

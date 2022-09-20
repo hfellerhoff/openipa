@@ -1,78 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import TranscriptionEditor from '../../../src/components/transcription-page/TranscriptionEditor';
-import TranscriptionDescription from '../../../src/components/transcription-page/TranscriptionDescription';
-import ExportButtons from '../../../src/components/transcription-page/TranscriptionActionButtons';
+import { GetStaticProps } from 'next';
 
-import { Languages, Result } from '../../../src/constants/Interfaces';
-import Template from '../../../src/constants/Template';
-import { capitalizeFirstLetter } from '../../../src/util/StringHelper';
-import styles from './TranscriptionPage.module.scss';
-import { useRouter } from 'next/router';
-import Layout from '../../../src/components/layout/Layout';
-import Head from 'next/head';
-import PageHeader from '../../../src/components/header/PageHeader';
+import TranscriptionPage from '../../../src/components/transcription-page';
+import getTranscriptionPageStaticProps, {
+  TranscriptionPageStaticProps,
+} from '../../../src/components/transcription-page/getTranscriptionPageStaticProps';
+import { Languages } from '../../../src/constants/Interfaces';
 
-type Props = {};
+export default function TranscriptionLanguagePage(
+  props: TranscriptionPageStaticProps
+) {
+  return <TranscriptionPage transcriptionProps={props} />;
+}
 
-const TranscriptionPage = ({}: Props) => {
-  const router = useRouter();
-  const [result, setResult] = useState<Result>(Template.Result);
-  const [language, setLanguage] = useState<Languages>(
-    router.query.language as Languages
-  );
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const language = params?.language as string;
+  const props = await getTranscriptionPageStaticProps(language);
 
-  const text = router.query.text as string;
-
-  useEffect(() => {
-    if (
-      !(capitalizeFirstLetter(router.query.language as string) in Languages) &&
-      router.query.language
-    ) {
-      if (router) router.replace('/');
-    } else if (router.query.language && !language)
-      setLanguage(router.query.language as Languages);
-  }, [router.query.language]);
-
-  if (!(capitalizeFirstLetter(language) in Languages)) return <></>;
-  return (
-    <Layout>
-      <Head>
-        <title>
-          {language ? `${capitalizeFirstLetter(language)} ` : ''}Language
-          Transcription - Open IPA
-        </title>
-        <link rel='icon' href='/favicon.ico' />
-        <meta
-          name='description'
-          content={`Free, informative IPA transcription for Lyric Diction. Transcribe any ${
-            language ? capitalizeFirstLetter(language) : 'foreign language'
-          } text into the International Phonetic Alphabet in real-time, and receive nuanced feedback for each transcription step.`}
-        />
-      </Head>
-      <PageHeader
-        title='Transcription'
-        subtitle='Type or paste your text below to transcribe it into the International Phonetic Alphabet.'
-        colorClassName='bg-blue-900 bg-opacity-75'
-      />
-      <div className={styles.container}>
-        <div className='mx-auto max-w-7xl'>
-          <div className={styles['content-container']}>
-            <TranscriptionDescription
-              language={language}
-              setLanguage={setLanguage}
-            />
-            <TranscriptionEditor
-              language={language}
-              result={result}
-              setResult={setResult}
-              text={text}
-            />
-            <ExportButtons language={language} result={result} />
-          </div>
-        </div>
-      </div>
-    </Layout>
-  );
+  return {
+    props,
+  };
 };
 
-export default TranscriptionPage;
+export async function getStaticPaths() {
+  const languages = Object.values(Languages);
+  const paths = languages.map((language) => `/transcription/${language}`);
+
+  // We'll pre-render only these paths at build time.
+  // { fallback: false } means other routes should 404.
+  return { paths, fallback: false };
+}

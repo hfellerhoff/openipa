@@ -1,6 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import { escape } from 'querystring';
+
+import { NextApiRequest, NextApiResponse } from 'next';
 import wretch from 'wretch';
+
 import { Result } from '../../../src/constants/Interfaces';
 
 const deeplAPI = wretch('https://api-free.deepl.com/v2');
@@ -20,7 +22,10 @@ export interface TranslationResponse {
   }[];
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function translateAPI(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const transcriptionResult: Result = req.body.result;
   const language: string = req.body.language;
 
@@ -68,4 +73,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.error(e);
     res.status(400).end();
   }
-};
+}

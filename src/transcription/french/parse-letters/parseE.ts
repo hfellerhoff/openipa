@@ -1,12 +1,12 @@
 import { ParseLetterProps, Phoneme } from '../../../constants/Interfaces';
 import IPA from '../../../constants/IPA';
 import { isConsonant, isVowel, isEndOfSentence } from '../../../util/Helper';
-import Rules from '../FrenchRules';
 import {
   isNasalCanceling,
   isGlideFollowing,
   isPronouncedConsonant,
 } from '../FrenchHelper';
+import Rules from '../FrenchRules';
 import transcribeLetter from '../parse-functions/transcribeLetter';
 
 const parseE = ({
@@ -112,18 +112,19 @@ const parseE = ({
       rule: Rules.FINAL_EU,
     };
   }
+  // TODO: currently shares the same parsing logic as typical -ent. fix this
   // final verb ending -ent
-  else if (
-    nextletter[1] === 'n' &&
-    nextletter[2] === 't' &&
-    isEndOfSentence(nextletter[3])
-  ) {
-    phoneme = {
-      text: 'ent',
-      ipa: IPA.SCHWA,
-      rule: Rules.FINAL_VERB_ENT,
-    };
-  }
+  // else if (
+  //   nextletter[1] === 'n' &&
+  //   nextletter[2] === 't' &&
+  //   isEndOfSentence(nextletter[3])
+  // ) {
+  //   phoneme = {
+  //     text: 'ent',
+  //     ipa: IPA.SCHWA,
+  //     rule: Rules.FINAL_VERB_ENT,
+  //   };
+  // }
   // final -eu + final silent consonant
   else if (
     nextletter[1] === 'u' &&

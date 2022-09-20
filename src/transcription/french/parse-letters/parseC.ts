@@ -1,12 +1,12 @@
 import { ParseLetterProps, Phoneme } from '../../../constants/Interfaces';
 import IPA from '../../../constants/IPA';
 import transcribeDefault from '../parse-functions/transcribeDefault';
-import transcribeLetter from '../parse-functions/transcribeLetter';
+import transcribeDoubleLetter from '../parse-functions/transcribeDoubleLetter';
+import transcribeFinalConsonant from '../parse-functions/transcribeFinalConsonant';
 import transcribeFollowingBackVowel from '../parse-functions/transcribeFollowingBackVowel';
 import transcribeFollowingFrontVowel from '../parse-functions/transcribeFollowingFrontVowel';
-import transcribeFinalConsonant from '../parse-functions/transcribeFinalConsonant';
 import transcribeFollowingLetter from '../parse-functions/transcribeFollowingLetter';
-import transcribeDoubleLetter from '../parse-functions/transcribeDoubleLetter';
+import transcribeLetter from '../parse-functions/transcribeLetter';
 
 const parseC = ({ phoneme, nextletter }: ParseLetterProps): Phoneme => {
   phoneme = transcribeDefault(nextletter, IPA.K);

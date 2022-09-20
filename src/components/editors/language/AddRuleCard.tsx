@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 import { Dictionary } from '../../../hooks/useSupabaseTable';
+import supabase from '../../../lib/supabase';
 import {
   IPASubcategory,
   IPACategory,
@@ -18,7 +20,6 @@ import Card from '../../cards/Card';
 import IPADisplay from './IPADisplay';
 import IPADropdown from './IPADropdown';
 import RuleInputStep from './RuleInputStep';
-import supabase from '../../../lib/supabase';
 
 interface Props {
   rules: Rule[];
@@ -33,7 +34,6 @@ interface Props {
 }
 
 const AddRuleCard = ({
-  rules,
   ipa,
   subcategories,
   categories,
@@ -59,15 +59,21 @@ const AddRuleCard = ({
   );
 
   const handleCreateRule = async () => {
+    const isSilent = result.includes(51);
+
+    const transformedDescription = isSilent
+      ? description
+      : `${description} [${result.join(',')}].`;
+
     if (editProps) {
       await supabase
         .from('rules')
         .update([
           {
-            language: languageId,
+            language_id: languageId,
             output: result,
             input,
-            description: `${description} [${result.join(',')}].`,
+            description: transformedDescription,
           } as Rule,
         ])
         .eq('id', editProps.rule.id);
@@ -78,10 +84,10 @@ const AddRuleCard = ({
 
       await supabase.from('rules').insert([
         {
-          language: languageId,
+          language_id: languageId,
           output: result,
           input,
-          description: `${description} [${result.join(',')}].`,
+          description: transformedDescription,
         } as Rule,
       ]);
 
@@ -110,14 +116,14 @@ const AddRuleCard = ({
             type,
             ids: [],
             replace: false,
-          } as RuleInputCategory);
+          } as unknown as RuleInputCategory);
           break;
         case RuleInputType.Subcategories:
           oldInput.steps.push({
             type,
             ids: [],
             replace: false,
-          } as RuleInputSubcategory);
+          } as unknown as RuleInputSubcategory);
           break;
       }
 
@@ -150,12 +156,13 @@ const AddRuleCard = ({
         </Button>
       ) : (
         <Card key='new-rule-card'>
-          <div className='flex w-full align-center justify-between mb-2'>
+          <div className='flex justify-between w-full mb-2 align-center'>
             <div className='flex'>
               <div>
                 {input.steps.map((step, i) => (
                   <div className='flex mb-1' key={i}>
                     <input
+                      title='Should replace during transcription'
                       type='checkbox'
                       checked={!!step.replace}
                       onChange={() => toggleReplace(i)}
@@ -212,6 +219,7 @@ const AddRuleCard = ({
             <div>
               <IPADisplay className='flex'>
                 <input
+                  title='Rule description'
                   name='rule-description'
                   className={`bg-gray-200 font-sans w-full flex-1`}
                   value={description}
@@ -225,7 +233,7 @@ const AddRuleCard = ({
                 )}
               </IPADisplay>
             </div>
-            <div className='flex align-center justify-end mt-4'>
+            <div className='flex justify-end mt-4 align-center'>
               <Button
                 colorClassName='bg-red-600 hover:bg-red-700 focus:ring-red-700'
                 onClick={() => {

@@ -4,7 +4,7 @@ import { IPA } from '../../lib/supabase/models/IPA';
 const idsToIPAString = (
   ids: number[],
   ipa: Dictionary<IPA>,
-  writeOutSilence: boolean = true
+  writeOutSilence = true
 ) => {
   let string = '';
 

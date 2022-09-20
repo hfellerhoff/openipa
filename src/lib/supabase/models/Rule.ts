@@ -27,7 +27,7 @@ export interface RuleInputCategory extends RuleInput {
 // Total rule
 export interface Rule {
   id?: number;
-  language: number;
+  language_id: number;
   input: {
     steps: RuleInput[];
   };

@@ -1,10 +1,9 @@
 import React from 'react';
+
 import LanguageSelectionButtons from '../button-containers/LanguageSelectionButtons';
 import styles from './Hero.module.scss';
 
-interface Props {}
-
-const Hero: React.FC<Props> = () => {
+const Hero: React.FC = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Open IPA</h1>

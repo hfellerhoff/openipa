@@ -1,10 +1,11 @@
-import React from 'react';
+import { NextPage } from 'next';
+
 import { Dictionary } from '../src/hooks/useSupabaseTable';
 import supabase from '../src/lib/supabase';
 import { Language } from '../src/lib/supabase/models/Language';
 
 const createSitemap = (
-  routes
+  routes: string[]
   // texts,
   // languageDictionary
 ) => `<?xml version="1.0" encoding="UTF-8"?>
@@ -55,42 +56,46 @@ const createSitemap = (
     </urlset>
     `;
 
-class Sitemap extends React.Component {
-  static async getInitialProps({ res }) {
-    // Ignore Next.js specific files (e.g., _app.js) and API routes.
-    let { data: texts } = await supabase.from('texts').select('*');
-    let { data: languages } = await supabase.from('languages').select('*');
+const Sitemap: NextPage = () => null;
 
-    let languageDictionary: Dictionary<Language> = {};
-    languages.forEach((language: Language) => {
-      languageDictionary[language.id] = language;
-    });
+Sitemap.getInitialProps = async ({ res }) => {
+  // Ignore Next.js specific files (e.g., _app.js) and API routes.
+  const { data: texts } = await supabase.from('texts').select('*');
+  const { data: languages } = await supabase.from('languages').select('*');
 
-    // Get the paths we want to pre-render based on posts
-    const textPaths = texts.map(
-      (text) =>
-        `/transcription/${languageDictionary[text.language].slug}/${text.slug}`
-    );
-    const languagePaths = languages.map(
-      (language) => `/transcription/${language.slug}`
-    );
-
-    const routes = [
-      '/',
-      '/sitemap.xml',
-      '/editor',
-      '/support',
-      '/transcription',
-      '/editor/ipa',
-    ];
-
-    routes.push(...languagePaths, ...textPaths);
-    console.log(routes);
-
-    res.setHeader('Content-Type', 'text/xml');
-    res.write(createSitemap(routes));
-    res.end();
+  if (!languages || !texts) {
+    res?.end();
+    return;
   }
-}
+
+  const languageDictionary: Dictionary<Language> = {};
+  languages.forEach((language: Language) => {
+    languageDictionary[language.id] = language;
+  });
+
+  // Get the paths we want to pre-render based on posts
+  const textPaths = texts.map(
+    (text) =>
+      `/transcription/${languageDictionary[text.language].slug}/${text.slug}`
+  );
+  const languagePaths = languages.map(
+    (language) => `/transcription/${language.slug}`
+  );
+
+  const routes = [
+    '/',
+    '/sitemap.xml',
+    '/editor',
+    '/support',
+    '/transcription',
+    '/editor/ipa',
+  ];
+
+  routes.push(...languagePaths, ...textPaths);
+
+  res?.setHeader('Content-Type', 'text/xml');
+  res?.write(createSitemap(routes));
+  res?.end();
+};
 
 export default Sitemap;

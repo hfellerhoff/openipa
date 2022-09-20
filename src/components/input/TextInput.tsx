@@ -1,10 +1,11 @@
-import React, { CSSProperties, useRef, useState } from 'react';
-import styles from './TextInput.module.scss';
+import React, { CSSProperties, useRef } from 'react';
+
 import useWindowDimensions from '../../hooks/UseWindowDimensions';
+import styles from './TextInput.module.scss';
 
 interface Props {
   inputText: string;
-  setInputText: React.Dispatch<React.SetStateAction<string>>;
+  setInputText?: React.Dispatch<React.SetStateAction<string>>;
   theme?: 'dark' | 'light';
   displayHeight?: number;
   shouldHide?: boolean;
@@ -20,10 +21,12 @@ const TextInput: React.FC<Props> = ({
   autofocus = false,
 }) => {
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (!setInputText) return;
+
     const text = e.target.value;
     setInputText(text);
   };
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const className = styles[`input--${theme}`];
   const { width } = useWindowDimensions();
   const isWidthSmallEnough = width <= 800 ? true : false;
@@ -31,8 +34,7 @@ const TextInput: React.FC<Props> = ({
   const smallWidthHeight =
     60 +
     (inputRef.current
-      ? // @ts-ignore
-        inputRef.current.innerHTML.split('\n').length * 23.25
+      ? inputRef.current.innerHTML.split('\n').length * 23.25
       : 0);
 
   const heightStyle: CSSProperties = {

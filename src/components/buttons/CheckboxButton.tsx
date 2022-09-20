@@ -1,9 +1,12 @@
 import React from 'react';
+
+import Image from 'next/image';
+
 import styles from './CheckboxButton.module.scss';
 
 interface Props {
   isChecked: boolean;
-  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsChecked: (v: boolean) => void;
   id: string;
 }
 
@@ -16,10 +19,11 @@ const CheckboxButton: React.FC<Props> = ({ isChecked, setIsChecked, id }) => {
       onClick={() => setIsChecked(!isChecked)}
     >
       {isChecked ? (
-        <img
+        <Image
           src='/assets/checkmark.png'
-          alt=''
-          className={styles['option-checkbox-image']}
+          alt='Checkmark'
+          width={15}
+          height={15}
         />
       ) : (
         <></>

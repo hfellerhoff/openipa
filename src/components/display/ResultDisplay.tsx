@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Word, Line, Result } from '../../constants/Interfaces';
+import React, { useEffect } from 'react';
+import { useRef } from 'react';
 
-import styles from './ResultDisplay.module.scss';
-import useWindowDimensions from '../../hooks/UseWindowDimensions';
+import clsx from 'clsx';
+
+import { Word, Line, Result } from '../../constants/Interfaces';
 import IPA from '../../constants/IPA';
+import useWindowDimensions from '../../hooks/UseWindowDimensions';
 import { useTranslationStore } from '../../state/translation';
 import { resultToLines } from '../../util/resultToLines';
 import FeedbackModal from '../feedback/FeedbackModal';
+import styles from './ResultDisplay.module.scss';
+import ResultEditButton from './ResultEditButton';
 
 type PhonemeProps = {
   text: string;
@@ -67,7 +71,11 @@ const WordElement = ({ word, theme, shouldHideOriginalText }: WordProps) => {
     originalSyllableElements.push(originalPhonemeElement);
   });
   return (
-    <div className={styles['phoneme-block']}>
+    <div
+      className={clsx('inline-block flex-col', {
+        'my-2.5': !shouldHideOriginalText,
+      })}
+    >
       {!shouldHideOriginalText && <div>{originalSyllableElements}</div>}
       <div>{syllableElements}</div>
     </div>
@@ -105,19 +113,24 @@ const LineElement = ({
       }
     });
     const spaceElement = (
-      <span style={{ margin: '0px 5px' }} key={(index + 0.5).toString()}></span>
+      <span className='mx-1' key={(index + 0.5).toString()}></span>
     );
     wordElements.push(wordElement);
     if (!foundUndertie) wordElements.push(spaceElement);
   });
   return (
-    <div className='mt-2 mb-4'>
+    <div
+      className={clsx({
+        'mt-2 mb-4': !shouldHideOriginalText,
+        'mt-1': shouldHideOriginalText,
+      })}
+    >
       {translations && (
         <span className={`${styles[`translated-text--${theme}`]}`}>
           {translations.get(lineText)}
         </span>
       )}
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>{wordElements}</div>
+      <div className='flex flex-wrap'>{wordElements}</div>
     </div>
   );
 };
@@ -140,7 +153,7 @@ const ResultElement = ({
   shouldHide,
   hideFeedback = false,
 }: DisplayProps) => {
-  const [displayRef, setDisplayRef] = useState<HTMLDivElement>();
+  const displayRef = useRef<HTMLDivElement>(null);
   const { allTranslations } = useTranslationStore((store) => ({
     allTranslations: store.translations,
   }));
@@ -171,8 +184,8 @@ const ResultElement = ({
   const className = `${styles[`display--${theme}`]}`;
 
   useEffect(() => {
-    if (displayRef && setHeight) {
-      const height = displayRef.offsetHeight;
+    if (displayRef.current && setHeight) {
+      const height = displayRef.current?.offsetHeight;
       if (height !== 0) setHeight(height);
     }
   }, [result, displayRef, setHeight, shouldHideOriginalText]);
@@ -180,12 +193,15 @@ const ResultElement = ({
   return (
     <div
       id='result'
-      className={`${className} relative`}
-      ref={(display) => setDisplayRef(display ? display : displayRef)}
+      className={clsx('relative', {
+        [className]: !!className,
+      })}
+      ref={displayRef}
       hidden={isWidthSmallEnough ? shouldHide : false}
     >
       {lineElements}
       {!hideFeedback && <FeedbackModal result={result} language={language} />}
+      <ResultEditButton />
     </div>
   );
 };

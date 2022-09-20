@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import create from 'zustand';
-import { persist } from 'zustand/middleware';
+import create, { StateCreator } from 'zustand';
+import { persist, PersistOptions } from 'zustand/middleware';
 
 export interface TranslationQuota {
   count: number;
@@ -15,15 +15,20 @@ interface QuotaStore {
   resetQuota: (name: QuotaKey) => void;
 }
 
+type QuotaStorePersist = (
+  config: StateCreator<QuotaStore>,
+  options: PersistOptions<QuotaStore>
+) => StateCreator<QuotaStore>;
+
 export const useQuotaStore = create<QuotaStore>(
-  persist(
-    (set, get) => ({
+  (persist as unknown as QuotaStorePersist)(
+    (set) => ({
       translation: {
         count: 0,
         limit: 3,
         resetOn: dayjs().add(1, 'week').toISOString(),
       },
-      updateQuota: (name: QuotaKey, count: number = 1) =>
+      updateQuota: (name, count = 1) =>
         set((store) => ({
           ...store,
           [name]: {
@@ -31,7 +36,7 @@ export const useQuotaStore = create<QuotaStore>(
             count: store[name].count + count,
           },
         })),
-      resetQuota: (name: QuotaKey) =>
+      resetQuota: (name) =>
         set((store) => ({
           ...store,
           [name]: {
@@ -43,7 +48,6 @@ export const useQuotaStore = create<QuotaStore>(
     }),
     {
       name: '@openipa/storage/quota',
-      //   storage: sessionStorage, // (optional) default is 'localStorage'
     }
   )
 );

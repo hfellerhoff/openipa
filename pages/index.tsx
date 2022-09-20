@@ -1,13 +1,13 @@
 import React from 'react';
-import Hero from '../src/components/landing-page/Hero';
-import Description from '../src/components/landing-page/Description';
-import Demonstration from '../src/components/landing-page/Demonstration';
-import Layout from '../src/components/layout/Layout';
+
 import Head from 'next/head';
 
-interface Props {}
+import Demonstration from '../src/components/landing-page/Demonstration';
+import Description from '../src/components/landing-page/Description';
+import Hero from '../src/components/landing-page/Hero';
+import Layout from '../src/components/layout/Layout';
 
-const LandingPage: React.FC<Props> = () => {
+const LandingPage: React.FC = () => {
   return (
     <Layout>
       <Head>

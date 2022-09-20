@@ -18,8 +18,8 @@ export interface Result {
 
 export enum Languages {
   Latin = 'latin',
-  German = 'german',
-  Italian = 'italian',
+  // German = 'german',
+  // Italian = 'italian',
   French = 'french',
 }
 

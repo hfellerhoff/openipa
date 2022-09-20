@@ -1,11 +1,12 @@
-import { Result, Languages } from '../constants/Interfaces';
-import { Charis } from '../constants/fonts/CharisSIL-R-normal';
-import TrebuchetMS from '../constants/fonts/trebuchet-ms-normal';
-import TrebuchetMSBold from '../constants/fonts/trebuchet-ms-bold';
-import imageData from '../../public/assets/logo_bw';
-import { capitalizeFirstLetter } from './StringHelper';
-import IPA from '../constants/IPA';
 import jsPDF from 'jspdf';
+
+import imageData from '../../public/assets/logo_bw';
+import { Charis } from '../constants/fonts/CharisSIL-R-normal';
+import TrebuchetMSBold from '../constants/fonts/trebuchet-ms-bold';
+import TrebuchetMS from '../constants/fonts/trebuchet-ms-normal';
+import { Result, Languages } from '../constants/Interfaces';
+import IPA from '../constants/IPA';
+import { capitalizeFirstLetter } from './StringHelper';
 
 const createPDFFromResult = async (language: Languages, result: Result) => {
   return new Promise<void>((resolve) => {
@@ -61,7 +62,7 @@ const createPDFFromResult = async (language: Languages, result: Result) => {
         let textWord = '';
         let ipaWord = '';
 
-        word.syllables.forEach((syllable, index) => {
+        word.syllables.forEach((syllable) => {
           if (syllable.text !== '\n') {
             textWord += syllable.text;
             ipaWord += syllable.ipa;

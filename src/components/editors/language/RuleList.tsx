@@ -1,25 +1,20 @@
-import React, { useState } from 'react';
-import {
-  Rule,
-  RuleInputString,
-  RuleInputType,
-} from '../../../lib/supabase/models/Rule';
-import supabase from '../../../lib/supabase';
-import idsToIPAString from '../../../util/supabase/idsToIPAString';
-import parseIPASymbolString from '../../../util/supabase/parseIPASymbolString';
-import Button from '../../buttons/Button';
-import Card from '../../cards/Card';
-import IPADisplay from './IPADisplay';
-import IPADropdown from './IPADropdown';
-import IPAInput from './IPAInput';
+import { useState } from 'react';
+import { useMemo } from 'react';
+
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
   IPA,
   IPACategory,
   IPASubcategory,
 } from '../../../lib/supabase/models/IPA';
-import RuleInputDisplay from './RuleInputDisplay';
+import { Rule } from '../../../lib/supabase/models/Rule';
+import idsToIPAString from '../../../util/supabase/idsToIPAString';
+import parseIPASymbolString from '../../../util/supabase/parseIPASymbolString';
+import Button from '../../buttons/Button';
+import Card from '../../cards/Card';
 import AddRuleCard from './AddRuleCard';
+import IPADisplay from './IPADisplay';
+import RuleInputDisplay from './RuleInputDisplay';
 
 interface Props {
   rules: Rule[];
@@ -38,19 +33,25 @@ const RuleList = ({
 }: Props) => {
   const [idToBeEdited, setIdToBeEdited] = useState(0);
 
+  const languageRules = useMemo(() => {
+    if (!languageId || !rules) return [];
+    return rules.filter((rule) => rule.language_id === languageId);
+  }, [languageId, rules]);
+
   if (
     Object.values(ipa).length === 0 ||
     Object.values(subcategories).length === 0 ||
     Object.values(categories).length === 0
   )
     return <></>;
+
   return (
-    <ul>
-      {rules.map((rule) =>
+    <div>
+      {languageRules.map((rule) =>
         rule.id === idToBeEdited ? (
           <AddRuleCard
             key={rule.id}
-            rules={rules}
+            rules={languageRules}
             ipa={ipa}
             subcategories={subcategories}
             categories={categories}
@@ -62,7 +63,7 @@ const RuleList = ({
           />
         ) : (
           <Card key={rule.id}>
-            <div className='flex w-full align-center justify-between mb-2'>
+            <div className='flex justify-between w-full mb-2 align-center'>
               <div className='flex'>
                 <RuleInputDisplay
                   input={rule.input}
@@ -75,11 +76,11 @@ const RuleList = ({
                 {idsToIPAString(rule.output, ipa)}
               </IPADisplay>
             </div>
-            <div className='flex align-center justify-between'>
+            <div className='flex justify-between align-center'>
               <p>{parseIPASymbolString(rule.description, ipa)}</p>
               <Button
                 colorClassName='bg-gray-600 hover:bg-gray-700 focus:ring-gray-700'
-                onClick={() => setIdToBeEdited(rule.id)}
+                onClick={() => setIdToBeEdited(rule.id || -1)}
               >
                 Edit
               </Button>
@@ -88,13 +89,13 @@ const RuleList = ({
         )
       )}
       <AddRuleCard
-        rules={rules}
+        rules={languageRules}
         ipa={ipa}
         subcategories={subcategories}
         categories={categories}
         languageId={languageId}
       />
-    </ul>
+    </div>
   );
 };
 

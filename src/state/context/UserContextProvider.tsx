@@ -1,5 +1,7 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
+
 import { Session, User } from '@supabase/supabase-js';
+
 import supabase from '../../lib/supabase';
 
 export const UserContext = createContext<{
@@ -10,7 +12,11 @@ export const UserContext = createContext<{
   session: null,
 });
 
-export const UserContextProvider = (props: any) => {
+type Props = {
+  children: JSX.Element;
+};
+
+export const UserContextProvider = (props: Props) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
@@ -26,7 +32,7 @@ export const UserContextProvider = (props: any) => {
     );
 
     return () => {
-      authListener!.unsubscribe();
+      authListener?.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
