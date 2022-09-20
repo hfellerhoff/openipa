@@ -59,6 +59,10 @@ const TranscriptionEditor: React.FC<Props> = ({
   );
 
   useEffect(() => {
+    if (text) setInputText(text);
+  }, [text]);
+
+  useEffect(() => {
     const parseText = (text: string) => {
       if (editorView) {
         return transcribeText(
