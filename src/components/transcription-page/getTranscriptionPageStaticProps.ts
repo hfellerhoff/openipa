@@ -37,7 +37,7 @@ const fetchFromTable = async <T>(
     .order(primaryKeyColumn, { ascending: true });
 };
 
-const fetchSupabaseTableAsDict = async <T>(
+export const fetchSupabaseTableAsDict = async <T>(
   table: string,
   primaryKeyColumn: keyof T,
   language?: Language

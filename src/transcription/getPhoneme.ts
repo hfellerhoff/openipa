@@ -43,8 +43,8 @@ const getPhoneme = (
       let phonemeText = '';
       let indexOffset = 0;
       let offsetFound = false;
-      rule.input.steps.forEach((s, i) => {
-        if (s.replace && !offsetFound) {
+      rule.input.steps.forEach((step, i) => {
+        if (step.replace && !offsetFound) {
           indexOffset += i;
           offsetFound = true;
         }
@@ -94,6 +94,7 @@ const getPhoneme = (
                   categories,
                   true
                 );
+
                 if (!fetchedPhoneme) return false;
                 phonemeToCheck = fetchedPhoneme.phoneme;
               } else {

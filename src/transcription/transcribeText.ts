@@ -34,12 +34,15 @@ const transcribeText = (
     const punctuationResult = processPunctuation(charArray, index, result);
     result = punctuationResult.result;
 
+    const mostRecentLineIndex = result.lines.length - 1;
+
+    const currentLine = result.lines[mostRecentLineIndex];
+    const mostRecentWordIndex = currentLine.words.length - 1;
+
     // If punctuation was found, use that phoneme and continue the loop
     if (punctuationResult.phoneme) {
-      const currentLine = result.lines[result.lines.length - 1];
-
-      result.lines[result.lines.length - 1].words[
-        currentLine.words.length - 1
+      result.lines[mostRecentLineIndex].words[
+        mostRecentWordIndex
       ].syllables.push(punctuationResult.phoneme);
     }
     // Otherwise:
@@ -57,10 +60,8 @@ const transcribeText = (
       );
 
       if (transcriptionResult) {
-        const currentLine = result.lines[result.lines.length - 1];
-
-        result.lines[result.lines.length - 1].words[
-          currentLine.words.length - 1
+        result.lines[mostRecentLineIndex].words[
+          mostRecentWordIndex
         ].syllables.push(transcriptionResult.phoneme);
 
         index = transcriptionResult.index;
