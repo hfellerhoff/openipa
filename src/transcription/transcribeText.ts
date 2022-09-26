@@ -45,6 +45,7 @@ const transcribeText = (
         mostRecentWordIndex
       ].syllables.push(punctuationResult.phoneme);
     }
+
     // Otherwise:
     // STEP 2: Check rules against current character
     else {

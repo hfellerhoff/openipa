@@ -1,16 +1,5 @@
-import { fetchSupabaseTableAsDict } from '../../components/transcription-page/getTranscriptionPageStaticProps';
-import { Languages } from '../../constants/Interfaces';
-import supabase from '../../lib/supabase';
-import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../lib/supabase/models/IPA';
-import { Language } from '../../lib/supabase/models/Language';
-import { Rule } from '../../lib/supabase/models/Rule';
 import parseFrench from '../../transcription/french/ParseFrench';
 import flattenResult from './flattenResult';
-import handleExpectTranscription from './handleExpectTranscription';
 
 const expectLegacyFrenchTranscription = (
   inputText: string,
@@ -28,7 +17,7 @@ const expectLegacyFrenchTranscription = (
   });
 
   const flattenedResult = flattenResult(result);
-  expect(expectedOutput).toBe(flattenedResult);
+  expect(flattenedResult).toBe(expectedOutput);
 };
 
 const setupLegacyFrenchTest = async () => {

@@ -4,14 +4,11 @@ import { IPA } from '../../lib/supabase/models/IPA';
 import { RuleInput, RuleInputType } from '../../lib/supabase/models/Rule';
 
 export const isPhonemeIn = (
-  phoneme: Phoneme,
+  phoneme: Phoneme | undefined,
   ids: number[],
   ipa: Dictionary<IPA>,
   step: RuleInput
 ) => {
-  if (!phoneme) return false;
-  if (!phoneme.ipa) return false;
-
   const possibleMatches: string[] = Object.values(ipa)
     .filter((e: IPA) =>
       ids.includes(
@@ -20,10 +17,20 @@ export const isPhonemeIn = (
     )
     .map((e: IPA) => e.symbol);
 
+  if (!phoneme || phoneme?.ipa === undefined || phoneme?.ipa === null) {
+    if (possibleMatches.includes('')) {
+      return true;
+    }
+
+    return false;
+  }
+
   const regex = possibleMatches.join('');
   const symbolToMatch = phoneme.ipa.charAt(phoneme.ipa.length - 1);
 
-  return !!symbolToMatch.match(RegExp(`[${regex}]`, 'i'));
+  const isPhonemeInRegex = !!symbolToMatch.match(RegExp(`[${regex}]`, 'i'));
+
+  return isPhonemeInRegex;
 };
 
 // export const isLetterInSubcategory = (

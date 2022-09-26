@@ -95,7 +95,7 @@ const createPDFFromResult = async (language: Languages, result: Result) => {
           }
           if (textWord[0] === ' ') ipaWord = ' ' + liasonLetter + ipaWord;
           else ipaWord = liasonLetter + ipaWord;
-          console.log(textWord, ipaWord);
+
           liasonLetter = '';
         }
 

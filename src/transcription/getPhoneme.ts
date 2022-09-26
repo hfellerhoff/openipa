@@ -63,7 +63,7 @@ const getPhoneme = (
         const processStep = () => {
           let stringMatch: string | undefined;
           let ids: number[];
-          let phonemeToCheck: Phoneme;
+          let phonemeToCheck: Phoneme | undefined;
 
           switch (step.type) {
             case RuleInputType.String:
@@ -95,16 +95,14 @@ const getPhoneme = (
                   true
                 );
 
-                if (!fetchedPhoneme) return false;
-                phonemeToCheck = fetchedPhoneme.phoneme;
+                phonemeToCheck = fetchedPhoneme?.phoneme;
               } else {
                 phonemeToCheck = lastPhoneme;
               }
 
-              if (!phonemeToCheck) return false;
-
               if (isPhonemeIn(phonemeToCheck, ids, ipa, step)) {
                 adjustedIndex += 1;
+
                 return true;
               }
               return false;

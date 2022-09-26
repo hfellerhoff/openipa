@@ -10,10 +10,16 @@ const matchStringInput = (step: RuleInput, text: string, index: number) => {
 
       if (characters === possibleMatch) return characters;
     })
-    .filter((m) => !!m);
+    .filter((m) => !!m) as string[];
 
-  // If there is a string match
-  if (stringMatches.length > 0) return stringMatches[0];
+  // If there is a string match, return the longest match
+  if (stringMatches.length > 0) {
+    return stringMatches.reduce((longestMatch, currentMatch) => {
+      if (!longestMatch) return currentMatch;
+      if (currentMatch.length > longestMatch.length) return currentMatch;
+      return longestMatch;
+    }, '');
+  }
 
   // Otherwise
   return undefined;

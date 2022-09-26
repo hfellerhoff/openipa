@@ -29,7 +29,7 @@ const handleExpectTranscription =
     );
 
     const flattenedResult = flattenResult(result);
-    expect(expectedOutput).toBe(flattenedResult);
+    expect(flattenedResult).toBe(expectedOutput);
   };
 
 export default handleExpectTranscription;
