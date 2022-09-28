@@ -31,8 +31,8 @@ const transcribeText = (
   let index = 0;
   while (index < charArray.length) {
     // STEP 1: Check for punctuation
-    const punctuationResult = processPunctuation(charArray, index, result);
-    result = punctuationResult.result;
+    const processedPunctuation = processPunctuation(charArray, index, result);
+    result = processedPunctuation.result;
 
     const mostRecentLineIndex = result.lines.length - 1;
 
@@ -40,10 +40,10 @@ const transcribeText = (
     const mostRecentWordIndex = currentLine.words.length - 1;
 
     // If punctuation was found, use that phoneme and continue the loop
-    if (punctuationResult.phoneme) {
+    if (processedPunctuation.phoneme) {
       result.lines[mostRecentLineIndex].words[
         mostRecentWordIndex
-      ].syllables.push(punctuationResult.phoneme);
+      ].syllables.push(processedPunctuation.phoneme);
     }
 
     // Otherwise:
