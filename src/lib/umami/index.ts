@@ -19,8 +19,6 @@ export const trackAnalyticsEvent = (
 ) => {
   const umami = (window as WindowWithUmami)?.umami;
 
-  console.log(umami);
-
   if (umami) {
     umami.trackEvent(event, { type, ...data });
   }
