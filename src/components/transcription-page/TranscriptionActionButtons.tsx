@@ -5,6 +5,7 @@ import wretch from 'wretch';
 
 import { TranslationResponse } from '../../../pages/api/translate';
 import { Result, Languages } from '../../constants/Interfaces';
+import { trackAnalyticsEvent } from '../../lib/umami';
 import { useEditorStore } from '../../state/editor';
 import { TranslationQuota, useQuotaStore } from '../../state/quota';
 import { useTranslationStore } from '../../state/translation';
@@ -55,6 +56,9 @@ const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
   const translationsLeft = translationQuota.limit - translationQuota.count;
 
   const handleCreatePDF = () => {
+    trackAnalyticsEvent('click', 'Create PDF');
+    trackAnalyticsEvent('click', 'Create PDF', { language });
+
     setIsPDFCreated(false);
     setTimeout(() => {
       createPDFFromResult(language as Languages, result).then(() =>
@@ -78,6 +82,8 @@ const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
   const handleTranslate = async () => {
     if (translationsLeft <= 0) return;
 
+    trackAnalyticsEvent('click', 'Translate', { language });
+
     setIsTranslating(true);
 
     const data: TranslationResponse = await wretch('/api/translate')
@@ -99,6 +105,12 @@ const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
   const isNotLatin = language.toLowerCase() !== 'latin';
 
   const quotaText = getQuotaText(translationsLeft, translationQuota);
+
+  const handleCopy = () => {
+    trackAnalyticsEvent('click', 'Copy', { language });
+
+    copyResult(result, shouldHideOriginalText);
+  };
 
   return (
     <>
@@ -131,10 +143,7 @@ const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
           onClick={handleCreatePDF}
           isLoading={!isPDFCreated}
         ></ExportButton>
-        <ExportButton
-          title='Copy'
-          onClick={() => copyResult(result, shouldHideOriginalText)}
-        ></ExportButton>
+        <ExportButton title='Copy' onClick={handleCopy}></ExportButton>
       </div>
     </>
   );
