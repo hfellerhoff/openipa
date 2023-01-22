@@ -126,8 +126,6 @@ const getPhoneme = (
     })
     .filter((p) => !!p);
 
-  console.log(matchingPhonemes);
-
   if (matchingPhonemes.length > 0) {
     matchingPhonemes.sort((prevPhoneme, nextPhoneme) => {
       if (!prevPhoneme || !nextPhoneme) return 0;
