@@ -10,9 +10,9 @@
     "serve": "pnpm build && pnpm start",
     "script:texts": "ts-node ./scripts/addTextsToSupabase.ts",
     "prepare": "husky install",
-    "test": "jest ./src/tests",
-    "test:latin": "jest ./src/tests/latin",
-    "test:french": "jest ./src/tests/french"
+    "test": "jest --noStackTrace ./src/tests",
+    "test:latin": "jest --noStackTrace ./src/tests/latin",
+    "test:french": "jest --noStackTrace ./src/tests/french"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",
