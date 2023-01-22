@@ -1,12 +1,16 @@
 import { Phoneme, Result } from '../constants/Interfaces';
 import { Dictionary } from '../hooks/useSupabaseTable';
-import { IPA, IPACategory, IPASubcategory } from '../lib/supabase/models/IPA';
 import {
-  Rule,
-  RuleInputCategory,
-  RuleInputSubcategory,
-  RuleInputType,
-} from '../lib/supabase/models/Rule';
+  DatabaseIPA,
+  DatabaseIPACategory,
+  DatabaseIPASubcategory,
+  TransformedRule,
+} from '../lib/supabase/types';
+import {
+  isRuleInputString,
+  isRuleInputCategory,
+  isRuleInputSubcategory,
+} from '../lib/supabase/types/rules';
 import idsToIPAString from '../util/supabase/idsToIPAString';
 import parseIPASymbolString from '../util/supabase/parseIPASymbolString';
 import { isPhonemeIn } from './helper/isLetterIn';
@@ -17,10 +21,10 @@ const getPhoneme = (
   charArray: string[],
   index: number,
   result: Result,
-  rules: Rule[],
-  ipa: Dictionary<IPA>,
-  subcategories: Dictionary<IPASubcategory>,
-  categories: Dictionary<IPACategory>,
+  rules: TransformedRule[],
+  ipa: Dictionary<DatabaseIPA>,
+  subcategories: Dictionary<DatabaseIPASubcategory>,
+  categories: Dictionary<DatabaseIPACategory>,
   recursive = false
 ) => {
   const char = charArray[index];
@@ -62,53 +66,48 @@ const getPhoneme = (
 
         const processStep = () => {
           let stringMatch: string | undefined;
-          let ids: number[];
           let phonemeToCheck: Phoneme | undefined;
 
-          switch (step.type) {
-            case RuleInputType.String:
-              stringMatch = matchStringInput(step, text, adjustedIndex);
-              if (stringMatch) {
-                if (step.replace) phonemeText += stringMatch;
-                adjustedIndex += stringMatch.length;
-              }
+          if (isRuleInputString(step)) {
+            stringMatch = matchStringInput(step, text, adjustedIndex);
+            if (stringMatch) {
+              if (step.replace) phonemeText += stringMatch;
+              adjustedIndex += stringMatch.length;
+            }
 
-              return !!stringMatch;
-            case RuleInputType.Subcategories:
-            case RuleInputType.Categories:
-              // Sometimes, getPhoneme will be called from within itself.
-              // This check is to prevent an infinite recursive depth.
-              if (recursive) return false;
-
-              ids = (step as RuleInputCategory | RuleInputSubcategory).ids;
-
-              if (adjustedIndex >= index) {
-                const fetchedPhoneme = getPhoneme(
-                  text,
-                  charArray,
-                  adjustedIndex,
-                  result,
-                  rules,
-                  ipa,
-                  subcategories,
-                  categories,
-                  true
-                );
-
-                phonemeToCheck = fetchedPhoneme?.phoneme;
-              } else {
-                phonemeToCheck = lastPhoneme;
-              }
-
-              if (isPhonemeIn(phonemeToCheck, ids, ipa, step)) {
-                adjustedIndex += 1;
-
-                return true;
-              }
-              return false;
-            default:
-              return false;
+            return !!stringMatch;
           }
+
+          if (isRuleInputCategory(step) || isRuleInputSubcategory(step)) {
+            // Sometimes, getPhoneme will be called from within itself.
+            // This check is to prevent an infinite recursive depth.
+            if (recursive) return false;
+
+            if (adjustedIndex >= index) {
+              const fetchedPhoneme = getPhoneme(
+                text,
+                charArray,
+                adjustedIndex,
+                result,
+                rules,
+                ipa,
+                subcategories,
+                categories,
+                true
+              );
+
+              phonemeToCheck = fetchedPhoneme?.phoneme;
+            } else {
+              phonemeToCheck = lastPhoneme;
+            }
+
+            if (isPhonemeIn(phonemeToCheck, ipa, step)) {
+              adjustedIndex += 1;
+              return true;
+            }
+            return false;
+          }
+          return false;
         };
 
         matched = processStep();

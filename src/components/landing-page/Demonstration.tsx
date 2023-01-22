@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Languages, Result } from '../../constants/Interfaces';
 import Template from '../../constants/Template';
 import useSupabaseIPA from '../../hooks/useSupabaseIPA';
-import { Rule } from '../../lib/supabase/models/Rule';
 import transcribeText from '../../transcription/transcribeText';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
+import { getObjectValues } from '../../util/typeUtils';
 import ResultDisplay from '../display/ResultDisplay';
 import TextInput from '../input/TextInput';
 import styles from './Demonstration.module.scss';
@@ -20,7 +20,7 @@ const Demonstration: React.FC = () => {
   useEffect(() => {
     const parseText = (text: string) => {
       // Filter rules for given language
-      const languageRules = Object.values(rules).filter((r: Rule) =>
+      const languageRules = getObjectValues(rules).filter((r) =>
         languages[r.language_id]
           ? languages[r.language_id].label.toLowerCase() === language
           : false

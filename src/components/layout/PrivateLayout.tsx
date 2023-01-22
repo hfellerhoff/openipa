@@ -1,6 +1,4 @@
-import React, { useContext } from 'react';
-
-import { UserContext } from '../../state/context/UserContextProvider';
+import { useAuth } from '../../state/AuthProvider';
 import AuthenticationForm from '../input/AuthenticationForm';
 import Layout from './Layout';
 import styles from './PrivateLayout.module.scss';
@@ -10,9 +8,9 @@ interface Props {
 }
 
 const PrivateLayout = ({ children }: Props) => {
-  const user = useContext(UserContext);
+  const { session } = useAuth();
 
-  if (!user.session)
+  if (!session)
     return (
       <Layout>
         <div className={styles.container}>

@@ -19,10 +19,6 @@ export const isGlideFollowing = (
   nextletterthird: string,
   nextletterfourth: string
 ) => {
-  // console.log('----');
-  // console.log(nextletter);
-  // console.log(nextlettersecond);
-  // console.log(nextletterthird);
   const isMedialILL =
     nextletter === 'i' &&
     nextlettersecond === 'l' &&

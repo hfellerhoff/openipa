@@ -1,13 +1,13 @@
 import type { AppProps } from 'next/app';
 
-import { UserContextProvider } from '../src/state/context/UserContextProvider';
+import AuthProvider from '../src/state/AuthProvider';
 
 import '../src/styles/app.scss';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <UserContextProvider>
+    <AuthProvider>
       <Component {...pageProps} />
-    </UserContextProvider>
+    </AuthProvider>
   );
 }

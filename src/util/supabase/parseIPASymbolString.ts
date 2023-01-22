@@ -1,7 +1,7 @@
 import { Dictionary } from '../../hooks/useSupabaseTable';
-import { IPA } from '../../lib/supabase/models/IPA';
+import { DatabaseIPA } from '../../lib/supabase/types';
 
-const parseIPASymbolString = (string: string, ipa: Dictionary<IPA>) => {
+const parseIPASymbolString = (string: string, ipa: Dictionary<DatabaseIPA>) => {
   let parsed = '';
   let unparsedID = '';
   let isSymbol = false;

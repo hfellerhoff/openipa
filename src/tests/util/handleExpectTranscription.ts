@@ -1,19 +1,18 @@
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../lib/supabase/models/IPA';
-import { Rule } from '../../lib/supabase/models/Rule';
+  DatabaseIPA,
+  DatabaseIPACategory,
+  DatabaseIPASubcategory,
+  TransformedRule,
+} from '../../lib/supabase/types';
 import transcribeText from '../../transcription/transcribeText';
 import flattenResult from './flattenResult';
-import flattenedResult from './flattenResult';
 
 type Props = {
-  rules: Rule[];
-  categories: Dictionary<IPACategory>;
-  subcategories: Dictionary<IPASubcategory>;
-  ipa: Dictionary<IPA>;
+  rules: TransformedRule[];
+  categories: Dictionary<DatabaseIPACategory>;
+  subcategories: Dictionary<DatabaseIPASubcategory>;
+  ipa: Dictionary<DatabaseIPA>;
 };
 
 const handleExpectTranscription =

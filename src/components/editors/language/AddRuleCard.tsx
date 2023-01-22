@@ -3,17 +3,21 @@ import { useState } from 'react';
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import supabase from '../../../lib/supabase';
 import {
-  IPASubcategory,
-  IPACategory,
-  IPA,
-} from '../../../lib/supabase/models/IPA';
+  DatabaseIPASubcategory,
+  DatabaseIPACategory,
+  DatabaseIPA,
+  TransformedRule,
+} from '../../../lib/supabase/types';
 import {
-  Rule,
+  RuleInput,
   RuleInputCategory,
   RuleInputString,
   RuleInputSubcategory,
-  RuleInputType,
-} from '../../../lib/supabase/models/Rule';
+  isRuleInputCategory,
+  isRuleInputString,
+  isRuleInputSubcategory,
+} from '../../../lib/supabase/types/rules';
+import { Json } from '../../../schema';
 import idsToIPAString from '../../../util/supabase/idsToIPAString';
 import Button from '../../buttons/Button';
 import Card from '../../cards/Card';
@@ -22,13 +26,13 @@ import IPADropdown from './IPADropdown';
 import RuleInputStep from './RuleInputStep';
 
 interface Props {
-  rules: Rule[];
-  ipa: Dictionary<IPA>;
-  subcategories: Dictionary<IPASubcategory>;
-  categories: Dictionary<IPACategory>;
+  rules: TransformedRule[];
+  ipa: Dictionary<DatabaseIPA>;
+  subcategories: Dictionary<DatabaseIPASubcategory>;
+  categories: Dictionary<DatabaseIPACategory>;
   languageId: number;
   editProps?: {
-    rule: Rule;
+    rule: TransformedRule;
     onCancel: () => void;
   };
 }
@@ -43,9 +47,9 @@ const AddRuleCard = ({
   const [showAddNewRule, setShowAddNewRule] = useState(
     editProps ? true : false
   );
-  const [input, setInput] = useState<Rule['input']>(
+  const [input, setInput] = useState<TransformedRule['input']>(
     editProps
-      ? editProps.rule.input
+      ? (editProps.rule.input as unknown as TransformedRule['input'])
       : {
           steps: [],
         }
@@ -68,28 +72,22 @@ const AddRuleCard = ({
     if (editProps) {
       await supabase
         .from('rules')
-        .update([
-          {
-            language_id: languageId,
-            output: result,
-            input,
-            description: transformedDescription,
-          } as Rule,
-        ])
+        .update({
+          language_id: languageId,
+          output: result,
+          input: input as unknown as Json,
+          description: transformedDescription,
+        })
         .eq('id', editProps.rule.id);
 
       editProps.onCancel();
     } else {
-      console.log('Creating rule...');
-
-      await supabase.from('rules').insert([
-        {
-          language_id: languageId,
-          output: result,
-          input,
-          description: transformedDescription,
-        } as Rule,
-      ]);
+      await supabase.from('rules').insert({
+        language_id: languageId,
+        output: result,
+        input: input as unknown as Json,
+        description: transformedDescription,
+      });
 
       setInput({
         steps: [],
@@ -101,30 +99,26 @@ const AddRuleCard = ({
     }
   };
 
-  const addStep = (type: RuleInputType) => {
+  const handleAddStep = (type: RuleInput['type']) => () => {
     setInput((oldInput) => {
-      switch (type) {
-        case RuleInputType.String:
-          oldInput.steps.push({
-            type,
-            text: [''],
-            replace: true,
-          } as RuleInputString);
-          break;
-        case RuleInputType.Categories:
-          oldInput.steps.push({
-            type,
-            ids: [],
-            replace: false,
-          } as unknown as RuleInputCategory);
-          break;
-        case RuleInputType.Subcategories:
-          oldInput.steps.push({
-            type,
-            ids: [],
-            replace: false,
-          } as unknown as RuleInputSubcategory);
-          break;
+      if (isRuleInputString(oldInput)) {
+        oldInput.steps.push({
+          type,
+          text: [''],
+          replace: true,
+        } as RuleInputString);
+      } else if (isRuleInputCategory(oldInput)) {
+        oldInput.steps.push({
+          type,
+          ids: [],
+          replace: false,
+        } as unknown as RuleInputCategory);
+      } else if (isRuleInputSubcategory(oldInput)) {
+        oldInput.steps.push({
+          type,
+          ids: [],
+          replace: false,
+        } as unknown as RuleInputSubcategory);
       }
 
       return { ...oldInput };
@@ -152,7 +146,7 @@ const AddRuleCard = ({
           onClick={() => setShowAddNewRule(true)}
           key='new-rule-button'
         >
-          Add New Rule
+          Add New DatabaseRule
         </Button>
       ) : (
         <Card key='new-rule-card'>
@@ -186,20 +180,12 @@ const AddRuleCard = ({
                     </Button>
                   </div>
                 ))}
-                <div>
-                  <Button onClick={() => addStep(RuleInputType.String)}>
-                    + Text
-                  </Button>
-                  <Button
-                    onClick={() => addStep(RuleInputType.Subcategories)}
-                    className='ml-1'
-                  >
+                <div className='flex items-center gap-1'>
+                  <Button onClick={handleAddStep('string')}>+ Text</Button>
+                  <Button onClick={handleAddStep('subcategories')}>
                     + Subcategory
                   </Button>
-                  <Button
-                    onClick={() => addStep(RuleInputType.Categories)}
-                    className='ml-1'
-                  >
+                  <Button onClick={handleAddStep('categories')}>
                     + Category
                   </Button>
                 </div>
@@ -215,11 +201,11 @@ const AddRuleCard = ({
           </div>
           <div></div>
           <div className='mt-4'>
-            <label htmlFor='rule-description'>Rule Description</label>
+            <label htmlFor='rule-description'>DatabaseRule Description</label>
             <div>
               <IPADisplay className='flex'>
                 <input
-                  title='Rule description'
+                  title='DatabaseRule description'
                   name='rule-description'
                   className={`bg-gray-200 font-sans w-full flex-1`}
                   value={description}

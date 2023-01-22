@@ -5,7 +5,10 @@ const supabaseSignIn = async (
   email: string,
   password: string
 ) => {
-  const { user, error } = await supabase.auth.signIn({
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
@@ -13,7 +16,6 @@ const supabaseSignIn = async (
   if (error) {
     console.error(error);
   } else {
-    console.log(user);
     return user;
   }
 };

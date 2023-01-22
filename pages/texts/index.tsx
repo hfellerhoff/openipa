@@ -8,18 +8,19 @@ import Button from '../../src/components/buttons/Button';
 import PageHeader from '../../src/components/header/PageHeader';
 import TextInput from '../../src/components/input/TextInput';
 import Layout from '../../src/components/layout/Layout';
+import { Dictionary } from '../../src/hooks/useSupabaseTable';
 import supabase from '../../src/lib/supabase';
-import { Language } from '../../src/lib/supabase/models/Language';
-import { Text } from '../../src/lib/supabase/models/Text';
+import { DatabaseLanguage, DatabaseText } from '../../src/lib/supabase/types';
+import { Database } from '../../src/schema';
 import { capitalizeFirstLetter } from '../../src/util/StringHelper';
 
 interface Props {
-  languages: Language[];
-  texts: Text[];
+  languages: DatabaseLanguage[];
+  texts: DatabaseText[];
 }
 
 const TextsPage = ({ languages, texts }: Props) => {
-  const [selectedText, setSelectedText] = useState<Text>();
+  const [selectedText, setSelectedText] = useState<DatabaseText>();
 
   return (
     <Layout>
@@ -37,16 +38,16 @@ const TextsPage = ({ languages, texts }: Props) => {
       />
       <div className='flex flex-col-reverse w-full max-w-6xl px-4 py-4 mx-auto md:py-6 lg:py-12 lg:grid lg:grid-cols-2'>
         <div>
-          {Object.values(languages).map((language: Language) => (
+          {Object.values(languages).map((language) => (
             <div key={language.id} className='mb-8'>
               <h2 className='mb-4 ml-4'>{language.label}</h2>
               {Object.values(texts)
-                .filter((t: Text) => t.language === language.id)
+                .filter((t) => t.language === language.id)
                 .sort((a, b) => {
                   if (a.title < b.title) return -1;
                   else return 1;
                 })
-                .map((text: Text) => (
+                .map((text) => (
                   <button
                     key={text.id}
                     className={`block text-left w-full hover:shadow-inner hover:bg-gray-200 my-0.5 py-2 px-4 rounded ${
@@ -87,10 +88,9 @@ const TextsPage = ({ languages, texts }: Props) => {
                     href={`/transcription/${languages[
                       selectedText.language
                     ].label.toLowerCase()}/${selectedText.slug}`}
+                    className='mt-1'
                   >
-                    <a className='mt-1'>
-                      <Button className='h-10'>Transcribe</Button>
-                    </a>
+                    <Button className='h-10'>Transcribe</Button>
                   </Link>
                 </div>
                 <TextInput inputText={selectedText.text} displayHeight={500} />
@@ -111,10 +111,8 @@ export default TextsPage;
 
 export const getStaticProps: GetStaticProps = async () => {
   // Call an external API endpoint to get posts
-  const languages: Record<number, Language> = {};
-  const { data: languagesArray } = await supabase
-    .from<Language>('languages')
-    .select('*');
+  const languages: Dictionary<DatabaseLanguage> = {};
+  const { data: languagesArray } = await supabase.from('languages').select('*');
 
   if (!languagesArray) {
     return {
@@ -127,8 +125,9 @@ export const getStaticProps: GetStaticProps = async () => {
 
   languagesArray.forEach((language) => (languages[language.id] = language));
 
-  const texts: Record<number, Text> = {};
-  const { data: textsArray } = await supabase.from<Text>('texts').select('*');
+  const texts: Record<number, Database['public']['Tables']['texts']['Row']> =
+    {};
+  const { data: textsArray } = await supabase.from('texts').select('*');
 
   if (!textsArray) {
     return {

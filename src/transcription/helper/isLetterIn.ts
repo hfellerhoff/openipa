@@ -1,28 +1,27 @@
 import { Phoneme } from '../../constants/Interfaces';
 import { Dictionary } from '../../hooks/useSupabaseTable';
-import { IPA } from '../../lib/supabase/models/IPA';
-import { RuleInput, RuleInputType } from '../../lib/supabase/models/Rule';
+import { DatabaseIPA } from '../../lib/supabase/types';
+import {
+  RuleInputCategory,
+  RuleInputSubcategory,
+  isRuleInputCategory,
+} from '../../lib/supabase/types/rules';
 
 export const isPhonemeIn = (
   phoneme: Phoneme | undefined,
-  ids: number[],
-  ipa: Dictionary<IPA>,
-  step: RuleInput
+  ipa: Dictionary<DatabaseIPA>,
+  step: RuleInputCategory | RuleInputSubcategory
 ) => {
   const possibleMatches: string[] = Object.values(ipa)
-    .filter((e: IPA) =>
-      ids.includes(
-        step.type === RuleInputType.Categories ? e.category : e.subcategory
+    .filter((e: DatabaseIPA) =>
+      step.ids.includes(
+        (isRuleInputCategory(step) ? e.category : e.subcategory) || -1
       )
     )
-    .map((e: IPA) => e.symbol);
+    .map((e: DatabaseIPA) => e.symbol);
 
   if (!phoneme || phoneme?.ipa === undefined || phoneme?.ipa === null) {
-    if (possibleMatches.includes('')) {
-      return true;
-    }
-
-    return false;
+    return possibleMatches.includes('');
   }
 
   const regex = possibleMatches.join('');

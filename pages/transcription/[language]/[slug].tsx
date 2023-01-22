@@ -6,12 +6,14 @@ import getTranscriptionPageStaticProps, {
 } from '../../../src/components/transcription-page/getTranscriptionPageStaticProps';
 import { Dictionary } from '../../../src/hooks/useSupabaseTable';
 import supabase from '../../../src/lib/supabase';
-import { Language } from '../../../src/lib/supabase/models/Language';
-import { Text } from '../../../src/lib/supabase/models/Text';
+import {
+  DatabaseLanguage,
+  DatabaseText,
+} from '../../../src/lib/supabase/types';
 
 interface Props {
-  text?: Text;
-  language?: Language;
+  text?: DatabaseText;
+  language?: DatabaseLanguage;
   transcriptionProps: TranscriptionPageStaticProps;
 }
 
@@ -27,9 +29,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const language = params?.language as string;
   const transcriptionProps = await getTranscriptionPageStaticProps(language);
 
-  const { data: languages } = await supabase
-    .from<Language>('languages')
-    .select('*');
+  const { data: languages } = await supabase.from('languages').select('*');
 
   if (!languages) {
     throw new Error('something went wrong fetching from supabase');
@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   )[0];
 
   let { data: texts } = await supabase
-    .from<Text>('texts')
+    .from('texts')
     .select('*')
     .eq('slug', params?.slug as string);
 
@@ -87,7 +87,7 @@ export async function getStaticPaths() {
   }
 
   const languageDictionary: Dictionary<string> = {};
-  languages.forEach((language: Language) => {
+  languages.forEach((language) => {
     languageDictionary[language.id] = language.label;
   });
 

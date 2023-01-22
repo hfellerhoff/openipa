@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { Dictionary } from '../../hooks/useSupabaseTable';
-import { IPACategory } from '../../lib/supabase/models/IPA';
+import { DatabaseIPACategory } from '../../lib/supabase/types';
 import styles from './EditorIPALeftSidebar.module.scss';
 
 interface ItemProps {
-  category: IPACategory;
+  category: DatabaseIPACategory;
   isSelected: boolean;
   onSelectCategory: (c: number) => void;
 }
@@ -23,7 +23,7 @@ const SidebarItem = ({ category, onSelectCategory, isSelected }: ItemProps) => {
 };
 
 interface Props {
-  categories: Dictionary<IPACategory>;
+  categories: Dictionary<DatabaseIPACategory>;
   selectedCategory: number;
   onSelectCategory: (c: number) => void;
 }

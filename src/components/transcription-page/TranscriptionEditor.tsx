@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 import clsx from 'clsx';
 
 import { Result, Languages } from '../../constants/Interfaces';
-import { Rule } from '../../lib/supabase/models/Rule';
 import {
   FrenchTranscriptionOptions,
   GlobalTranscriptionOptions,
@@ -12,6 +11,7 @@ import {
 } from '../../state/editor';
 import parseFrench from '../../transcription/french/ParseFrench';
 import transcribeText from '../../transcription/transcribeText';
+import { getObjectValues } from '../../util/typeUtils';
 import HideButton from '../buttons/HideButton';
 import ResultDisplay from '../display/ResultDisplay';
 import TextInput from '../input/TextInput';
@@ -50,7 +50,7 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   const languageRules = useMemo(
     () =>
-      Object.values(rules).filter((r: Rule) =>
+      getObjectValues(rules).filter((r) =>
         languages[r.language_id]
           ? languages[r.language_id].label.toLowerCase() === language
           : false

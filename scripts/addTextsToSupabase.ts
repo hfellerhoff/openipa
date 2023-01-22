@@ -3,9 +3,13 @@ import * as fs from 'fs';
 import dotenv from 'dotenv';
 dotenv.config();
 
+import { Dictionary } from '../src/hooks/useSupabaseTable';
 import cpdlGetTexts from '../src/lib/cpdl/cpdlGetTexts';
-import supabase from '../src/lib/supabase/index';
-import { Language } from '../src/lib/supabase/models/Language';
+import supabase from '../src/lib/supabase';
+import {
+  DatabaseLanguage,
+  DatabaseTextToInsert,
+} from '../src/lib/supabase/types';
 
 const getSlug = (text: string) => {
   text = text.replace(/[(),.`]/g, '');
@@ -22,13 +26,11 @@ const fetchWorks = async () => {
     const worksToFetch = data.split('\n');
 
     // Get current texts
-    const { data: languages } = await supabase
-      .from<Language>('languages')
-      .select('*');
+    const { data: languages } = await supabase.from('languages').select('*');
 
     if (!languages) return;
 
-    const languageDictionary: Record<number, Language> = {};
+    const languageDictionary: Dictionary<DatabaseLanguage> = {};
     languages.forEach((element) => {
       languageDictionary[element['id']] = element;
     });
@@ -38,7 +40,7 @@ const fetchWorks = async () => {
 
     const works = await Promise.all(fetchPromises);
 
-    const worksToAdd: unknown[] = [];
+    const worksToAdd: DatabaseTextToInsert[] = [];
 
     works.forEach((w) => {
       w?.forEach((e) => {
@@ -74,7 +76,7 @@ const fetchWorks = async () => {
     // === ADD TO SUPABASE ===
     await supabase.from('texts').delete();
 
-    await supabase.from('texts').insert(worksToAdd, { upsert: true });
+    await supabase.from('texts').upsert(worksToAdd);
   });
 
   return;

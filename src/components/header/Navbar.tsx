@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { UserContext } from '../../state/context/UserContextProvider';
+import { useAuth } from '../../state/AuthProvider';
 import styles from './Navbar.module.scss';
 import NavbarLink from './NavbarLink';
 
@@ -24,11 +24,11 @@ const EditorNavigation = () => (
 );
 
 const Navbar: React.FC = () => {
-  const user = useContext(UserContext);
+  const { session } = useAuth();
   const router = useRouter();
 
   const isEditor = router.pathname.includes('editor');
-  const isAuthorizedContext = isEditor && !!user.session;
+  const isAuthorizedContext = isEditor && !!session;
 
   return (
     <div className={styles.container}>

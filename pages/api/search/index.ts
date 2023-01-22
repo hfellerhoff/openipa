@@ -3,7 +3,6 @@ import Wikiapi from 'wikiapi';
 
 import { BASE_URL, getCPDLTextSeachQuery } from '../../../src/lib/cpdl/API';
 import supabase from '../../../src/lib/supabase';
-import { Language } from '../../../src/lib/supabase/models/Language';
 
 export default async function searchAPI(
   req: NextApiRequest,
@@ -25,7 +24,7 @@ export default async function searchAPI(
       const checkForLanguageText = (line: string) => {
         let label = '';
         let type = 'none';
-        (languages.data as Language[]).forEach((language) => {
+        languages.data?.forEach((language) => {
           if (line.includes(`{{Text|${language.label}`)) {
             label = language.label;
             type = 'text';
@@ -82,10 +81,6 @@ export default async function searchAPI(
           textBlock += line;
         }
       });
-      console.log({
-        title: result.title,
-        variations: relevantLines,
-      });
 
       return {
         title: result.title,
@@ -95,8 +90,6 @@ export default async function searchAPI(
   );
 
   const pageResult = await Promise.all(pagePromises);
-
-  console.log(pageResult);
 
   res.json({
     result: pageResult.filter((r) => r.variations.length > 0),

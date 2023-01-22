@@ -1,68 +1,64 @@
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import supabase from '../../lib/supabase';
 import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-  IPATag,
-} from '../../lib/supabase/models/IPA';
-import { Language } from '../../lib/supabase/models/Language';
-import { Rule } from '../../lib/supabase/models/Rule';
+  DatabaseIPA,
+  DatabaseIPACategory,
+  DatabaseIPASubcategory,
+  DatabaseIPATag,
+  DatabaseLanguage,
+  DatabaseRowFromTableName,
+  DatabaseTableName,
+  TransformedRule,
+} from '../../lib/supabase/types';
 
 export interface TranscriptionPageStaticProps {
-  ipa: Dictionary<IPA>;
-  subcategories: Dictionary<IPASubcategory>;
-  categories: Dictionary<IPACategory>;
-  tags: Dictionary<IPATag>;
-  rules: Dictionary<Rule>;
-  languages: Dictionary<Language>;
+  ipa: Dictionary<DatabaseIPA>;
+  subcategories: Dictionary<DatabaseIPASubcategory>;
+  categories: Dictionary<DatabaseIPACategory>;
+  tags: Dictionary<DatabaseIPATag>;
+  rules: Dictionary<TransformedRule>;
+  languages: Dictionary<DatabaseLanguage>;
 }
 
-const fetchFromTable = async <T>(
-  table: string,
-  primaryKeyColumn: keyof T,
-  language?: Language
+const fetchFromTable = async <T extends DatabaseTableName>(
+  table: T,
+  language?: DatabaseLanguage
 ) => {
   if (!language) {
     return await supabase
-      .from<T>(table)
+      .from(table)
       .select('*')
-      .order(primaryKeyColumn, { ascending: true });
+      .order('id', { ascending: true });
   }
 
   return await supabase
-    .from<T>(table)
+    .from(table)
     .select('*')
-    .eq('language_id' as keyof T, language.id as T[keyof T])
-    .order(primaryKeyColumn, { ascending: true });
+    .eq('language_id', language.id as T[keyof T])
+    .order('id', { ascending: true });
 };
 
-export const fetchSupabaseTableAsDict = async <T>(
-  table: string,
-  primaryKeyColumn: keyof T,
-  language?: Language
+export const fetchSupabaseTableAsDict = async <T extends DatabaseTableName>(
+  table: T,
+  language?: DatabaseLanguage
 ) => {
-  const { data, error } = await fetchFromTable<T>(
-    table,
-    primaryKeyColumn,
-    language
-  );
+  const { data, error } = await fetchFromTable(table, language);
 
   if (error) console.error(`${error.code}: ${error.message}`);
 
   if (!data) return {};
 
   return data.reduce((dictionary, row) => {
-    dictionary[row[primaryKeyColumn] as number] = row;
+    dictionary[row['id']] = row;
     return dictionary;
-  }, {} as Dictionary<T>);
+  }, {} as Dictionary<DatabaseRowFromTableName<T>>);
 };
 
 export default async function getTranscriptionPageStaticProps(
   language: string
 ): Promise<TranscriptionPageStaticProps> {
   const { data } = await supabase
-    .from<Language>('languages')
+    .from('languages')
     .select('*')
     .eq('slug', language)
     .limit(1);
@@ -81,12 +77,15 @@ export default async function getTranscriptionPageStaticProps(
   const supabaseLanguage = data[0];
 
   const tableDictionaries = await Promise.all([
-    fetchSupabaseTableAsDict<IPA>('ipa', 'id'),
-    fetchSupabaseTableAsDict<IPASubcategory>('ipa_subcategory', 'id'),
-    fetchSupabaseTableAsDict<IPACategory>('ipa_category', 'id'),
-    fetchSupabaseTableAsDict<IPATag>('ipa_tags', 'id'),
-    fetchSupabaseTableAsDict<Rule>('rules', 'id', supabaseLanguage),
-    fetchSupabaseTableAsDict<Language>('languages', 'id'),
+    fetchSupabaseTableAsDict('ipa'),
+    fetchSupabaseTableAsDict('ipa_subcategory'),
+    fetchSupabaseTableAsDict('ipa_category'),
+    fetchSupabaseTableAsDict('ipa_tags'),
+    fetchSupabaseTableAsDict(
+      'rules',
+      supabaseLanguage
+    ) as unknown as Dictionary<TransformedRule>,
+    fetchSupabaseTableAsDict('languages'),
   ]);
 
   const [ipa, subcategories, categories, tags, rules, languages] =
