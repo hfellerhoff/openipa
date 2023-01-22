@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import supabase from '../../lib/supabase';
-import { IPA, IPASubcategory } from '../../lib/supabase/models/IPA';
+import { DatabaseIPA, DatabaseIPASubcategory } from '../../lib/supabase/types';
 import Button from '../buttons/Button';
 import styles from './EditorIPARightSidebar.module.scss';
 import IPAInput from './language/IPAInput';
 
 interface Props {
-  ipa: Dictionary<IPA>;
-  subcategories: Dictionary<IPASubcategory>;
+  ipa: Dictionary<DatabaseIPA>;
+  subcategories: Dictionary<DatabaseIPASubcategory>;
   selectedIPA: number;
   category: number;
 }
@@ -25,7 +25,7 @@ const EditorIPARightSidebar = ({
 
   const ipaElement = ipa[selectedIPA] ? ipa[selectedIPA] : undefined;
   const initialSubcategory =
-    subcategories && ipaElement
+    subcategories && ipaElement?.subcategory
       ? subcategories[ipaElement.subcategory]
       : undefined;
 

@@ -1,9 +1,9 @@
 import { Dictionary } from '../../hooks/useSupabaseTable';
-import { IPA } from '../../lib/supabase/models/IPA';
+import { DatabaseIPA } from '../../lib/supabase/types';
 
 const idsToIPAString = (
   ids: number[],
-  ipa: Dictionary<IPA>,
+  ipa: Dictionary<DatabaseIPA>,
   writeOutSilence = true
 ) => {
   let string = '';

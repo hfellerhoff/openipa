@@ -2,17 +2,19 @@ import React from 'react';
 
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../../lib/supabase/models/IPA';
+  DatabaseIPA,
+  DatabaseIPACategory,
+  DatabaseIPASubcategory,
+} from '../../../lib/supabase/types';
 import {
   RuleInput,
   RuleInputCategory,
   RuleInputString,
   RuleInputSubcategory,
-  RuleInputType,
-} from '../../../lib/supabase/models/Rule';
+  isRuleInputCategory,
+  isRuleInputString,
+  isRuleInputSubcategory,
+} from '../../../lib/supabase/types/rules';
 import idsToCategoryString from '../../../util/supabase/idsToCategoryString';
 import idsToSubcategoryString from '../../../util/supabase/idsToSubcategoryString';
 import Button from '../../buttons/Button';
@@ -30,9 +32,9 @@ interface Props {
     }>
   >;
   editable?: boolean;
-  ipa: Dictionary<IPA>;
-  subcategories: Dictionary<IPASubcategory>;
-  categories: Dictionary<IPACategory>;
+  ipa: Dictionary<DatabaseIPA>;
+  subcategories: Dictionary<DatabaseIPASubcategory>;
+  categories: Dictionary<DatabaseIPACategory>;
 }
 
 const RuleInputStep = ({
@@ -101,72 +103,68 @@ const RuleInputStep = ({
     });
   };
 
-  switch (step.type) {
-    case RuleInputType.String:
-      return (
-        <>
-          {(step as RuleInputString).text.map((e, i) => (
-            <IPAInput
-              className='mr-1'
-              key={i}
-              value={(step as RuleInputString).text[i]}
-              setValue={(newValue) => updateText(newValue, i)}
-            />
-          ))}
-          {editable ? (
-            <>
-              <Button colorScheme='primary' onClick={addTextOption}>
-                +
+  if (isRuleInputString(step)) {
+    return (
+      <>
+        {step.text.map((e, i) => (
+          <IPAInput
+            className='mr-1'
+            key={i}
+            value={step.text[i]}
+            setValue={(newValue) => updateText(newValue, i)}
+          />
+        ))}
+        {editable ? (
+          <>
+            <Button colorScheme='primary' onClick={addTextOption}>
+              +
+            </Button>
+            {step.text.length > 1 ? (
+              <Button colorScheme='grayscale' onClick={removeTextOption}>
+                -
               </Button>
-              {(step as RuleInputString).text.length > 1 ? (
-                <Button colorScheme='grayscale' onClick={removeTextOption}>
-                  -
-                </Button>
-              ) : (
-                <></>
-              )}
-            </>
-          ) : (
-            <></>
-          )}
-        </>
-      );
-    case RuleInputType.Categories:
-      return editable ? (
-        <IPACategoryDropdown
-          ipa={ipa}
-          subcategories={subcategories}
-          categories={categories}
-          prefix='Any'
-          result={(step as RuleInputCategory).ids}
-          setResult={(r) => updateIds(r)}
-        />
-      ) : (
-        <IPADisplay>
-          {idsToCategoryString((step as RuleInputCategory).ids, categories)}
-        </IPADisplay>
-      );
-    case RuleInputType.Subcategories:
-      return editable ? (
-        <IPASubcategoryDropdown
-          ipa={ipa}
-          subcategories={subcategories}
-          categories={categories}
-          prefix='Any'
-          result={(step as RuleInputSubcategory).ids}
-          setResult={(r) => updateIds(r)}
-        />
-      ) : (
-        <IPADisplay>
-          {idsToSubcategoryString(
-            (step as RuleInputSubcategory).ids,
-            subcategories
-          )}
-        </IPADisplay>
-      );
-    default:
-      return <></>;
+            ) : (
+              <></>
+            )}
+          </>
+        ) : (
+          <></>
+        )}
+      </>
+    );
   }
+
+  if (isRuleInputCategory(step)) {
+    return editable ? (
+      <IPACategoryDropdown
+        ipa={ipa}
+        subcategories={subcategories}
+        categories={categories}
+        prefix='Any'
+        result={step.ids}
+        setResult={(r) => updateIds(r)}
+      />
+    ) : (
+      <IPADisplay>{idsToCategoryString(step.ids, categories)}</IPADisplay>
+    );
+  }
+
+  if (isRuleInputSubcategory(step)) {
+    return editable ? (
+      <IPASubcategoryDropdown
+        ipa={ipa}
+        subcategories={subcategories}
+        categories={categories}
+        prefix='Any'
+        result={step.ids}
+        setResult={(r) => updateIds(r)}
+      />
+    ) : (
+      <IPADisplay>{idsToSubcategoryString(step.ids, subcategories)}</IPADisplay>
+    );
+  }
+
+  return <></>;
 };
 
 export default RuleInputStep;

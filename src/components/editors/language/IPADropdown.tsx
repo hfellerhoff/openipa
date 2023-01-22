@@ -4,17 +4,17 @@ import Dropdown, { Option, ReactDropdownProps } from 'react-dropdown';
 
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../../lib/supabase/models/IPA';
+  DatabaseIPA,
+  DatabaseIPACategory,
+  DatabaseIPASubcategory,
+} from '../../../lib/supabase/types';
 import idsToIPAString from '../../../util/supabase/idsToIPAString';
 import IPADisplay from './IPADisplay';
 
 interface Props {
-  ipa: Dictionary<IPA>;
-  subcategories: Dictionary<IPASubcategory>;
-  categories: Dictionary<IPACategory>;
+  ipa: Dictionary<DatabaseIPA>;
+  subcategories: Dictionary<DatabaseIPASubcategory>;
+  categories: Dictionary<DatabaseIPACategory>;
   result: number[];
   setResult: (r: number[]) => void;
 }
@@ -36,14 +36,14 @@ const IPADropdown = ({
           value: 0,
           label: 'Clear Result',
         },
-        ...Object.values(categories).map((category: IPACategory) => {
+        ...Object.values(categories).map((category: DatabaseIPACategory) => {
           const section = {
             type: 'group',
             name: category.label,
             key: `category-${category.id}`,
             items: Object.values(ipa)
-              .filter((i: IPA) => i.category === category.id)
-              .map((element: IPA) => {
+              .filter((i: DatabaseIPA) => i.category === category.id)
+              .map((element: DatabaseIPA) => {
                 const block = {
                   key: `ipa-${element.id}`,
                   value: element.id,

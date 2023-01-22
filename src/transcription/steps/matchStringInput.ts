@@ -1,8 +1,12 @@
-import { RuleInput, RuleInputString } from '../../lib/supabase/models/Rule';
+import { RuleInputString } from '../../lib/supabase/types/rules';
 
-const matchStringInput = (step: RuleInput, text: string, index: number) => {
+const matchStringInput = (
+  step: RuleInputString,
+  text: string,
+  index: number
+) => {
   // Loop through possible string matches
-  const stringMatches = (step as RuleInputString).text
+  const stringMatches = step.text
     .map((possibleMatch) => {
       const characters = text
         .substring(index, index + possibleMatch.length)

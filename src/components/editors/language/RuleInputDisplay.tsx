@@ -1,17 +1,17 @@
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../../lib/supabase/models/IPA';
-import { Rule } from '../../../lib/supabase/models/Rule';
+  DatabaseIPA,
+  DatabaseIPACategory,
+  DatabaseIPASubcategory,
+  TransformedRule,
+} from '../../../lib/supabase/types';
 import RuleInputStep from './RuleInputStep';
 
 interface Props {
-  input: Rule['input'];
-  ipa: Dictionary<IPA>;
-  subcategories: Dictionary<IPASubcategory>;
-  categories: Dictionary<IPACategory>;
+  input: TransformedRule['input'];
+  ipa: Dictionary<DatabaseIPA>;
+  subcategories: Dictionary<DatabaseIPASubcategory>;
+  categories: Dictionary<DatabaseIPACategory>;
 }
 
 const RuleInputDisplay = ({ input, ipa, subcategories, categories }: Props) => {

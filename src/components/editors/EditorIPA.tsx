@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import supabase from '../../lib/supabase';
 import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../lib/supabase/models/IPA';
+  DatabaseIPA,
+  DatabaseIPACategory,
+  DatabaseIPASubcategory,
+} from '../../lib/supabase/types';
 import Button from '../buttons/Button';
 import Card from '../cards/Card';
 import styles from './EditorIPA.module.scss';
@@ -16,9 +16,9 @@ interface Props {
   selectedIPA?: number;
   onSelectIPA: (c: number) => void;
   category: number;
-  categories: Dictionary<IPACategory>;
-  subcategories: Dictionary<IPASubcategory>;
-  ipa: Dictionary<IPA>;
+  categories: Dictionary<DatabaseIPACategory>;
+  subcategories: Dictionary<DatabaseIPASubcategory>;
+  ipa: Dictionary<DatabaseIPA>;
 }
 
 const EditorIPA = ({

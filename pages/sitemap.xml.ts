@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 
 import { Dictionary } from '../src/hooks/useSupabaseTable';
 import supabase from '../src/lib/supabase';
-import { Language } from '../src/lib/supabase/models/Language';
 
 const createSitemap = (
   routes: string[]
@@ -58,6 +57,10 @@ const createSitemap = (
 
 const Sitemap: NextPage = () => null;
 
+// https://stackoverflow.com/questions/41253310/typescript-retrieve-element-type-information-from-array-type
+type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+
 Sitemap.getInitialProps = async ({ res }) => {
   // Ignore Next.js specific files (e.g., _app.js) and API routes.
   const { data: texts } = await supabase.from('texts').select('*');
@@ -68,8 +71,8 @@ Sitemap.getInitialProps = async ({ res }) => {
     return;
   }
 
-  const languageDictionary: Dictionary<Language> = {};
-  languages.forEach((language: Language) => {
+  const languageDictionary: Dictionary<ArrayElement<typeof languages>> = {};
+  languages.forEach((language) => {
     languageDictionary[language.id] = language;
   });
 

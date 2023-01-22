@@ -1,11 +1,14 @@
-import { SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from "@supabase/supabase-js";
 
 const supabaseSignUp = async (
   supabase: SupabaseClient,
   email: string,
   password: string
 ) => {
-  const { user, error } = await supabase.auth.signUp({
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.signUp({
     email,
     password,
   });

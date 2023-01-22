@@ -11,7 +11,6 @@ import TranscriptionEditor from '../../src/components/transcription-page/Transcr
 import { Languages, Result } from '../../src/constants/Interfaces';
 import Template from '../../src/constants/Template';
 import useSupabaseIPA from '../../src/hooks/useSupabaseIPA';
-import { Language } from '../../src/lib/supabase/models/Language';
 
 const LanguageEditor = () => {
   const router = useRouter();
@@ -21,7 +20,7 @@ const LanguageEditor = () => {
     useSupabaseIPA();
 
   const languageSlug = router.query.language as string;
-  const language = (Object.values(languages) as Language[]).find(
+  const language = Object.values(languages).find(
     (language) => language.slug === languageSlug
   );
 

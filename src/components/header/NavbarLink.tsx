@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 interface Props {
   href: string;
@@ -8,12 +8,13 @@ interface Props {
 
 const NavbarLink = ({ href, children }: Props) => {
   return (
-    <Link href={href}>
-      <a
-        className={`relative h-16 text-gray-200 font-semibold px-2 md:px-4 text-sm lg:text-base lg:px-8 flex flex-col align-center justify-center hover:bg-blue-200 hover:bg-opacity-10`}
-      >
-        {children}
-      </a>
+    <Link
+      href={href}
+      className={
+        "relative h-16 text-gray-200 font-semibold px-2 md:px-4 text-sm lg:text-base lg:px-8 flex flex-col align-center justify-center hover:bg-blue-200 hover:bg-opacity-10"
+      }
+    >
+      {children}
     </Link>
   );
 };

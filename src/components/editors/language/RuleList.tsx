@@ -3,11 +3,11 @@ import { useMemo } from 'react';
 
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
-  IPA,
-  IPACategory,
-  IPASubcategory,
-} from '../../../lib/supabase/models/IPA';
-import { Rule } from '../../../lib/supabase/models/Rule';
+  DatabaseIPA,
+  DatabaseIPACategory,
+  DatabaseIPASubcategory,
+  TransformedRule,
+} from '../../../lib/supabase/types';
 import idsToIPAString from '../../../util/supabase/idsToIPAString';
 import parseIPASymbolString from '../../../util/supabase/parseIPASymbolString';
 import Button from '../../buttons/Button';
@@ -17,10 +17,10 @@ import IPADisplay from './IPADisplay';
 import RuleInputDisplay from './RuleInputDisplay';
 
 interface Props {
-  rules: Rule[];
-  ipa: Dictionary<IPA>;
-  subcategories: Dictionary<IPASubcategory>;
-  categories: Dictionary<IPACategory>;
+  rules: TransformedRule[];
+  ipa: Dictionary<DatabaseIPA>;
+  subcategories: Dictionary<DatabaseIPASubcategory>;
+  categories: Dictionary<DatabaseIPACategory>;
   languageId: number;
 }
 
@@ -35,7 +35,9 @@ const RuleList = ({
 
   const languageRules = useMemo(() => {
     if (!languageId || !rules) return [];
-    return rules.filter((rule) => rule.language_id === languageId);
+    return rules.filter(
+      (rule) => rule.language_id === languageId
+    ) as unknown as TransformedRule[];
   }, [languageId, rules]);
 
   if (

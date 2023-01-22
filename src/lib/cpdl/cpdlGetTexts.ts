@@ -1,7 +1,6 @@
 import Wikiapi from 'wikiapi';
 
 import supabase from '../supabase';
-import { Language } from '../supabase/models/Language';
 import { BASE_URL, getCPDLTextSeachQuery } from './API';
 
 const cpdlGetTexts = async (text: string) => {
@@ -21,7 +20,7 @@ const cpdlGetTexts = async (text: string) => {
       const checkForLanguageText = (line: string) => {
         let label = '';
         let type = 'none';
-        (languages.data as Language[]).forEach((language) => {
+        languages.data?.forEach((language) => {
           if (line.includes(`{{Text|${language.label}`)) {
             label = language.label;
             type = 'text';

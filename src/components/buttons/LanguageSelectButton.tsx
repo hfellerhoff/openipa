@@ -1,34 +1,34 @@
-import React from 'react';
+import React from "react";
 
-import Link from 'next/link';
+import Link from "next/link";
 
-import { Languages } from '../../constants/Interfaces';
-import { capitalizeFirstLetter } from '../../util/StringHelper';
-import styles from './LanguageSelectButton.module.scss';
+import { Languages } from "../../constants/Interfaces";
+import { capitalizeFirstLetter } from "../../util/StringHelper";
+import styles from "./LanguageSelectButton.module.scss";
 
 interface Props {
   language: Languages;
-  status: 'active' | 'caution' | 'inactive';
+  status: "active" | "caution" | "inactive";
 }
 
 const LanguageSelectButton: React.FC<Props> = ({ language, status }) => {
-  let buttonStyle = 'primary';
+  let buttonStyle = "primary";
   switch (status) {
-    case 'active':
+    case "active":
       break;
-    case 'caution':
-      buttonStyle = 'warning';
+    case "caution":
+      buttonStyle = "warning";
       break;
-    case 'inactive':
-      buttonStyle = 'disabled';
+    case "inactive":
+      buttonStyle = "disabled";
       break;
   }
   const className = `button button-lg button--${buttonStyle} ${styles.button}`;
 
-  if (status !== 'inactive') {
+  if (status !== "inactive") {
     return (
-      <Link href={`/transcription/${language}`}>
-        <a className={className}>{capitalizeFirstLetter(language)}</a>
+      <Link href={`/transcription/${language}`} className={className}>
+        {capitalizeFirstLetter(language)}
       </Link>
     );
   }

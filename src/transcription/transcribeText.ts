@@ -1,17 +1,21 @@
 import { Result } from '../constants/Interfaces';
 import { Dictionary } from '../hooks/useSupabaseTable';
-import { IPA, IPACategory, IPASubcategory } from '../lib/supabase/models/IPA';
-import { Rule } from '../lib/supabase/models/Rule';
+import {
+  DatabaseIPA,
+  DatabaseIPACategory,
+  DatabaseIPASubcategory,
+  TransformedRule,
+} from '../lib/supabase/types';
 import { getCharArray } from '../util/Helper';
 import getPhoneme from './getPhoneme';
 import processPunctuation from './processPunctuation';
 
 const transcribeText = (
   text: string,
-  rules: Rule[],
-  categories: Dictionary<IPACategory>,
-  subcategories: Dictionary<IPASubcategory>,
-  ipa: Dictionary<IPA>
+  rules: TransformedRule[],
+  categories: Dictionary<DatabaseIPACategory>,
+  subcategories: Dictionary<DatabaseIPASubcategory>,
+  ipa: Dictionary<DatabaseIPA>
 ) => {
   const charArray: string[] = getCharArray(text);
 

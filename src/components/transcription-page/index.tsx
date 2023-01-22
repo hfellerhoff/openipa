@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 import { Languages, Result } from '../../constants/Interfaces';
 import Template from '../../constants/Template';
-import { Text } from '../../lib/supabase/models/Text';
+import { DatabaseText } from '../../lib/supabase/types';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
 import PageHeader from '../header/PageHeader';
 import Layout from '../layout/Layout';
@@ -15,23 +15,26 @@ import TranscriptionActionButtons from './TranscriptionActionButtons';
 import TranscriptionDescription from './TranscriptionDescription';
 import TranscriptionEditor from './TranscriptionEditor';
 
-const PredefinedTextInformation = ({ text }: { text: Text }) => (
-  <p className='mt-2'>
-    This text is originally from{' '}
-    <a
-      href={text.source}
-      target='_blank'
-      rel='noopener noreferrer'
-      className='underline'
-    >
-      this source.
-    </a>{' '}
-    It was last updated on {dayjs(text.updated_at).format('MMMM DD, YYYY')}.
-  </p>
-);
+const PredefinedTextInformation = ({ text }: { text: DatabaseText }) => {
+  if (!text.source) return <></>;
+  return (
+    <p className='mt-2'>
+      This text is originally from{' '}
+      <a
+        href={text.source}
+        target='_blank'
+        rel='noopener noreferrer'
+        className='underline'
+      >
+        this source.
+      </a>{' '}
+      It was last updated on {dayjs(text.updated_at).format('MMMM DD, YYYY')}.
+    </p>
+  );
+};
 
 interface Props {
-  text?: Text | string;
+  text?: DatabaseText | string;
   transcriptionProps: TranscriptionPageStaticProps;
 }
 
@@ -39,7 +42,7 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
   const router = useRouter();
   const [result, setResult] = useState<Result>(Template.Result);
 
-  const supabaseText = text as Text | undefined;
+  const supabaseText = text as DatabaseText | undefined;
   const queryParamsText = router.query.text as string;
 
   const initialText = supabaseText?.text || queryParamsText || '';

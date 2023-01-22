@@ -1,8 +1,8 @@
-import useSession from '../../hooks/useSession';
+import { useAuth } from '../../state/AuthProvider';
 import { useEditorStore } from '../../state/editor';
 
 export default function ResultEditButton() {
-  const { session } = useSession();
+  const { session } = useAuth();
   const { isEditing, toggleIsEditing } = useEditorStore((store) => ({
     isEditing: store.isEditing,
     toggleIsEditing: store.toggleIsEditing,
