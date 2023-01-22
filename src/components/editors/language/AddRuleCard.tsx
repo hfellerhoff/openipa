@@ -184,10 +184,10 @@ const AddRuleCard = ({
                 ))}
                 <div className='flex items-center gap-1'>
                   <Button onClick={handleAddStep('string')}>+ Text</Button>
-                  <Button onClick={handleAddStep('subcategory')}>
+                  <Button onClick={handleAddStep('subcategories')}>
                     + Subcategory
                   </Button>
-                  <Button onClick={handleAddStep('category')}>
+                  <Button onClick={handleAddStep('categories')}>
                     + Category
                   </Button>
                 </div>

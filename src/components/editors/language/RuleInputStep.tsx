@@ -148,7 +148,6 @@ const RuleInputStep = ({
       <IPADisplay>{idsToCategoryString(step.ids, categories)}</IPADisplay>
     );
   }
-
   if (isRuleInputSubcategory(step)) {
     return editable ? (
       <IPASubcategoryDropdown

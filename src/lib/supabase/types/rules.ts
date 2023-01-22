@@ -16,18 +16,16 @@ export const isRuleInputString = createSchemaMatcher(RuleInputString);
 
 // Category
 export const RuleInputCategory = BaseRuleInput.extend({
-  type: z.literal('category'),
+  type: z.literal('categories'),
   ids: z.array(z.number()),
-  tags: z.array(z.number()),
 });
 export type RuleInputCategory = z.infer<typeof RuleInputCategory>;
 export const isRuleInputCategory = createSchemaMatcher(RuleInputCategory);
 
 // Subcategory
 export const RuleInputSubcategory = BaseRuleInput.extend({
-  type: z.literal('subcategory'),
+  type: z.literal('subcategories'),
   ids: z.array(z.number()),
-  tags: z.array(z.number()),
 });
 export type RuleInputSubcategory = z.infer<typeof RuleInputSubcategory>;
 export const isRuleInputSubcategory = createSchemaMatcher(RuleInputSubcategory);

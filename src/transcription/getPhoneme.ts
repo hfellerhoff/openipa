@@ -34,6 +34,8 @@ const getPhoneme = (
     rule: 'Could not find a transcription rule for this character.',
   };
 
+  console.log('hi');
+
   if (!char) return undefined;
 
   // Helper constants
@@ -125,6 +127,8 @@ const getPhoneme = (
       };
     })
     .filter((p) => !!p);
+
+  console.log(matchingPhonemes);
 
   if (matchingPhonemes.length > 0) {
     matchingPhonemes.sort((prevPhoneme, nextPhoneme) => {
