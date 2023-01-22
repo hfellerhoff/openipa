@@ -34,8 +34,6 @@ const getPhoneme = (
     rule: 'Could not find a transcription rule for this character.',
   };
 
-  console.log('hi');
-
   if (!char) return undefined;
 
   // Helper constants
