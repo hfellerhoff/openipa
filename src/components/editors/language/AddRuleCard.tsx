@@ -82,8 +82,6 @@ const AddRuleCard = ({
 
       editProps.onCancel();
     } else {
-      console.log('Creating rule...');
-
       await supabase.from('rules').insert({
         language_id: languageId,
         output: result,

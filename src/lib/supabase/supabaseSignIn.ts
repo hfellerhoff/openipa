@@ -1,4 +1,4 @@
-import { SupabaseClient } from "@supabase/supabase-js";
+import { SupabaseClient } from '@supabase/supabase-js';
 
 const supabaseSignIn = async (
   supabase: SupabaseClient,
@@ -16,7 +16,6 @@ const supabaseSignIn = async (
   if (error) {
     console.error(error);
   } else {
-    console.log(user);
     return user;
   }
 };

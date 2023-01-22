@@ -81,10 +81,6 @@ export default async function searchAPI(
           textBlock += line;
         }
       });
-      console.log({
-        title: result.title,
-        variations: relevantLines,
-      });
 
       return {
         title: result.title,
