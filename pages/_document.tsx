@@ -20,7 +20,7 @@ export default class CustomDocument extends Document {
                 async
                 defer
                 data-website-id='b4fd1fc9-b874-4d5d-9a70-cdd887dee842'
-                src='https://umami.henryfellerhoff.com/umami.js'
+                src='https://umami.henryfellerhoff.com/script.js'
               ></script>
             </>
           ) : (
