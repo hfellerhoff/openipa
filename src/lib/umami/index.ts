@@ -1,13 +1,12 @@
 // https://umami.is/docs/tracker-functions
 type WindowWithUmami = typeof window & {
   umami?: {
-    trackEvent: (
+    track?: (
       event_name: string,
       event_data: Record<string, string>,
       url?: string,
       website_id?: string
     ) => void;
-    trackView: (url: string, referrer?: string, website_id?: string) => void;
   };
 };
 
@@ -19,7 +18,7 @@ export const trackAnalyticsEvent = (
 ) => {
   const umami = (window as WindowWithUmami)?.umami;
 
-  if (umami) {
-    umami.trackEvent(event, { type, ...data });
+  if (umami?.track) {
+    umami.track(event, { type, ...data });
   }
 };

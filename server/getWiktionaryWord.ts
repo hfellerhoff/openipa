@@ -62,7 +62,7 @@ const wikitextToMap = (wikitext: string, language: Language) => {
   const possibleMatches = WIKITEXT_PARAMS_BY_LANGUAGE[language];
 
   const namedParameters = new Map<string, string>();
-  [...wikitext.matchAll(WIKITEXT_REGEX)].flat().forEach((result) => {
+  Array.from(wikitext.matchAll(WIKITEXT_REGEX)).flat().forEach((result) => {
     const params = result.substring(2, result.length - 2).split("|");
     if (!params.length) return [];
 
