@@ -3,14 +3,14 @@ import { useRef } from 'react';
 
 import clsx from 'clsx';
 
+import styles from './ResultDisplay.module.scss';
+import ResultEditButton from './ResultEditButton';
 import { Word, Line, Result } from '../../constants/Interfaces';
 import IPA from '../../constants/IPA';
 import useWindowDimensions from '../../hooks/UseWindowDimensions';
 import { useTranslationStore } from '../../state/translation';
 import { resultToLines } from '../../util/resultToLines';
 import FeedbackModal from '../feedback/FeedbackModal';
-import styles from './ResultDisplay.module.scss';
-import ResultEditButton from './ResultEditButton';
 
 type PhonemeProps = {
   text: string;

@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+import IPADisplay from './IPADisplay';
+import IPADropdown from './IPADropdown';
+import RuleInputStep from './RuleInputStep';
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import supabase from '../../../lib/supabase';
 import {
@@ -21,9 +24,6 @@ import { Json } from '../../../schema';
 import idsToIPAString from '../../../util/supabase/idsToIPAString';
 import Button from '../../buttons/Button';
 import Card from '../../cards/Card';
-import IPADisplay from './IPADisplay';
-import IPADropdown from './IPADropdown';
-import RuleInputStep from './RuleInputStep';
 
 interface Props {
   rules: TransformedRule[];

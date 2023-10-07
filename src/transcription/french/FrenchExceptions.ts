@@ -1,5 +1,5 @@
-import IPA from '../../constants/IPA';
 import Notes from './FrenchNotes';
+import IPA from '../../constants/IPA';
 
 type ExceptionPhenome = {
   ipa: string;

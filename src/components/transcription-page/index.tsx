@@ -4,16 +4,16 @@ import dayjs from 'dayjs';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import { TranscriptionPageStaticProps } from './getTranscriptionPageStaticProps';
+import TranscriptionActionButtons from './TranscriptionActionButtons';
+import TranscriptionDescription from './TranscriptionDescription';
+import TranscriptionEditor from './TranscriptionEditor';
 import { Languages, Result } from '../../constants/Interfaces';
 import Template from '../../constants/Template';
 import { DatabaseText } from '../../lib/supabase/types';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
 import PageHeader from '../header/PageHeader';
 import Layout from '../layout/Layout';
-import { TranscriptionPageStaticProps } from './getTranscriptionPageStaticProps';
-import TranscriptionActionButtons from './TranscriptionActionButtons';
-import TranscriptionDescription from './TranscriptionDescription';
-import TranscriptionEditor from './TranscriptionEditor';
 
 const PredefinedTextInformation = ({ text }: { text: DatabaseText }) => {
   if (!text.source) return <></>;

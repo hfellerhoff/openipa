@@ -1,8 +1,8 @@
 import React from 'react';
 
+import styles from './EditorIPALeftSidebar.module.scss';
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import { DatabaseIPACategory } from '../../lib/supabase/types';
-import styles from './EditorIPALeftSidebar.module.scss';
 
 interface ItemProps {
   category: DatabaseIPACategory;

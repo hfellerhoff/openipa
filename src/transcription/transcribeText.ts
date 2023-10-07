@@ -1,3 +1,5 @@
+import getPhoneme from './getPhoneme';
+import processPunctuation from './processPunctuation';
 import { Result } from '../constants/Interfaces';
 import { Dictionary } from '../hooks/useSupabaseTable';
 import {
@@ -7,8 +9,6 @@ import {
   TransformedRule,
 } from '../lib/supabase/types';
 import { getCharArray } from '../util/Helper';
-import getPhoneme from './getPhoneme';
-import processPunctuation from './processPunctuation';
 
 const transcribeText = (
   text: string,

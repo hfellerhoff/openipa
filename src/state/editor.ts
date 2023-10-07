@@ -1,6 +1,6 @@
-import create from 'zustand';
+import { create } from "zustand";
 
-import { Languages } from '../constants/Interfaces';
+import { Languages } from "../constants/Interfaces";
 
 export type TranscriptionOption<T> = {
   label: string;
@@ -14,7 +14,7 @@ export type GlobalTranscriptionOptions = {
 };
 const defaultGlobalEditorOptions: GlobalTranscriptionOptions = {
   shouldHideOriginalText: {
-    label: 'Hide Original Text',
+    label: "Hide Original Text",
     value: false,
   },
 };
@@ -38,11 +38,11 @@ export type FrenchTranscriptionOptionKeys =
 
 const defaultFrenchEditorOptions: FrenchTranscriptionOptions = {
   shouldAnalyzeElision: {
-    label: 'Analyze Elision',
+    label: "Analyze Elision",
     value: true,
   },
   shouldAnalyzeLiason: {
-    label: 'Analyze Liason',
+    label: "Analyze Liason",
     value: true,
   },
 };

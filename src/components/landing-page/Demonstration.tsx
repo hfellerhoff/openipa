@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import styles from './Demonstration.module.scss';
 import { Languages, Result } from '../../constants/Interfaces';
 import Template from '../../constants/Template';
 import useSupabaseIPA from '../../hooks/useSupabaseIPA';
@@ -8,7 +9,6 @@ import { capitalizeFirstLetter } from '../../util/StringHelper';
 import { getObjectValues } from '../../util/typeUtils';
 import ResultDisplay from '../display/ResultDisplay';
 import TextInput from '../input/TextInput';
-import styles from './Demonstration.module.scss';
 
 const Demonstration: React.FC = () => {
   const [inputText, setInputText] = useState('Ave maria, gratia plena.');

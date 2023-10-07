@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import supabase from '../lib/supabase';
+import supabase from "../lib/supabase";
 import {
   DatabaseRowFromTableName,
   DatabaseTableName,
-} from '../lib/supabase/types';
+} from "../lib/supabase/types";
 
 export interface Dictionary<T> {
   [id: number]: T;
@@ -20,15 +20,20 @@ const useSupabaseTable = <T extends DatabaseTableName>(table: T) => {
     const fetchTable = async () => {
       const { data, error } = await supabase
         .from(table)
-        .select('*')
-        .order('id', { ascending: true });
+        .select("*")
+        .order("id", { ascending: true });
 
-      if (error) console.log('error', error);
+      if (error) console.log("error", error);
       else {
-        const updatedDictionary = data.reduce((dict, element) => {
-          dict[element['id']] = element;
-          return dict;
-        }, {} as typeof dictionary);
+        const updatedDictionary = data.reduce(
+          (dict, element) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            dict[element["id"]] = element;
+            return dict;
+          },
+          {} as typeof dictionary
+        );
 
         setDictionary(updatedDictionary);
       }
@@ -38,29 +43,29 @@ const useSupabaseTable = <T extends DatabaseTableName>(table: T) => {
 
     // Subscribe to future table changes
     const subscription = supabase
-      .channel('public:user')
+      .channel("public:user")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*',
-          schema: 'public',
+          event: "*",
+          schema: "public",
           table,
         },
         (payload) => {
           switch (payload.eventType) {
-            case 'INSERT':
-            case 'UPDATE':
+            case "INSERT":
+            case "UPDATE":
               setDictionary((d) => {
                 return {
                   ...d,
-                  [parseInt(payload.new['id'])]:
-                    payload.new as typeof dictionary[keyof typeof dictionary],
+                  [parseInt(payload.new["id"])]:
+                    payload.new as (typeof dictionary)[keyof typeof dictionary],
                 };
               });
               return;
-            case 'DELETE':
+            case "DELETE":
               setDictionary((d) => {
-                delete d[payload.old['id']];
+                delete d[payload.old["id"]];
                 return { ...d };
               });
               return;

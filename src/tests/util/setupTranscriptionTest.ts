@@ -1,7 +1,7 @@
+import handleExpectTranscription from './handleExpectTranscription';
 import { fetchSupabaseTableAsDict } from '../../components/transcription-page/getTranscriptionPageStaticProps';
 import { Languages } from '../../constants/Interfaces';
 import supabase from '../../lib/supabase';
-import handleExpectTranscription from './handleExpectTranscription';
 
 const setupTranscriptionTest = async (language: Languages) => {
   const { data } = await supabase

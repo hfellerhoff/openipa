@@ -1,6 +1,6 @@
-import dayjs from 'dayjs';
-import create, { StateCreator } from 'zustand';
-import { persist, PersistOptions } from 'zustand/middleware';
+import dayjs from "dayjs";
+import { create, StateCreator } from "zustand";
+import { persist, PersistOptions } from "zustand/middleware";
 
 export interface TranslationQuota {
   count: number;
@@ -8,7 +8,7 @@ export interface TranslationQuota {
   resetOn: string;
 }
 
-type QuotaKey = keyof Omit<QuotaStore, 'updateQuota' | 'resetQuota'>;
+type QuotaKey = keyof Omit<QuotaStore, "updateQuota" | "resetQuota">;
 interface QuotaStore {
   translation: TranslationQuota;
   updateQuota: (name: QuotaKey, count?: number) => void;
@@ -26,7 +26,7 @@ export const useQuotaStore = create<QuotaStore>(
       translation: {
         count: 0,
         limit: 3,
-        resetOn: dayjs().add(1, 'week').toISOString(),
+        resetOn: dayjs().add(1, "week").toISOString(),
       },
       updateQuota: (name, count = 1) =>
         set((store) => ({
@@ -42,12 +42,12 @@ export const useQuotaStore = create<QuotaStore>(
           [name]: {
             ...store[name],
             count: 0,
-            resetOn: dayjs().add(1, 'month').toISOString(),
+            resetOn: dayjs().add(1, "month").toISOString(),
           },
         })),
     }),
     {
-      name: '@openipa/storage/quota',
+      name: "@openipa/storage/quota",
     }
   )
 );

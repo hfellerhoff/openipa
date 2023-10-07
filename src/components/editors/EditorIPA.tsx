@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import styles from './EditorIPA.module.scss';
+import IPADisplay from './language/IPADisplay';
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import supabase from '../../lib/supabase';
 import {
@@ -9,8 +11,6 @@ import {
 } from '../../lib/supabase/types';
 import Button from '../buttons/Button';
 import Card from '../cards/Card';
-import styles from './EditorIPA.module.scss';
-import IPADisplay from './language/IPADisplay';
 
 interface Props {
   selectedIPA?: number;

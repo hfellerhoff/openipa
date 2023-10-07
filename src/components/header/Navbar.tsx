@@ -3,9 +3,9 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useAuth } from '../../state/AuthProvider';
 import styles from './Navbar.module.scss';
 import NavbarLink from './NavbarLink';
+import { useAuth } from '../../state/AuthProvider';
 
 const CoreNavigation = () => (
   <>

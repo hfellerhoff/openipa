@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import styles from './EditorIPARightSidebar.module.scss';
+import IPAInput from './language/IPAInput';
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import supabase from '../../lib/supabase';
 import { DatabaseIPA, DatabaseIPASubcategory } from '../../lib/supabase/types';
 import Button from '../buttons/Button';
-import styles from './EditorIPARightSidebar.module.scss';
-import IPAInput from './language/IPAInput';
 
 interface Props {
   ipa: Dictionary<DatabaseIPA>;

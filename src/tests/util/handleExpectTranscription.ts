@@ -1,3 +1,4 @@
+import flattenResult from './flattenResult';
 import { Dictionary } from '../../hooks/useSupabaseTable';
 import {
   DatabaseIPA,
@@ -6,7 +7,6 @@ import {
   TransformedRule,
 } from '../../lib/supabase/types';
 import transcribeText from '../../transcription/transcribeText';
-import flattenResult from './flattenResult';
 
 type Props = {
   rules: TransformedRule[];

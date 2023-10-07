@@ -1,3 +1,4 @@
+import RuleInputStep from './RuleInputStep';
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
   DatabaseIPA,
@@ -5,7 +6,6 @@ import {
   DatabaseIPASubcategory,
   TransformedRule,
 } from '../../../lib/supabase/types';
-import RuleInputStep from './RuleInputStep';
 
 interface Props {
   input: TransformedRule['input'];

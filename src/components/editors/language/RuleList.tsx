@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useMemo } from 'react';
 
+import AddRuleCard from './AddRuleCard';
+import IPADisplay from './IPADisplay';
+import RuleInputDisplay from './RuleInputDisplay';
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
   DatabaseIPA,
@@ -12,9 +15,6 @@ import idsToIPAString from '../../../util/supabase/idsToIPAString';
 import parseIPASymbolString from '../../../util/supabase/parseIPASymbolString';
 import Button from '../../buttons/Button';
 import Card from '../../cards/Card';
-import AddRuleCard from './AddRuleCard';
-import IPADisplay from './IPADisplay';
-import RuleInputDisplay from './RuleInputDisplay';
 
 interface Props {
   rules: TransformedRule[];
