@@ -1,5 +1,5 @@
-import { Database } from '../../../schema';
 import { RuleInput } from './rules';
+import { Database } from '../../../schema';
 
 // DATABASE HELPERS
 export type DatabaseTableName = keyof Database['public']['Tables'];

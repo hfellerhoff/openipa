@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { PulseLoader } from 'react-spinners';
 
+import styles from './TranscriptionDescription.module.scss';
+import TranscriptionEditorOptions from './TranscriptionEditorOptions';
 import { Languages } from '../../constants/Interfaces';
 import { capitalizeFirstLetter } from '../../util/StringHelper';
 import Blockquote from '../core/Blockquote';
-import styles from './TranscriptionDescription.module.scss';
-import TranscriptionEditorOptions from './TranscriptionEditorOptions';
 
 interface Props {
   language: Languages;

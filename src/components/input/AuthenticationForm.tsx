@@ -1,8 +1,8 @@
 import { Field, Form, Formik } from 'formik';
 
+import styles from './AuthenticationForm.module.scss';
 import supabase from '../../lib/supabase';
 import supabaseSignIn from '../../lib/supabase/supabaseSignIn';
-import styles from './AuthenticationForm.module.scss';
 
 const AuthenticationForm = () => {
   return (

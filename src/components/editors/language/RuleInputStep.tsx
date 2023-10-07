@@ -1,5 +1,9 @@
 import React from 'react';
 
+import IPACategoryDropdown from './IPACategoryDropdown';
+import IPADisplay from './IPADisplay';
+import IPAInput from './IPAInput';
+import IPASubcategoryDropdown from './IPASubcategoryDropdown';
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
   DatabaseIPA,
@@ -18,10 +22,6 @@ import {
 import idsToCategoryString from '../../../util/supabase/idsToCategoryString';
 import idsToSubcategoryString from '../../../util/supabase/idsToSubcategoryString';
 import Button from '../../buttons/Button';
-import IPACategoryDropdown from './IPACategoryDropdown';
-import IPADisplay from './IPADisplay';
-import IPAInput from './IPAInput';
-import IPASubcategoryDropdown from './IPASubcategoryDropdown';
 
 interface Props {
   step: RuleInput;

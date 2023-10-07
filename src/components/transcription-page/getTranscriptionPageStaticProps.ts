@@ -1,5 +1,5 @@
-import { Dictionary } from '../../hooks/useSupabaseTable';
-import supabase from '../../lib/supabase';
+import { Dictionary } from "../../hooks/useSupabaseTable";
+import supabase from "../../lib/supabase";
 import {
   DatabaseIPA,
   DatabaseIPACategory,
@@ -9,7 +9,8 @@ import {
   DatabaseRowFromTableName,
   DatabaseTableName,
   TransformedRule,
-} from '../../lib/supabase/types';
+} from "../../lib/supabase/types";
+import { isKeyInObject } from "../../util/typeUtils";
 
 export interface TranscriptionPageStaticProps {
   ipa: Dictionary<DatabaseIPA>;
@@ -27,15 +28,15 @@ const fetchFromTable = async <T extends DatabaseTableName>(
   if (!language) {
     return await supabase
       .from(table)
-      .select('*')
-      .order('id', { ascending: true });
+      .select("*")
+      .order("id", { ascending: true });
   }
 
   return await supabase
     .from(table)
-    .select('*')
-    .eq('language_id', language.id as T[keyof T])
-    .order('id', { ascending: true });
+    .select("*")
+    .eq("language_id", language.id)
+    .order("id", { ascending: true });
 };
 
 export const fetchSupabaseTableAsDict = async <T extends DatabaseTableName>(
@@ -48,19 +49,26 @@ export const fetchSupabaseTableAsDict = async <T extends DatabaseTableName>(
 
   if (!data) return {};
 
-  return data.reduce((dictionary, row) => {
-    dictionary[row['id']] = row;
-    return dictionary;
-  }, {} as Dictionary<DatabaseRowFromTableName<T>>);
+  return data.reduce(
+    (dictionary, row) => {
+      if (isKeyInObject("id", row)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        dictionary[row["id"]] = row;
+      }
+      return dictionary;
+    },
+    {} as Dictionary<DatabaseRowFromTableName<T>>
+  );
 };
 
 export default async function getTranscriptionPageStaticProps(
   language: string
 ): Promise<TranscriptionPageStaticProps> {
   const { data } = await supabase
-    .from('languages')
-    .select('*')
-    .eq('slug', language)
+    .from("languages")
+    .select("*")
+    .eq("slug", language)
     .limit(1);
 
   if (!data) {
@@ -77,15 +85,15 @@ export default async function getTranscriptionPageStaticProps(
   const supabaseLanguage = data[0];
 
   const tableDictionaries = await Promise.all([
-    fetchSupabaseTableAsDict('ipa'),
-    fetchSupabaseTableAsDict('ipa_subcategory'),
-    fetchSupabaseTableAsDict('ipa_category'),
-    fetchSupabaseTableAsDict('ipa_tags'),
+    fetchSupabaseTableAsDict("ipa"),
+    fetchSupabaseTableAsDict("ipa_subcategory"),
+    fetchSupabaseTableAsDict("ipa_category"),
+    fetchSupabaseTableAsDict("ipa_tags"),
     fetchSupabaseTableAsDict(
-      'rules',
+      "rules",
       supabaseLanguage
     ) as unknown as Dictionary<TransformedRule>,
-    fetchSupabaseTableAsDict('languages'),
+    fetchSupabaseTableAsDict("languages"),
   ]);
 
   const [ipa, subcategories, categories, tags, rules, languages] =

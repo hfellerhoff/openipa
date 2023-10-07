@@ -1,8 +1,8 @@
 import React from 'react';
 
+import styles from './LanguageSelectionButtons.module.scss';
 import { Languages } from '../../constants/Interfaces';
 import LanguageSelectButton from '../buttons/LanguageSelectButton';
-import styles from './LanguageSelectionButtons.module.scss';
 
 const LanguageSelectionButtons: React.FC = () => {
   return (

@@ -1,15 +1,3 @@
-import { Result, Phoneme, ParseLetterProps } from '../../constants/Interfaces';
-import IPA from '../../constants/IPA';
-import Template from '../../constants/Template';
-import { FrenchTranscriptionOptions } from '../../state/editor';
-import {
-  getCharArray,
-  isConsonant,
-  isVowel,
-  getNextWord,
-  isPunctuation,
-  isEndOfSentence,
-} from '../../util/Helper';
 import Exceptions from './FrenchExceptions';
 import { isPronouncedConsonant } from './FrenchHelper';
 import Notes from './FrenchNotes';
@@ -39,6 +27,18 @@ import parseX from './parse-letters/parseX';
 import parseY from './parse-letters/parseY';
 import parseZ from './parse-letters/parseZ';
 import parseŒ from './parse-letters/parseŒ';
+import { Result, Phoneme, ParseLetterProps } from '../../constants/Interfaces';
+import IPA from '../../constants/IPA';
+import Template from '../../constants/Template';
+import { FrenchTranscriptionOptions } from '../../state/editor';
+import {
+  getCharArray,
+  isConsonant,
+  isVowel,
+  getNextWord,
+  isPunctuation,
+  isEndOfSentence,
+} from '../../util/Helper';
 
 const parseFrench = (text: string, options: FrenchTranscriptionOptions) => {
   const shouldAnalyzeLiason = options.shouldAnalyzeLiason.value;

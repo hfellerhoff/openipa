@@ -3,6 +3,8 @@ import { useMemo } from 'react';
 
 import clsx from 'clsx';
 
+import { TranscriptionPageStaticProps } from './getTranscriptionPageStaticProps';
+import styles from './TranscriptionEditor.module.scss';
 import { Result, Languages } from '../../constants/Interfaces';
 import {
   FrenchTranscriptionOptions,
@@ -15,8 +17,6 @@ import { getObjectValues } from '../../util/typeUtils';
 import HideButton from '../buttons/HideButton';
 import ResultDisplay from '../display/ResultDisplay';
 import TextInput from '../input/TextInput';
-import { TranscriptionPageStaticProps } from './getTranscriptionPageStaticProps';
-import styles from './TranscriptionEditor.module.scss';
 
 interface Props {
   language: Languages;

@@ -1,5 +1,5 @@
-import parseFrench from '../../transcription/french/ParseFrench';
 import flattenResult from './flattenResult';
+import parseFrench from '../../transcription/french/ParseFrench';
 
 const expectLegacyFrenchTranscription = (
   inputText: string,

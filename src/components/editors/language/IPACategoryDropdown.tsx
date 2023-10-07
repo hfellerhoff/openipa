@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Dropdown, { Option, ReactDropdownProps } from 'react-dropdown';
 
+import IPADisplay from './IPADisplay';
 import { Dictionary } from '../../../hooks/useSupabaseTable';
 import {
   DatabaseIPA,
@@ -9,7 +10,6 @@ import {
   DatabaseIPASubcategory,
 } from '../../../lib/supabase/types';
 import idsToCategoryString from '../../../util/supabase/idsToCategoryString';
-import IPADisplay from './IPADisplay';
 
 interface Props {
   ipa: Dictionary<DatabaseIPA>;

@@ -1,3 +1,5 @@
+import { isPhonemeIn } from './helper/isLetterIn';
+import matchStringInput from './steps/matchStringInput';
 import { Phoneme, Result } from '../constants/Interfaces';
 import { Dictionary } from '../hooks/useSupabaseTable';
 import {
@@ -13,8 +15,6 @@ import {
 } from '../lib/supabase/types/rules';
 import idsToIPAString from '../util/supabase/idsToIPAString';
 import parseIPASymbolString from '../util/supabase/parseIPASymbolString';
-import { isPhonemeIn } from './helper/isLetterIn';
-import matchStringInput from './steps/matchStringInput';
 
 const getPhoneme = (
   text: string,
