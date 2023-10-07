@@ -1,10 +1,10 @@
-import { GetStaticProps } from 'next';
+import { GetStaticProps } from "next";
 
-import TranscriptionPage from '../../../src/components/transcription-page';
+import TranscriptionPage from "../../../src/components/transcription-page";
 import getTranscriptionPageStaticProps, {
   TranscriptionPageStaticProps,
-} from '../../../src/components/transcription-page/getTranscriptionPageStaticProps';
-import { Languages } from '../../../src/constants/Interfaces';
+} from "../../../src/components/transcription-page/getTranscriptionPageStaticProps";
+import { Languages } from "../../../src/constants/Interfaces";
 
 export default function TranscriptionLanguagePage(
   props: TranscriptionPageStaticProps

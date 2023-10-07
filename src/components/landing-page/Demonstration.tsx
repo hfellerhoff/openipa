@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from 'react';
+"use client";
 
-import styles from './Demonstration.module.scss';
-import { Languages, Result } from '../../constants/Interfaces';
-import Template from '../../constants/Template';
-import useSupabaseIPA from '../../hooks/useSupabaseIPA';
-import transcribeText from '../../transcription/transcribeText';
-import { capitalizeFirstLetter } from '../../util/StringHelper';
-import { getObjectValues } from '../../util/typeUtils';
-import ResultDisplay from '../display/ResultDisplay';
-import TextInput from '../input/TextInput';
+import React, { useEffect, useState } from "react";
 
-const Demonstration: React.FC = () => {
-  const [inputText, setInputText] = useState('Ave maria, gratia plena.');
+import styles from "./Demonstration.module.scss";
+import { Languages, Result } from "../../constants/Interfaces";
+import Template from "../../constants/Template";
+import transcribeText from "../../transcription/transcribeText";
+import { capitalizeFirstLetter } from "../../util/StringHelper";
+import { getObjectValues } from "../../util/typeUtils";
+import ResultDisplay from "../display/ResultDisplay";
+import TextInput from "../input/TextInput";
+import { TranscriptionPageStaticProps } from "../transcription-page/getTranscriptionPageStaticProps";
+
+export default function Demonstration({
+  rules,
+  languages,
+  categories,
+  subcategories,
+  ipa,
+}: TranscriptionPageStaticProps) {
+  const [inputText, setInputText] = useState("Ave maria, gratia plena.");
   const [language] = useState(Languages.Latin);
   const [resultHeight, setResultHeight] = useState(0);
   const [result, setResult] = useState<Result>(Template.Result);
-  const { rules, languages, categories, subcategories, ipa } = useSupabaseIPA();
 
   useEffect(() => {
     const parseText = (text: string) => {
@@ -41,7 +48,7 @@ const Demonstration: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles['container-left']}>
+      <div className={styles["container-left"]}>
         <h2 className={styles.title}>Why Open IPA?</h2>
         <p className={styles.description}>
           Open IPA features text to IPA transcription in real-time. That means
@@ -55,32 +62,30 @@ const Demonstration: React.FC = () => {
           result to see!
         </p>
       </div>
-      <div className='w-10 h-10' />
-      <div className={styles['container-right']}>
-        <div className={styles['container-right-container-left']}>
+      <div className="w-10 h-10" />
+      <div className={styles["container-right"]}>
+        <div className={styles["container-right-container-left"]}>
           <TextInput
             inputText={inputText}
             setInputText={setInputText}
-            theme='dark'
+            theme="dark"
             displayHeight={resultHeight}
           />
-          <h3 className={styles['input-title']}>
+          <h3 className={styles["input-title"]}>
             {`${capitalizeFirstLetter(language)} Text Input`}
           </h3>
         </div>
-        <div className={styles['container-right-container-right']}>
+        <div className={styles["container-right-container-right"]}>
           <ResultDisplay
             result={result}
-            theme='dark'
+            theme="dark"
             setHeight={(height) => setResultHeight(height)}
             language={language}
             hideFeedback
           />
-          <h3 className={styles['input-title']}>IPA Result</h3>
+          <h3 className={styles["input-title"]}>IPA Result</h3>
         </div>
       </div>
     </div>
   );
-};
-
-export default Demonstration;
+}

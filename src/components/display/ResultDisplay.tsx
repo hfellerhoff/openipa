@@ -1,32 +1,32 @@
-import React, { useEffect } from 'react';
-import { useRef } from 'react';
+import React, { useEffect } from "react";
+import { useRef } from "react";
 
-import clsx from 'clsx';
+import clsx from "clsx";
 
-import styles from './ResultDisplay.module.scss';
-import ResultEditButton from './ResultEditButton';
-import { Word, Line, Result } from '../../constants/Interfaces';
-import IPA from '../../constants/IPA';
-import useWindowDimensions from '../../hooks/UseWindowDimensions';
-import { useTranslationStore } from '../../state/translation';
-import { resultToLines } from '../../util/resultToLines';
-import FeedbackModal from '../feedback/FeedbackModal';
+import styles from "./ResultDisplay.module.scss";
+import ResultEditButton from "./ResultEditButton";
+import { Word, Line, Result } from "../../constants/Interfaces";
+import IPA from "../../constants/IPA";
+import useWindowDimensions from "../../hooks/UseWindowDimensions";
+import { useTranslationStore } from "../../state/translation";
+import { resultToLines } from "../../util/resultToLines";
+import FeedbackModal from "../feedback/FeedbackModal";
 
 type PhonemeProps = {
   text: string;
   rule: string;
   isIPA?: boolean;
-  theme: 'light' | 'dark';
+  theme: "light" | "dark";
 };
 
 const PhonemeElement = ({ text, rule, isIPA = false, theme }: PhonemeProps) => {
   const textClassName = isIPA
     ? styles[`display-ipa--${theme}`]
     : styles[`display-text--${theme}`];
-  const tooltipClassName = `${styles['tooltip']} ${
+  const tooltipClassName = `${styles["tooltip"]} ${
     styles[`tooltip--${theme}`]
   }`;
-  const tooltipTextClassName = `${styles['tooltip-text']} ${
+  const tooltipTextClassName = `${styles["tooltip-text"]} ${
     styles[`tooltip-text--${theme}`]
   }`;
 
@@ -42,7 +42,7 @@ const PhonemeElement = ({ text, rule, isIPA = false, theme }: PhonemeProps) => {
 
 type WordProps = {
   word: Word;
-  theme: 'light' | 'dark';
+  theme: "light" | "dark";
   shouldHideOriginalText: boolean;
 };
 const WordElement = ({ word, theme, shouldHideOriginalText }: WordProps) => {
@@ -72,8 +72,8 @@ const WordElement = ({ word, theme, shouldHideOriginalText }: WordProps) => {
   });
   return (
     <div
-      className={clsx('inline-block flex-col', {
-        'my-2.5': !shouldHideOriginalText,
+      className={clsx("inline-block flex-col", {
+        "my-2.5": !shouldHideOriginalText,
       })}
     >
       {!shouldHideOriginalText && <div>{originalSyllableElements}</div>}
@@ -85,7 +85,7 @@ const WordElement = ({ word, theme, shouldHideOriginalText }: WordProps) => {
 type LineProps = {
   line: Line;
   lineText: string;
-  theme: 'light' | 'dark';
+  theme: "light" | "dark";
   shouldHideOriginalText: boolean;
   translations: Map<string, string>;
 };
@@ -113,7 +113,7 @@ const LineElement = ({
       }
     });
     const spaceElement = (
-      <span className='mx-1' key={(index + 0.5).toString()}></span>
+      <span className="mx-1" key={(index + 0.5).toString()}></span>
     );
     wordElements.push(wordElement);
     if (!foundUndertie) wordElements.push(spaceElement);
@@ -121,8 +121,8 @@ const LineElement = ({
   return (
     <div
       className={clsx({
-        'mt-2 mb-4': !shouldHideOriginalText,
-        'mt-1': shouldHideOriginalText,
+        "mt-2 mb-4": !shouldHideOriginalText,
+        "mt-1": shouldHideOriginalText,
       })}
     >
       {translations && (
@@ -130,7 +130,7 @@ const LineElement = ({
           {translations.get(lineText)}
         </span>
       )}
-      <div className='flex flex-wrap'>{wordElements}</div>
+      <div className="flex flex-wrap">{wordElements}</div>
     </div>
   );
 };
@@ -139,7 +139,7 @@ type DisplayProps = {
   result: Result;
   language: string;
   shouldHideOriginalText?: boolean;
-  theme?: 'light' | 'dark';
+  theme?: "light" | "dark";
   setHeight?: (height: number) => void;
   shouldHide?: boolean;
   hideFeedback?: boolean;
@@ -148,7 +148,7 @@ const ResultElement = ({
   result,
   language,
   shouldHideOriginalText = false,
-  theme = 'light',
+  theme = "light",
   setHeight,
   shouldHide,
   hideFeedback = false,
@@ -158,7 +158,7 @@ const ResultElement = ({
     allTranslations: store.translations,
   }));
 
-  const countryCode = language.toLowerCase() === 'french' ? 'FR' : 'EN';
+  const countryCode = language.toLowerCase() === "french" ? "FR" : "EN";
   const translations = allTranslations[countryCode] || null;
 
   const { width } = useWindowDimensions();
@@ -192,8 +192,8 @@ const ResultElement = ({
 
   return (
     <div
-      id='result'
-      className={clsx('relative', {
+      id="result"
+      className={clsx("relative", {
         [className]: !!className,
       })}
       ref={displayRef}
