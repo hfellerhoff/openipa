@@ -34,6 +34,7 @@
     "react-dropdown": "^1.11.0",
     "react-spinners": "^0.13.8",
     "sass": "^1.69.0",
+    "sharp": "^0.32.6",
     "tailwindcss": "^3.3.3",
     "wikiapi": "^1.19.4",
     "wretch": "^2.7.0",
