@@ -5,14 +5,14 @@ import getTranscriptionPageStaticProps from "../../../../src/components/transcri
 import supabase from "../../../../src/lib/supabase";
 import { capitalizeFirstLetter } from "../../../../src/util/StringHelper";
 
-export interface ITranscriptionTextPageProps {
+interface ITranscriptionTextPageProps {
   params: {
     language?: string;
     slug?: string;
   };
 }
 
-export const getTranscriptionTextPageProps = async ({
+const getTranscriptionTextPageProps = async ({
   params,
 }: ITranscriptionTextPageProps) => {
   const language = params?.language as string;
