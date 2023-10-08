@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 
 import dayjs from "dayjs";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 import { TranscriptionPageStaticProps } from "./getTranscriptionPageStaticProps";
 import TranscriptionActionButtons from "./TranscriptionActionButtons";
@@ -13,7 +14,6 @@ import Template from "../../constants/Template";
 import { DatabaseText } from "../../lib/supabase/types";
 import { capitalizeFirstLetter } from "../../util/StringHelper";
 import PageHeader from "../header/PageHeader";
-import Layout from "../layout/Layout";
 
 const PredefinedTextInformation = ({ text }: { text: DatabaseText }) => {
   if (!text.source) return <></>;
@@ -40,14 +40,16 @@ interface Props {
 
 export default function TranscriptionPage({ text, transcriptionProps }: Props) {
   const router = useRouter();
+  const params = useParams();
+  const searchParams = useSearchParams();
   const [result, setResult] = useState<Result>(Template.Result);
 
   const supabaseText = text as DatabaseText | undefined;
-  const queryParamsText = router.query.text as string;
+  const queryParamsText = searchParams?.get("text") as string;
 
   const initialText = supabaseText?.text || queryParamsText || "";
 
-  const language = router.query.language as string as Languages;
+  const language = (params?.language ?? "") as string as Languages;
   const languageLabel = capitalizeFirstLetter(language);
   const isLanguageSupported = languageLabel in Languages;
 
@@ -55,26 +57,16 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
     if (!!language && !isLanguageSupported) router.replace("/transcription");
   }, [isLanguageSupported, language, router]);
 
-  if (!isLanguageSupported) return <></>;
+  if (!isLanguageSupported) return null;
 
   const setLanguage = (updatedLanguage: Languages) => {
     if (!supabaseText) {
-      router.push({
-        pathname: `/transcription/${updatedLanguage}`,
-      });
+      router.push(`/transcription/${updatedLanguage}`);
     }
   };
 
   return (
-    <Layout>
-      <Head>
-        <title>{languageLabel} Language Transcription - Open IPA</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="description"
-          content={`Free, informative IPA transcription for Lyric Diction. Transcribe any ${languageLabel} text into the International Phonetic Alphabet in real-time, and receive nuanced feedback for each transcription step.`}
-        />
-      </Head>
+    <>
       <PageHeader
         title="Transcription"
         subtitle="Type or paste your text below to transcribe it into the International Phonetic Alphabet."
@@ -95,6 +87,6 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
         {!!supabaseText && <PredefinedTextInformation text={supabaseText} />}
         <TranscriptionActionButtons language={language} result={result} />
       </div>
-    </Layout>
+    </>
   );
 }
