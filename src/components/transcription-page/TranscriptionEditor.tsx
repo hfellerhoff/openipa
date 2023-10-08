@@ -5,7 +5,8 @@ import clsx from "clsx";
 
 import { TranscriptionPageStaticProps } from "./getTranscriptionPageStaticProps";
 import styles from "./TranscriptionEditor.module.scss";
-import { Result, Languages } from "../../constants/Interfaces";
+import { useTranscriptionEditorContext } from "./TranscriptionEditorProvider";
+import { Languages } from "../../constants/Interfaces";
 import {
   FrenchTranscriptionOptions,
   GlobalTranscriptionOptions,
@@ -19,27 +20,22 @@ import ResultDisplay from "../display/ResultDisplay";
 import TextInput from "../input/TextInput";
 
 interface Props {
-  language: Languages;
-  result: Result;
-  setResult: React.Dispatch<React.SetStateAction<Result>>;
   text?: string;
   editorView?: boolean;
   transcriptionProps: TranscriptionPageStaticProps;
 }
 
 const TranscriptionEditor: React.FC<Props> = ({
-  language,
-  result,
-  setResult,
   text,
   editorView,
   transcriptionProps,
 }) => {
+  const { language, result, setResult, inputText, setInputText } =
+    useTranscriptionEditorContext();
   const languageOptions: GlobalTranscriptionOptions = useEditorStore(
     (store) => store.options[language]
   );
 
-  const [inputText, setInputText] = useState(text || "");
   const [shouldShowInput, setShouldShowInput] = useState(true);
   const [shouldShowOutput, setShouldShowOutput] = useState(true);
 
@@ -60,7 +56,7 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   useEffect(() => {
     if (text) setInputText(text);
-  }, [text]);
+  }, [setInputText, text]);
 
   useEffect(() => {
     const parseText = (text: string) => {

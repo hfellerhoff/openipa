@@ -111,6 +111,10 @@ export default async function TextPage(pageProps: ITranscriptionTextPageProps) {
     await getTranscriptionTextPageProps(pageProps);
 
   return (
-    <TranscriptionPage text={text} transcriptionProps={transcriptionProps} />
+    <TranscriptionPage
+      text={text}
+      transcriptionProps={transcriptionProps}
+      lockLanguage
+    />
   );
 }

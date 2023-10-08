@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import dayjs from "dayjs";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -9,8 +9,8 @@ import { TranscriptionPageStaticProps } from "./getTranscriptionPageStaticProps"
 import TranscriptionActionButtons from "./TranscriptionActionButtons";
 import TranscriptionDescription from "./TranscriptionDescription";
 import TranscriptionEditor from "./TranscriptionEditor";
-import { Languages, Result } from "../../constants/Interfaces";
-import Template from "../../constants/Template";
+import TranscriptionEditorProvider from "./TranscriptionEditorProvider";
+import { Languages } from "../../constants/Interfaces";
 import { DatabaseText } from "../../lib/supabase/types";
 import { capitalizeFirstLetter } from "../../util/StringHelper";
 import PageHeader from "../header/PageHeader";
@@ -36,13 +36,17 @@ const PredefinedTextInformation = ({ text }: { text: DatabaseText }) => {
 interface Props {
   text?: DatabaseText | string;
   transcriptionProps: TranscriptionPageStaticProps;
+  lockLanguage?: boolean;
 }
 
-export default function TranscriptionPage({ text, transcriptionProps }: Props) {
+export default function TranscriptionPage({
+  text,
+  transcriptionProps,
+  lockLanguage = false,
+}: Props) {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
-  const [result, setResult] = useState<Result>(Template.Result);
 
   const supabaseText = text as DatabaseText | undefined;
   const queryParamsText = searchParams?.get("text") as string;
@@ -59,12 +63,6 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
 
   if (!isLanguageSupported) return null;
 
-  const setLanguage = (updatedLanguage: Languages) => {
-    if (!supabaseText) {
-      router.push(`/transcription/${updatedLanguage}`);
-    }
-  };
-
   return (
     <>
       <PageHeader
@@ -73,19 +71,15 @@ export default function TranscriptionPage({ text, transcriptionProps }: Props) {
         colorClassName="bg-blue-900 bg-opacity-75"
       />
       <div className="w-full px-4 py-4 mx-auto max-w-7xl lg:py-8">
-        <TranscriptionDescription
-          language={language}
-          setLanguage={setLanguage}
-        />
-        <TranscriptionEditor
-          language={language}
-          result={result}
-          setResult={setResult}
-          text={initialText}
-          transcriptionProps={transcriptionProps}
-        />
-        {!!supabaseText && <PredefinedTextInformation text={supabaseText} />}
-        <TranscriptionActionButtons language={language} result={result} />
+        <TranscriptionEditorProvider language={language}>
+          <TranscriptionDescription lockLanguage={lockLanguage} />
+          <TranscriptionEditor
+            text={initialText}
+            transcriptionProps={transcriptionProps}
+          />
+          {!!supabaseText && <PredefinedTextInformation text={supabaseText} />}
+          <TranscriptionActionButtons />
+        </TranscriptionEditorProvider>
       </div>
     </>
   );

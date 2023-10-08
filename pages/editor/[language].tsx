@@ -1,20 +1,17 @@
-import { useState } from 'react';
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { PulseLoader } from "react-spinners";
 
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { PulseLoader } from 'react-spinners';
-
-import RuleList from '../../src/components/editors/language/RuleList';
-import EditorLayout from '../../src/components/layout/EditorLayout';
-import TranscriptionDescription from '../../src/components/transcription-page/TranscriptionDescription';
-import TranscriptionEditor from '../../src/components/transcription-page/TranscriptionEditor';
-import { Languages, Result } from '../../src/constants/Interfaces';
-import Template from '../../src/constants/Template';
-import useSupabaseIPA from '../../src/hooks/useSupabaseIPA';
+import RuleList from "../../src/components/editors/language/RuleList";
+import EditorLayout from "../../src/components/layout/EditorLayout";
+import TranscriptionDescription from "../../src/components/transcription-page/TranscriptionDescription";
+import TranscriptionEditor from "../../src/components/transcription-page/TranscriptionEditor";
+import TranscriptionEditorProvider from "../../src/components/transcription-page/TranscriptionEditorProvider";
+import { Languages } from "../../src/constants/Interfaces";
+import useSupabaseIPA from "../../src/hooks/useSupabaseIPA";
 
 const LanguageEditor = () => {
   const router = useRouter();
-  const [result, setResult] = useState<Result>(Template.Result);
 
   const { categories, subcategories, ipa, rules, tags, languages } =
     useSupabaseIPA();
@@ -30,8 +27,8 @@ const LanguageEditor = () => {
         <Head>
           <title>Language Editor - Open IPA</title>
         </Head>
-        <div className='flex items-center justify-center p-16'>
-          <PulseLoader color='gray' />
+        <div className="flex items-center justify-center p-16">
+          <PulseLoader color="gray" />
         </div>
       </EditorLayout>
     );
@@ -42,34 +39,29 @@ const LanguageEditor = () => {
   return (
     <EditorLayout
       rightSidebar={
-        <div className='grid flex-1 gap-4 p-6'>
-          <TranscriptionDescription
-            language={typedLanguage}
-            lockLanguage
-            editorView
-          />
-          <TranscriptionEditor
-            language={typedLanguage}
-            result={result}
-            setResult={setResult}
-            editorView
-            transcriptionProps={{
-              ipa,
-              subcategories,
-              categories,
-              tags,
-              rules,
-              languages,
-            }}
-          />
+        <div className="grid flex-1 gap-4 p-6">
+          <TranscriptionEditorProvider language={typedLanguage}>
+            <TranscriptionDescription lockLanguage editorView />
+            <TranscriptionEditor
+              editorView
+              transcriptionProps={{
+                ipa,
+                subcategories,
+                categories,
+                tags,
+                rules,
+                languages,
+              }}
+            />
+          </TranscriptionEditorProvider>
         </div>
       }
     >
       <Head>
         <title>{language.label} Editor - Open IPA</title>
       </Head>
-      <div className='p-8'>
-        <h3 className='mb-4'>{language.label} Transcription Rules</h3>
+      <div className="p-8">
+        <h3 className="mb-4">{language.label} Transcription Rules</h3>
         <RuleList
           rules={Object.values(rules)}
           ipa={ipa}

@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import dayjs from 'dayjs';
-import wretch from 'wretch';
+import dayjs from "dayjs";
+import wretch from "wretch";
 
-import { TranslationResponse } from '../../../pages/api/translate';
-import { Result, Languages } from '../../constants/Interfaces';
-import { trackAnalyticsEvent } from '../../lib/umami';
-import { useEditorStore } from '../../state/editor';
-import { TranslationQuota, useQuotaStore } from '../../state/quota';
-import { useTranslationStore } from '../../state/translation';
-import copyResult from '../../util/CopyResult';
-import createPDFFromResult from '../../util/CreatePDF';
-import ExportButton from '../buttons/ExportButton';
-import Blockquote from '../core/Blockquote';
+import { useTranscriptionEditorContext } from "./TranscriptionEditorProvider";
+import { TranslationResponse } from "../../../pages/api/translate";
+import { Languages } from "../../constants/Interfaces";
+import { trackAnalyticsEvent } from "../../lib/umami";
+import { useEditorStore } from "../../state/editor";
+import { TranslationQuota, useQuotaStore } from "../../state/quota";
+import { useTranslationStore } from "../../state/translation";
+import copyResult from "../../util/CopyResult";
+import createPDFFromResult from "../../util/CreatePDF";
+import ExportButton from "../buttons/ExportButton";
+import Blockquote from "../core/Blockquote";
 
 const getQuotaText = (translationsLeft: number, quota: TranslationQuota) => {
   if (translationsLeft > 0) {
     return `You have ${translationsLeft} translation${
-      translationsLeft === 1 ? '' : 's'
+      translationsLeft === 1 ? "" : "s"
     } left this week.`;
   }
 
   return `Your translation quota will reset on ${dayjs(quota.resetOn).format(
-    'MMMM D'
+    "MMMM D"
   )}.`;
 };
 
-interface Props {
-  language: Languages;
-  result: Result;
-}
-
-const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
+const TranscriptionActionButtons = () => {
+  const { language, result } = useTranscriptionEditorContext();
   const [isPDFCreated, setIsPDFCreated] = useState(true);
   const [isTranslating, setIsTranslating] = useState(false);
   const { addTranslation } = useTranslationStore((store) => ({
@@ -56,8 +53,8 @@ const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
   const translationsLeft = translationQuota.limit - translationQuota.count;
 
   const handleCreatePDF = () => {
-    trackAnalyticsEvent('click', 'Create PDF');
-    trackAnalyticsEvent('click', 'Create PDF', { language });
+    trackAnalyticsEvent("click", "Create PDF");
+    trackAnalyticsEvent("click", "Create PDF", { language });
 
     setIsPDFCreated(false);
     setTimeout(() => {
@@ -72,7 +69,7 @@ const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
   useEffect(() => {
     const checkForQuotaReset = () => {
       if (dayjs().diff(dayjs(translationQuota.resetOn)) >= 0) {
-        resetQuota('translation');
+        resetQuota("translation");
       }
     };
 
@@ -82,11 +79,11 @@ const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
   const handleTranslate = async () => {
     if (translationsLeft <= 0) return;
 
-    trackAnalyticsEvent('click', 'Translate', { language });
+    trackAnalyticsEvent("click", "Translate", { language });
 
     setIsTranslating(true);
 
-    const data: TranslationResponse = await wretch('/api/translate')
+    const data: TranslationResponse = await wretch("/api/translate")
       .post({ result, language })
       .json();
 
@@ -98,16 +95,16 @@ const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
       )
     );
 
-    updateQuota('translation', 1);
+    updateQuota("translation", 1);
     setIsTranslating(false);
   };
 
-  const isNotLatin = language.toLowerCase() !== 'latin';
+  const isNotLatin = language.toLowerCase() !== "latin";
 
   const quotaText = getQuotaText(translationsLeft, translationQuota);
 
   const handleCopy = () => {
-    trackAnalyticsEvent('click', 'Copy', { language });
+    trackAnalyticsEvent("click", "Copy", { language });
 
     copyResult(result, shouldHideOriginalText);
   };
@@ -116,34 +113,34 @@ const TranscriptionActionButtons: React.FC<Props> = ({ language, result }) => {
     <>
       {isNotLatin && (
         <Blockquote>
-          Open IPA uses the{' '}
+          Open IPA uses the{" "}
           <a
-            href='https://www.deepl.com/translator'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='font-bold'
+            href="https://www.deepl.com/translator"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold"
           >
             DeepL API
-          </a>{' '}
+          </a>{" "}
           for language translation. Since this is a paid service, each user is
           limited to a certain amount of translations. {quotaText}
         </Blockquote>
       )}
-      <div className='flex flex-wrap gap-2 mt-2'>
+      <div className="flex flex-wrap gap-2 mt-2">
         {isNotLatin && (
           <ExportButton
-            title='Translate'
+            title="Translate"
             onClick={handleTranslate}
             isLoading={isTranslating}
             isDisabled={translationsLeft <= 0}
           ></ExportButton>
         )}
         <ExportButton
-          title='Export as PDF'
+          title="Export as PDF"
           onClick={handleCreatePDF}
           isLoading={!isPDFCreated}
         ></ExportButton>
-        <ExportButton title='Copy' onClick={handleCopy}></ExportButton>
+        <ExportButton title="Copy" onClick={handleCopy}></ExportButton>
       </div>
     </>
   );
