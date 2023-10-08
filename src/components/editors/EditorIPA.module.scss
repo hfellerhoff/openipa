@@ -1,21 +1,21 @@
-@import '../../styles/variables';
-@import '../../styles/colors';
-@import '../../styles/utils/mixins';
+@import "../../styles/variables";
+@import "../../styles/colors";
+@import "../../styles/utils/mixins";
 
 .container {
   min-height: 100vh;
   background: $gray-6;
 
-  @include respond-to('wide') {
+  @include respond-to("wide") {
     padding: 2.5rem;
   }
-  @include respond-to('computer') {
+  @include respond-to("computer") {
     padding: 2rem;
   }
-  @include respond-to('tablet') {
+  @include respond-to("tablet") {
     padding: 1.5rem;
   }
-  @include respond-to('phone') {
+  @include respond-to("phone") {
     padding: 1rem;
   }
 }
@@ -58,5 +58,5 @@
 }
 
 .ipa-text {
-  font-family: 'Roboto Slab';
+  font-family: var(--font-roboto-slab);
 }

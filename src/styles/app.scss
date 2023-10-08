@@ -1,20 +1,21 @@
-@use './variables';
+@use "./variables";
 
 // Tailwind
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import './colors';
-@import './base/reset';
-@import './base/typography';
+@import "./colors";
+@import "./base/reset";
+@import "./base/typography";
 
 // Component SCSS
-@import 'react-dropdown/style.css';
-@import './components/buttons';
+@import "react-dropdown/style.css";
+@import "./components/buttons";
 
 * {
-  font-family: 'Open Sans', 'Apple SD Gothic Neo', 'Trebuchet MS', sans-serif;
+  font-family: var(--font-open-sans), "Apple SD Gothic Neo", "Trebuchet MS",
+    sans-serif;
 }
 
 body {
@@ -36,7 +37,7 @@ body {
   grid-column: 1/10;
 }
 .Dropdown-option {
-  font-family: 'Roboto Slab';
+  font-family: var(--font-roboto-slab);
   font-weight: 400;
 
   display: flex;
@@ -48,7 +49,7 @@ body {
 }
 
 .font-serif {
-  font-family: 'Roboto Slab';
+  font-family: var(--font-roboto-slab);
 }
 
 .dark-gray {

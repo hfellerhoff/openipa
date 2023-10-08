@@ -1,45 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { useMemo } from 'react';
+import React, { useState, useEffect } from "react";
+import { useMemo } from "react";
 
-import clsx from 'clsx';
+import clsx from "clsx";
 
-import { TranscriptionPageStaticProps } from './getTranscriptionPageStaticProps';
-import styles from './TranscriptionEditor.module.scss';
-import { Result, Languages } from '../../constants/Interfaces';
+import { TranscriptionPageStaticProps } from "./getTranscriptionPageStaticProps";
+import styles from "./TranscriptionEditor.module.scss";
+import { useTranscriptionEditorContext } from "./TranscriptionEditorProvider";
+import { Languages } from "../../constants/Interfaces";
 import {
   FrenchTranscriptionOptions,
   GlobalTranscriptionOptions,
   useEditorStore,
-} from '../../state/editor';
-import parseFrench from '../../transcription/french/ParseFrench';
-import transcribeText from '../../transcription/transcribeText';
-import { getObjectValues } from '../../util/typeUtils';
-import HideButton from '../buttons/HideButton';
-import ResultDisplay from '../display/ResultDisplay';
-import TextInput from '../input/TextInput';
+} from "../../state/editor";
+import parseFrench from "../../transcription/french/ParseFrench";
+import transcribeText from "../../transcription/transcribeText";
+import { getObjectValues } from "../../util/typeUtils";
+import HideButton from "../buttons/HideButton";
+import ResultDisplay from "../display/ResultDisplay";
+import TextInput from "../input/TextInput";
 
 interface Props {
-  language: Languages;
-  result: Result;
-  setResult: React.Dispatch<React.SetStateAction<Result>>;
   text?: string;
   editorView?: boolean;
   transcriptionProps: TranscriptionPageStaticProps;
 }
 
 const TranscriptionEditor: React.FC<Props> = ({
-  language,
-  result,
-  setResult,
   text,
   editorView,
   transcriptionProps,
 }) => {
+  const { language, result, setResult, inputText, setInputText } =
+    useTranscriptionEditorContext();
   const languageOptions: GlobalTranscriptionOptions = useEditorStore(
     (store) => store.options[language]
   );
 
-  const [inputText, setInputText] = useState(text || '');
   const [shouldShowInput, setShouldShowInput] = useState(true);
   const [shouldShowOutput, setShouldShowOutput] = useState(true);
 
@@ -60,7 +56,7 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   useEffect(() => {
     if (text) setInputText(text);
-  }, [text]);
+  }, [setInputText, text]);
 
   useEffect(() => {
     const parseText = (text: string) => {
@@ -110,13 +106,13 @@ const TranscriptionEditor: React.FC<Props> = ({
 
   return (
     <div
-      className={clsx('grid grid-cols-1 gap-4', {
-        'md:grid-cols-2 md:gap-2': !editorView,
+      className={clsx("grid grid-cols-1 gap-4", {
+        "md:grid-cols-2 md:gap-2": !editorView,
       })}
     >
-      <div className='relative'>
-        <div className={styles['container-top']}>
-          <h2 className='text-lg'>Text Input</h2>
+      <div className="relative">
+        <div className={styles["container-top"]}>
+          <h2 className="text-lg">Text Input</h2>
           <HideButton
             shouldShow={shouldShowInput}
             setShouldShow={setShouldShowInput}
@@ -130,9 +126,9 @@ const TranscriptionEditor: React.FC<Props> = ({
           autofocus
         />
       </div>
-      <div className='relative'>
-        <div className={styles['container-top']}>
-          <h2 className='text-lg'>Transcription Result</h2>
+      <div className="relative">
+        <div className={styles["container-top"]}>
+          <h2 className="text-lg">Transcription Result</h2>
           <HideButton
             shouldShow={shouldShowOutput}
             setShouldShow={setShouldShowOutput}

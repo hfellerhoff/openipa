@@ -1,13 +1,16 @@
-import type { AppProps } from 'next/app';
+import type { AppProps } from "next/app";
 
-import AuthProvider from '../src/state/AuthProvider';
+import { openSans, robotoSlab } from "../app/fonts";
+import AuthProvider from "../src/state/AuthProvider";
 
-import '../src/styles/app.scss';
+import "../src/styles/app.scss";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
+    <div className={`${openSans.variable} ${robotoSlab.variable} font-sans`}>
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+    </div>
   );
 }

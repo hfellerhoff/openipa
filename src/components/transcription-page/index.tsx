@@ -1,34 +1,34 @@
-import { useState, useEffect } from 'react';
+"use client";
 
-import dayjs from 'dayjs';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { useEffect } from "react";
 
-import { TranscriptionPageStaticProps } from './getTranscriptionPageStaticProps';
-import TranscriptionActionButtons from './TranscriptionActionButtons';
-import TranscriptionDescription from './TranscriptionDescription';
-import TranscriptionEditor from './TranscriptionEditor';
-import { Languages, Result } from '../../constants/Interfaces';
-import Template from '../../constants/Template';
-import { DatabaseText } from '../../lib/supabase/types';
-import { capitalizeFirstLetter } from '../../util/StringHelper';
-import PageHeader from '../header/PageHeader';
-import Layout from '../layout/Layout';
+import dayjs from "dayjs";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+
+import { TranscriptionPageStaticProps } from "./getTranscriptionPageStaticProps";
+import TranscriptionActionButtons from "./TranscriptionActionButtons";
+import TranscriptionDescription from "./TranscriptionDescription";
+import TranscriptionEditor from "./TranscriptionEditor";
+import TranscriptionEditorProvider from "./TranscriptionEditorProvider";
+import { Languages } from "../../constants/Interfaces";
+import { DatabaseText } from "../../lib/supabase/types";
+import { capitalizeFirstLetter } from "../../util/StringHelper";
+import PageHeader from "../header/PageHeader";
 
 const PredefinedTextInformation = ({ text }: { text: DatabaseText }) => {
   if (!text.source) return <></>;
   return (
-    <p className='mt-2'>
-      This text is originally from{' '}
+    <p className="mt-2">
+      This text is originally from{" "}
       <a
         href={text.source}
-        target='_blank'
-        rel='noopener noreferrer'
-        className='underline'
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline"
       >
         this source.
-      </a>{' '}
-      It was last updated on {dayjs(text.updated_at).format('MMMM DD, YYYY')}.
+      </a>{" "}
+      It was last updated on {dayjs(text.updated_at).format("MMMM DD, YYYY")}.
     </p>
   );
 };
@@ -36,65 +36,51 @@ const PredefinedTextInformation = ({ text }: { text: DatabaseText }) => {
 interface Props {
   text?: DatabaseText | string;
   transcriptionProps: TranscriptionPageStaticProps;
+  lockLanguage?: boolean;
 }
 
-export default function TranscriptionPage({ text, transcriptionProps }: Props) {
+export default function TranscriptionPage({
+  text,
+  transcriptionProps,
+  lockLanguage = false,
+}: Props) {
   const router = useRouter();
-  const [result, setResult] = useState<Result>(Template.Result);
+  const params = useParams();
+  const searchParams = useSearchParams();
 
   const supabaseText = text as DatabaseText | undefined;
-  const queryParamsText = router.query.text as string;
+  const queryParamsText = searchParams?.get("text") as string;
 
-  const initialText = supabaseText?.text || queryParamsText || '';
+  const initialText = supabaseText?.text || queryParamsText || "";
 
-  const language = router.query.language as string as Languages;
+  const language = (params?.language ?? "") as string as Languages;
   const languageLabel = capitalizeFirstLetter(language);
   const isLanguageSupported = languageLabel in Languages;
 
   useEffect(() => {
-    if (!!language && !isLanguageSupported) router.replace('/transcription');
+    if (!!language && !isLanguageSupported) router.replace("/transcription");
   }, [isLanguageSupported, language, router]);
 
-  if (!isLanguageSupported) return <></>;
-
-  const setLanguage = (updatedLanguage: Languages) => {
-    if (!supabaseText) {
-      router.push({
-        pathname: `/transcription/${updatedLanguage}`,
-      });
-    }
-  };
+  if (!isLanguageSupported) return null;
 
   return (
-    <Layout>
-      <Head>
-        <title>{languageLabel} Language Transcription - Open IPA</title>
-        <link rel='icon' href='/favicon.ico' />
-        <meta
-          name='description'
-          content={`Free, informative IPA transcription for Lyric Diction. Transcribe any ${languageLabel} text into the International Phonetic Alphabet in real-time, and receive nuanced feedback for each transcription step.`}
-        />
-      </Head>
+    <>
       <PageHeader
-        title='Transcription'
-        subtitle='Type or paste your text below to transcribe it into the International Phonetic Alphabet.'
-        colorClassName='bg-blue-900 bg-opacity-75'
+        title="Transcription"
+        subtitle="Type or paste your text below to transcribe it into the International Phonetic Alphabet."
+        colorClassName="bg-blue-900 bg-opacity-75"
       />
-      <div className='w-full px-4 py-4 mx-auto max-w-7xl lg:py-8'>
-        <TranscriptionDescription
-          language={language}
-          setLanguage={setLanguage}
-        />
-        <TranscriptionEditor
-          language={language}
-          result={result}
-          setResult={setResult}
-          text={initialText}
-          transcriptionProps={transcriptionProps}
-        />
-        {!!supabaseText && <PredefinedTextInformation text={supabaseText} />}
-        <TranscriptionActionButtons language={language} result={result} />
+      <div className="w-full px-4 py-4 mx-auto max-w-7xl lg:py-8">
+        <TranscriptionEditorProvider language={language}>
+          <TranscriptionDescription lockLanguage={lockLanguage} />
+          <TranscriptionEditor
+            text={initialText}
+            transcriptionProps={transcriptionProps}
+          />
+          {!!supabaseText && <PredefinedTextInformation text={supabaseText} />}
+          <TranscriptionActionButtons />
+        </TranscriptionEditorProvider>
       </div>
-    </Layout>
+    </>
   );
 }
