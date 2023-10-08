@@ -1,3 +1,5 @@
 import { redirect } from "next/navigation";
 
-redirect("/transcription/french");
+export default function BaseTranscriptionPage() {
+  redirect("/transcription/french");
+}
