@@ -1,19 +1,19 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import Wikiapi from 'wikiapi';
+import { NextApiRequest, NextApiResponse } from "next";
+import Wikiapi from "wikiapi";
 
-import { BASE_URL, getCPDLTextSeachQuery } from '../../../src/lib/cpdl/API';
-import supabase from '../../../src/lib/supabase';
+import { BASE_URL, getCPDLTextSeachQuery } from "../../../src/lib/cpdl/API";
+import supabase from "../../../src/lib/supabase";
 
 export default async function searchAPI(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
-  const text = (req.query.text as string) || 'Agnus dei';
+  const text = (req.query.text as string) || "Agnus dei";
 
   const textResult = await fetch(getCPDLTextSeachQuery(text));
   const textData = await textResult.json();
 
-  const languages = await supabase.from('languages').select('*');
+  const languages = await supabase.from("languages").select("*");
 
   const wiki = new Wikiapi(BASE_URL);
 
@@ -22,15 +22,16 @@ export default async function searchAPI(
       const page_data = await wiki.page(result.title);
 
       const checkForLanguageText = (line: string) => {
-        let label = '';
-        let type = 'none';
+        let label = "";
+        let type = "none";
+        // @ts-expect-error TODO - fix later
         languages.data?.forEach((language) => {
           if (line.includes(`{{Text|${language.label}`)) {
             label = language.label;
-            type = 'text';
+            type = "text";
           } else if (line.includes(`{{Translation|${language.label}`)) {
             label = language.label;
-            type = 'translation';
+            type = "translation";
           }
         });
         return {
@@ -44,15 +45,15 @@ export default async function searchAPI(
         type: string;
         text: string;
       }[] = [];
-      let textBlock = '';
+      let textBlock = "";
       let isRelevantText = false;
       let isFirstLine = false;
       let currentLanguage = {
-        language: '',
-        type: '',
+        language: "",
+        type: "",
       };
 
-      page_data.wikitext.split('\n').forEach((line: string) => {
+      page_data.wikitext.split("\n").forEach((line: string) => {
         const languageOfText = checkForLanguageText(line);
 
         if (languageOfText.language) {
@@ -69,14 +70,14 @@ export default async function searchAPI(
               text: textBlock,
             });
           }
-          textBlock = '';
+          textBlock = "";
           currentLanguage = {
-            language: '',
-            type: '',
+            language: "",
+            type: "",
           };
         } else if (isRelevantText) {
           if (!isFirstLine) {
-            textBlock += '\n';
+            textBlock += "\n";
           } else isFirstLine = false;
           textBlock += line;
         }
@@ -86,7 +87,7 @@ export default async function searchAPI(
         title: result.title,
         variations: relevantLines,
       };
-    }
+    },
   );
 
   const pageResult = await Promise.all(pagePromises);

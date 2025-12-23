@@ -26,13 +26,12 @@ const useSupabaseTable = <T extends DatabaseTableName>(table: T) => {
       if (error) console.log("error", error);
       else {
         const updatedDictionary = data.reduce(
+          // @ts-expect-error TODO - fix later
           (dict, element) => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             dict[element["id"]] = element;
             return dict;
           },
-          {} as typeof dictionary
+          {} as typeof dictionary,
         );
 
         setDictionary(updatedDictionary);
@@ -70,7 +69,7 @@ const useSupabaseTable = <T extends DatabaseTableName>(table: T) => {
               });
               return;
           }
-        }
+        },
       )
       .subscribe();
 

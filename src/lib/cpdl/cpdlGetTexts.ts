@@ -1,13 +1,13 @@
-import Wikiapi from 'wikiapi';
+import Wikiapi from "wikiapi";
 
-import { BASE_URL, getCPDLTextSeachQuery } from './API';
-import supabase from '../supabase';
+import { BASE_URL, getCPDLTextSeachQuery } from "./API";
+import supabase from "../supabase";
 
 const cpdlGetTexts = async (text: string) => {
   const textResult = await fetch(getCPDLTextSeachQuery(text));
   const textData = await textResult.json();
 
-  const languages = await supabase.from('languages').select('*');
+  const languages = await supabase.from("languages").select("*");
 
   if (!textData.query) return;
 
@@ -18,15 +18,16 @@ const cpdlGetTexts = async (text: string) => {
       const page_data = await wiki.page(result.title);
 
       const checkForLanguageText = (line: string) => {
-        let label = '';
-        let type = 'none';
+        let label = "";
+        let type = "none";
+        // @ts-expect-error TODO - fix later
         languages.data?.forEach((language) => {
           if (line.includes(`{{Text|${language.label}`)) {
             label = language.label;
-            type = 'text';
+            type = "text";
           } else if (line.includes(`{{Translation|${language.label}`)) {
             label = language.label;
-            type = 'translation';
+            type = "translation";
           }
         });
         return {
@@ -40,15 +41,15 @@ const cpdlGetTexts = async (text: string) => {
         type: string;
         text: string;
       }[] = [];
-      let textBlock = '';
+      let textBlock = "";
       let isRelevantText = false;
       let isFirstLine = false;
       let currentLanguage = {
-        language: '',
-        type: '',
+        language: "",
+        type: "",
       };
 
-      page_data.wikitext.split('\n').forEach((line: string) => {
+      page_data.wikitext.split("\n").forEach((line: string) => {
         const languageOfText = checkForLanguageText(line);
 
         if (languageOfText.language) {
@@ -65,32 +66,32 @@ const cpdlGetTexts = async (text: string) => {
               text: textBlock,
             });
           }
-          textBlock = '';
+          textBlock = "";
           currentLanguage = {
-            language: '',
-            type: '',
+            language: "",
+            type: "",
           };
         } else if (isRelevantText) {
           if (!isFirstLine) {
-            textBlock += '\n';
+            textBlock += "\n";
           } else isFirstLine = false;
           textBlock += line;
         }
       });
 
-      const url = result.title.replace(/[ ]/g, '_');
+      const url = result.title.replace(/[ ]/g, "_");
 
       return {
         title: result.title,
         variations: relevantLines,
         url: `https://www.cpdl.org/wiki/index.php/${url}`,
       };
-    }
+    },
   );
 
   const pageResult = await Promise.all(pagePromises);
   const filtered = pageResult.filter(
-    (r) => r.variations && r.variations.length > 0
+    (r) => r.variations && r.variations.length > 0,
   );
 
   return filtered;

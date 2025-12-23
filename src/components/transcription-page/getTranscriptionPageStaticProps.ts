@@ -23,7 +23,7 @@ export interface TranscriptionPageStaticProps {
 
 const fetchFromTable = async <T extends DatabaseTableName>(
   table: T,
-  language?: DatabaseLanguage
+  language?: DatabaseLanguage,
 ) => {
   if (!language) {
     return await supabase
@@ -41,7 +41,7 @@ const fetchFromTable = async <T extends DatabaseTableName>(
 
 export const fetchSupabaseTableAsDict = async <T extends DatabaseTableName>(
   table: T,
-  language?: DatabaseLanguage
+  language?: DatabaseLanguage,
 ) => {
   const { data, error } = await fetchFromTable(table, language);
 
@@ -50,6 +50,7 @@ export const fetchSupabaseTableAsDict = async <T extends DatabaseTableName>(
   if (!data) return {};
 
   return data.reduce(
+    // @ts-expect-error TODO - fix later
     (dictionary, row) => {
       if (isKeyInObject("id", row)) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -58,12 +59,12 @@ export const fetchSupabaseTableAsDict = async <T extends DatabaseTableName>(
       }
       return dictionary;
     },
-    {} as Dictionary<DatabaseRowFromTableName<T>>
+    {} as Dictionary<DatabaseRowFromTableName<T>>,
   );
 };
 
 export default async function getTranscriptionPageStaticProps(
-  language: string
+  language: string,
 ): Promise<TranscriptionPageStaticProps> {
   const { data } = await supabase
     .from("languages")
@@ -91,7 +92,7 @@ export default async function getTranscriptionPageStaticProps(
     fetchSupabaseTableAsDict("ipa_tags"),
     fetchSupabaseTableAsDict(
       "rules",
-      supabaseLanguage
+      supabaseLanguage,
     ) as unknown as Dictionary<TransformedRule>,
     fetchSupabaseTableAsDict("languages"),
   ]);

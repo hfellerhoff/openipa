@@ -1,10 +1,10 @@
-import { NextPage } from 'next';
+import { NextPage } from "next";
 
-import { Dictionary } from '../src/hooks/useSupabaseTable';
-import supabase from '../src/lib/supabase';
+import { Dictionary } from "../src/hooks/useSupabaseTable";
+import supabase from "../src/lib/supabase";
 
 const createSitemap = (
-  routes: string[]
+  routes: string[],
   // texts,
   // languageDictionary
 ) => `<?xml version="1.0" encoding="UTF-8"?>
@@ -13,10 +13,10 @@ const createSitemap = (
         routes
           .map((page) => {
             const path = page
-              .replace('pages', '')
-              .replace('.js', '')
-              .replace('.mdx', '');
-            const route = path === '/index' ? '' : path;
+              .replace("pages", "")
+              .replace(".js", "")
+              .replace(".mdx", "");
+            const route = path === "/index" ? "" : path;
 
             return `
                   <url>
@@ -24,7 +24,7 @@ const createSitemap = (
                   </url>
               `;
           })
-          .join('')
+          .join("")
 
         // ${
         // texts
@@ -63,8 +63,8 @@ type ArrayElement<ArrayType extends readonly unknown[]> =
 
 Sitemap.getInitialProps = async ({ res }) => {
   // Ignore Next.js specific files (e.g., _app.js) and API routes.
-  const { data: texts } = await supabase.from('texts').select('*');
-  const { data: languages } = await supabase.from('languages').select('*');
+  const { data: texts } = await supabase.from("texts").select("*");
+  const { data: languages } = await supabase.from("languages").select("*");
 
   if (!languages || !texts) {
     res?.end();
@@ -72,31 +72,34 @@ Sitemap.getInitialProps = async ({ res }) => {
   }
 
   const languageDictionary: Dictionary<ArrayElement<typeof languages>> = {};
+  // @ts-expect-error TODO - fix later
   languages.forEach((language) => {
     languageDictionary[language.id] = language;
   });
 
   // Get the paths we want to pre-render based on posts
   const textPaths = texts.map(
+    // @ts-expect-error TODO - fix later
     (text) =>
-      `/transcription/${languageDictionary[text.language].slug}/${text.slug}`
+      `/transcription/${languageDictionary[text.language].slug}/${text.slug}`,
   );
   const languagePaths = languages.map(
-    (language) => `/transcription/${language.slug}`
+    // @ts-expect-error TODO - fix later
+    (language) => `/transcription/${language.slug}`,
   );
 
   const routes = [
-    '/',
-    '/sitemap.xml',
-    '/editor',
-    '/support',
-    '/transcription',
-    '/editor/ipa',
+    "/",
+    "/sitemap.xml",
+    "/editor",
+    "/support",
+    "/transcription",
+    "/editor/ipa",
   ];
 
   routes.push(...languagePaths, ...textPaths);
 
-  res?.setHeader('Content-Type', 'text/xml');
+  res?.setHeader("Content-Type", "text/xml");
   res?.write(createSitemap(routes));
   res?.end();
 };

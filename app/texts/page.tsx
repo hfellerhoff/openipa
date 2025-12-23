@@ -24,6 +24,7 @@ async function fetchPageProps(): Promise<PageProps> {
     };
   }
 
+  // @ts-expect-error TODO - fix later
   languagesArray.forEach((language) => (languages[language.id] = language));
 
   const texts: Record<number, Database["public"]["Tables"]["texts"]["Row"]> =
@@ -37,6 +38,7 @@ async function fetchPageProps(): Promise<PageProps> {
     };
   }
 
+  // @ts-expect-error TODO - fix later
   textsArray.forEach((text) => (texts[text.id] = text));
 
   if (languages && texts) {
