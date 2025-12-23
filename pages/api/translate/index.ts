@@ -1,18 +1,7 @@
-import { escape } from 'querystring';
+import * as deepl from "deepl-node";
+import { NextApiRequest, NextApiResponse } from "next";
 
-import { NextApiRequest, NextApiResponse } from 'next';
-import wretch from 'wretch';
-
-import { Result } from '../../../src/constants/Interfaces';
-
-const deeplAPI = wretch('https://api-free.deepl.com/v2');
-
-interface DeepLTranslation {
-  translations: {
-    detected_source_language: string;
-    text: string;
-  }[];
-}
+import { Result } from "../../../src/constants/Interfaces";
 
 export interface TranslationResponse {
   translations: {
@@ -22,9 +11,16 @@ export interface TranslationResponse {
   }[];
 }
 
+const AUTH_KEY = process.env.DEEPL_API_KEY;
+if (!AUTH_KEY) {
+  throw new Error("Missing DEEPL_API_KEY");
+}
+
+const deeplClient = new deepl.DeepLClient(AUTH_KEY);
+
 export default async function translateAPI(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const transcriptionResult: Result = req.body.result;
   const language: string = req.body.language;
@@ -32,41 +28,33 @@ export default async function translateAPI(
   const lines = transcriptionResult.lines.reduce((acc, cur) => {
     const line = cur.words.reduce((accwords, curwords) => {
       const word = curwords.syllables.reduce((accsyll, cursyll) => {
-        const syllable = cursyll.text.trim().split('\n');
+        const syllable = cursyll.text.trim().split("\n");
 
         return `${accsyll}${syllable}`;
-      }, '');
+      }, "");
 
-      if (accwords !== '') return `${accwords} ${word}`;
+      if (accwords !== "") return `${accwords} ${word}`;
       return word;
-    }, '');
+    }, "");
 
     return [...acc, line];
   }, [] as string[]);
 
-  const textVariables = lines.reduce((acc, line) => {
-    const lineText = escape(line);
-
-    if (acc) return `${acc}&text=${lineText}`;
-    return `text=${lineText}`;
-  }, '');
-
   const parsedLanguage = language.toLowerCase();
-  const languageCode = parsedLanguage === 'french' ? 'FR' : 'EN';
+  const languageCode = parsedLanguage === "french" ? "fr" : "en";
 
   try {
-    const data: DeepLTranslation = await deeplAPI
-      .url(
-        `/translate?auth_key=${process.env.DEEPL_API_KEY}&source_lang=${languageCode}&target_lang=EN&${textVariables}`
-      )
-      .post()
-      .json();
+    const data = await deeplClient.translateText(
+      lines.join("\n"),
+      languageCode,
+      "en-US",
+    );
 
     res.json({
-      translations: data.translations.map((translation, i) => ({
+      translations: data.text.split("\n").map((translation, i) => ({
         originalText: lines[i],
-        translatedText: translation.text,
-        sourceLanguage: translation.detected_source_language,
+        translatedText: translation,
+        sourceLanguage: data.detectedSourceLang.toUpperCase(),
       })),
     } as TranslationResponse);
   } catch (e) {
