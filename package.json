@@ -1,6 +1,7 @@
 {
   "name": "openipa",
   "version": "0.1.0",
+  "packageManager": "pnpm@11.22.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
