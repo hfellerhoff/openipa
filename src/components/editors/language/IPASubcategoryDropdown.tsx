@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from "react";
 
-import Dropdown, { Option, ReactDropdownProps } from 'react-dropdown';
+import Dropdown, { Option, ReactDropdownProps } from "react-dropdown";
 
-import IPADisplay from './IPADisplay';
-import { Dictionary } from '../../../hooks/useSupabaseTable';
+import IPADisplay from "./IPADisplay";
+import { Dictionary } from "../../../hooks/useSupabaseTable";
 import {
   DatabaseIPA,
   DatabaseIPACategory,
   DatabaseIPASubcategory,
-} from '../../../lib/supabase/types';
-import idsToSubcategoryString from '../../../util/supabase/idsToSubcategoryString';
+} from "../../../lib/supabase/types";
+import idsToSubcategoryString from "../../../util/supabase/idsToSubcategoryString";
 
 interface Props {
   ipa: Dictionary<DatabaseIPA>;
@@ -21,71 +21,62 @@ interface Props {
 }
 
 const IPASubcategoryDropdown = ({
-  ipa,
   subcategories,
-  categories,
   result,
   setResult,
   prefix,
 }: Props) => {
-  const [options, setOptions] = useState<unknown[]>([]);
-
-  useEffect(() => {
-    if (ipa && subcategories && categories) {
-      setOptions([
-        {
-          key: `clear`,
-          value: 0,
-          label: 'Clear Result',
+  const options = useMemo<ReactDropdownProps["options"]>(
+    () => [
+      {
+        value: 0,
+        label: "Clear Result",
+      },
+      ...Object.values(subcategories).map(
+        (subcategory: DatabaseIPASubcategory) => {
+          const block = {
+            value: subcategory.id,
+            label: subcategory.label,
+          };
+          return block;
         },
-        ...Object.values(subcategories).map(
-          (subcategory: DatabaseIPASubcategory) => {
-            const block = {
-              key: `ipa-${subcategory.id}`,
-              value: subcategory.id,
-              label: subcategory.label,
-            };
-            return block;
-          }
-        ),
-      ]);
-    }
-  }, [ipa, subcategories, categories]);
+      ),
+    ],
+    [subcategories],
+  );
 
   const handleChange = (selectedOption: Option) => {
-    if (selectedOption.value == '0') {
+    if (selectedOption.value == "0") {
       setResult([]);
     } else {
-      setResult([...result, parseInt(selectedOption.value)]);
+      setResult([...result, Number(selectedOption.value)]);
     }
   };
 
   return (
-    <div className='flex h-10'>
+    <div className="flex h-10">
       <IPADisplay>
         <input
-          title='Subcategory display'
-          className='w-64 text-center bg-gray-200'
+          title="Subcategory display"
+          className="w-64 text-center bg-gray-200"
           value={
             result.length > 0
-              ? `${prefix ? prefix + ' ' : ''}${idsToSubcategoryString(
+              ? `${prefix ? prefix + " " : ""}${idsToSubcategoryString(
                   result,
-                  subcategories
+                  subcategories,
                 )}`
-              : ''
+              : ""
           }
           readOnly
         ></input>
       </IPADisplay>
       <Dropdown
-        // really strange hacky typescript assertion to get around type error
-        // in useState
-        options={options as ReactDropdownProps['options']}
+        options={options}
         onChange={handleChange}
-        placeholder='...'
+        placeholder="..."
         className={`rounded-md`}
-        controlClassName='bg-gray-200 shadow-inner border-none h-10 w-4'
-        menuClassName='w-64 right-0 rounded-md border-none shadow-md'
+        controlClassName="bg-gray-200 shadow-inner border-none h-10 w-4"
+        menuClassName="w-64 right-0 rounded-md border-none shadow-md"
       />
     </div>
   );

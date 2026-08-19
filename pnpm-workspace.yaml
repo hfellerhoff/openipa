@@ -1,7 +1,7 @@
 minimumReleaseAge: 10080
 
 allowBuilds:
-  '@parcel/watcher': true
+  "@parcel/watcher": true
   core-js: true
   sharp: true
   supabase: true

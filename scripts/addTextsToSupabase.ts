@@ -1,7 +1,7 @@
 import * as fs from "fs";
 
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ quiet: true });
 
 import { Dictionary } from "../src/hooks/useSupabaseTable";
 import cpdlGetTexts from "../src/lib/cpdl/cpdlGetTexts";
@@ -31,7 +31,6 @@ const fetchWorks = async () => {
     if (!languages) return;
 
     const languageDictionary: Dictionary<DatabaseLanguage> = {};
-    // @ts-expect-error TODO - fix later
     languages.forEach((element) => {
       languageDictionary[element["id"]] = element;
     });
@@ -49,7 +48,6 @@ const fetchWorks = async () => {
         e.variations.forEach(
           async (v: { language: string; text: string; type: string }) => {
             const language = languages.filter(
-              // @ts-expect-error TODO - fix later
               (l) => l.label.toLowerCase() === v.language.toLowerCase(),
             )[0].id;
 

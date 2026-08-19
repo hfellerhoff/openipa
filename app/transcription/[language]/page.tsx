@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { Metadata } from "next";
 
 import TranscriptionPage from "../../../src/components/transcription-page";
@@ -5,14 +7,16 @@ import getTranscriptionPageStaticProps from "../../../src/components/transcripti
 import { Languages } from "../../../src/constants/Interfaces";
 import { capitalizeFirstLetter } from "../../../src/util/StringHelper";
 
+type TranscriptionPageParams = {
+  language: string;
+};
+
 export interface ITranscriptionPageProps {
-  params: {
-    language?: string;
-  };
+  params: Promise<TranscriptionPageParams>;
 }
 
 export async function generateStaticParams(): Promise<
-  ITranscriptionPageProps["params"][]
+  TranscriptionPageParams[]
 > {
   const languages = Object.values(Languages);
   const languageMap = languages.map((language) => ({
@@ -25,9 +29,10 @@ export async function generateStaticParams(): Promise<
 export async function generateMetadata({
   params,
 }: ITranscriptionPageProps): Promise<Metadata> {
-  if (!params?.language) return {};
+  const { language } = await params;
+  if (!language) return {};
 
-  const languageLabel = capitalizeFirstLetter(params.language);
+  const languageLabel = capitalizeFirstLetter(language);
 
   return {
     title: `${languageLabel} Language Transcription - Open IPA`,
@@ -38,8 +43,12 @@ export async function generateMetadata({
 export default async function TranscriptionLanguagePage({
   params,
 }: ITranscriptionPageProps) {
-  const language = params?.language as string;
+  const { language } = await params;
   const props = await getTranscriptionPageStaticProps(language);
 
-  return <TranscriptionPage transcriptionProps={props} />;
+  return (
+    <Suspense>
+      <TranscriptionPage transcriptionProps={props} />
+    </Suspense>
+  );
 }

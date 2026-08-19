@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import dayjs from "dayjs";
 import wretch from "wretch";
+import { useShallow } from "zustand/react/shallow";
 
 import { useTranscriptionEditorContext } from "./TranscriptionEditorProvider";
 import { TranslationResponse } from "../../../pages/api/translate";
@@ -23,7 +24,7 @@ const getQuotaText = (translationsLeft: number, quota: TranslationQuota) => {
   }
 
   return `Your translation quota will reset on ${dayjs(quota.resetOn).format(
-    "MMMM D"
+    "MMMM D",
   )}.`;
 };
 
@@ -31,23 +32,20 @@ const TranscriptionActionButtons = () => {
   const { language, result } = useTranscriptionEditorContext();
   const [isPDFCreated, setIsPDFCreated] = useState(true);
   const [isTranslating, setIsTranslating] = useState(false);
-  const { addTranslation } = useTranslationStore((store) => ({
-    translations: store.translations,
-    addTranslation: store.addTranslation,
-  }));
+  const addTranslation = useTranslationStore((store) => store.addTranslation);
 
   const { translationQuota, updateQuota, resetQuota } = useQuotaStore(
-    (store) => ({
+    useShallow((store) => ({
       updateQuota: store.updateQuota,
       resetQuota: store.resetQuota,
       translationQuota: store.translation,
-    })
+    })),
   );
 
   const shouldHideOriginalText = useEditorStore((store) =>
     store?.options[language]?.shouldHideOriginalText
       ? store.options[language].shouldHideOriginalText.value
-      : false
+      : false,
   );
 
   const translationsLeft = translationQuota.limit - translationQuota.count;
@@ -59,7 +57,7 @@ const TranscriptionActionButtons = () => {
     setIsPDFCreated(false);
     setTimeout(() => {
       createPDFFromResult(language as Languages, result).then(() =>
-        setIsPDFCreated(true)
+        setIsPDFCreated(true),
       );
     }, 400);
     // I know this whole function is kinda gross, but for some reason
@@ -91,8 +89,8 @@ const TranscriptionActionButtons = () => {
       addTranslation(
         translation.sourceLanguage,
         translation.originalText,
-        translation.translatedText
-      )
+        translation.translatedText,
+      ),
     );
 
     updateQuota("translation", 1);

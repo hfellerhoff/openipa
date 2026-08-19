@@ -25,10 +25,12 @@ const useSupabaseTable = <T extends DatabaseTableName>(table: T) => {
 
       if (error) console.log("error", error);
       else {
-        const updatedDictionary = data.reduce(
-          // @ts-expect-error TODO - fix later
+        const rows = data as unknown as DatabaseRowFromTableName<T>[];
+        const updatedDictionary = rows.reduce(
           (dict, element) => {
-            dict[element["id"]] = element;
+            if ("id" in element && typeof element.id === "number") {
+              dict[element.id] = element;
+            }
             return dict;
           },
           {} as typeof dictionary,

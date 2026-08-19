@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { Metadata } from "next";
 
 import TranscriptionPage from "../../../../src/components/transcription-page";
@@ -5,17 +7,19 @@ import getTranscriptionPageStaticProps from "../../../../src/components/transcri
 import supabase from "../../../../src/lib/supabase";
 import { capitalizeFirstLetter } from "../../../../src/util/StringHelper";
 
+type TranscriptionTextPageParams = {
+  language: string;
+  slug: string;
+};
+
 interface ITranscriptionTextPageProps {
-  params: {
-    language?: string;
-    slug?: string;
-  };
+  params: Promise<TranscriptionTextPageParams>;
 }
 
 const getTranscriptionTextPageProps = async ({
   params,
 }: ITranscriptionTextPageProps) => {
-  const language = params?.language as string;
+  const { language, slug } = await params;
   const transcriptionProps = await getTranscriptionPageStaticProps(language);
 
   const { data: languages } = await supabase.from("languages").select("*");
@@ -25,20 +29,18 @@ const getTranscriptionTextPageProps = async ({
   }
 
   const currentLanguage = languages.filter(
-    // @ts-expect-error TODO - fix later
-    (l) => l.label.toLowerCase() === params?.language,
+    (currentLanguage) => currentLanguage.label.toLowerCase() === language,
   )[0];
 
   let { data: texts } = await supabase
     .from("texts")
     .select("*")
-    .eq("slug", params?.slug as string);
+    .eq("slug", slug);
 
   if (!texts) {
     throw new Error("something went wrong fetching from supabase");
   }
 
-  // @ts-expect-error TODO - fix later
   texts = texts?.filter((t) => t.language === currentLanguage.id);
 
   if (texts.length > 0) {
@@ -47,7 +49,6 @@ const getTranscriptionTextPageProps = async ({
       return {
         transcriptionProps,
         text,
-        // @ts-expect-error TODO - fix later
         language: languages.find((language) => language.id === text.language),
       };
     }
@@ -64,7 +65,7 @@ const getTranscriptionTextPageProps = async ({
 };
 
 export async function generateStaticParams(): Promise<
-  ITranscriptionTextPageProps["params"][]
+  TranscriptionTextPageParams[]
 > {
   // Call an external API endpoint to get posts
   const { data: texts } = await supabase.from("texts").select("*");
@@ -75,16 +76,14 @@ export async function generateStaticParams(): Promise<
   }
 
   const languageDictionary: Record<string, string> = {};
-  // @ts-expect-error TODO - fix later
   languages.forEach((language) => {
     languageDictionary[language.id] = language.label;
   });
 
   // Get the paths we want to pre-render based on posts
-  // @ts-expect-error TODO - fix later
   const pagePropArray = texts.map((text) => ({
     language: languageDictionary[text.language].toLowerCase(),
-    text: text.slug,
+    slug: text.slug,
   }));
 
   return pagePropArray;
@@ -93,14 +92,15 @@ export async function generateStaticParams(): Promise<
 export async function generateMetadata({
   params,
 }: ITranscriptionTextPageProps): Promise<Metadata> {
-  if (!params?.language || !params?.slug) return {};
+  const { language, slug } = await params;
+  if (!language || !slug) return {};
 
-  const languageLabel = capitalizeFirstLetter(params.language);
+  const languageLabel = capitalizeFirstLetter(language);
 
   const { data: texts } = await supabase
     .from("texts")
     .select("*")
-    .eq("slug", params.slug);
+    .eq("slug", slug);
 
   const text = texts?.[0];
   if (!text) return {};
@@ -116,10 +116,12 @@ export default async function TextPage(pageProps: ITranscriptionTextPageProps) {
     await getTranscriptionTextPageProps(pageProps);
 
   return (
-    <TranscriptionPage
-      text={text}
-      transcriptionProps={transcriptionProps}
-      lockLanguage
-    />
+    <Suspense>
+      <TranscriptionPage
+        text={text}
+        transcriptionProps={transcriptionProps}
+        lockLanguage
+      />
+    </Suspense>
   );
 }

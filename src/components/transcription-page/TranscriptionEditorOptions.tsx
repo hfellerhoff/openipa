@@ -1,11 +1,13 @@
-import { Languages } from '../../constants/Interfaces';
+import { useShallow } from "zustand/react/shallow";
+
+import { Languages } from "../../constants/Interfaces";
 import {
   FrenchTranscriptionOptionKeys,
   LatinTranscriptionOptionKeys,
   TranscriptionOption,
   useEditorStore,
-} from '../../state/editor';
-import CheckboxButton from '../buttons/CheckboxButton';
+} from "../../state/editor";
+import CheckboxButton from "../buttons/CheckboxButton";
 
 type OptionCheckboxProps = {
   id: string;
@@ -21,7 +23,7 @@ function OptionCheckbox({
   setIsChecked,
 }: OptionCheckboxProps) {
   return (
-    <div className='flex flex-wrap items-center justify-start gap-2 text-sm md:flex-row md:justify-center'>
+    <div className="flex flex-wrap items-center justify-start gap-2 text-sm md:flex-row md:justify-center">
       <CheckboxButton
         id={id}
         isChecked={isChecked}
@@ -38,11 +40,13 @@ type Props = {
 
 export default function TranscriptionEditorOptions({ language }: Props) {
   const { options, handleSetLatinOption, handleSetFrenchOption } =
-    useEditorStore((store) => ({
-      options: store.options,
-      handleSetLatinOption: store.handleSetLatinOption,
-      handleSetFrenchOption: store.handleSetFrenchOption,
-    }));
+    useEditorStore(
+      useShallow((store) => ({
+        options: store.options,
+        handleSetLatinOption: store.handleSetLatinOption,
+        handleSetFrenchOption: store.handleSetFrenchOption,
+      })),
+    );
 
   const languageOptions: [string, TranscriptionOption<boolean>][] = options[
     language
@@ -59,7 +63,7 @@ export default function TranscriptionEditorOptions({ language }: Props) {
   };
 
   return (
-    <div className='flex flex-col flex-1 gap-4 md:flex-row'>
+    <div className="flex flex-col flex-1 gap-4 md:flex-row">
       {languageOptions.map(([optionName, option]) => (
         <OptionCheckbox
           key={optionName}

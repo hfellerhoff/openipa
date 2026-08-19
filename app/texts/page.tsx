@@ -24,7 +24,6 @@ async function fetchPageProps(): Promise<PageProps> {
     };
   }
 
-  // @ts-expect-error TODO - fix later
   languagesArray.forEach((language) => (languages[language.id] = language));
 
   const texts: Record<number, Database["public"]["Tables"]["texts"]["Row"]> =
@@ -38,7 +37,6 @@ async function fetchPageProps(): Promise<PageProps> {
     };
   }
 
-  // @ts-expect-error TODO - fix later
   textsArray.forEach((text) => (texts[text.id] = text));
 
   if (languages && texts) {
@@ -68,7 +66,7 @@ export default async function TextsPage() {
       <PageHeader
         title="Texts"
         subtitle="Browse a number of popular collected texts from all the languages we can transcribe."
-        colorClassName="bg-green-900 bg-opacity-75"
+        colorClassName="bg-green-900/75"
       />
       <TextSelection texts={texts} languages={languages} />
     </>

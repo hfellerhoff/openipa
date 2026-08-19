@@ -4,6 +4,7 @@ import RootLayout from "./RootLayout";
 import AppLayout from "../src/components/layout/Layout";
 import AuthProvider from "../src/state/AuthProvider";
 
+import "../src/styles/tailwind.css";
 import "../src/styles/app.scss";
 
 export const metadata: Metadata = {

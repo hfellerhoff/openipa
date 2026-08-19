@@ -19,12 +19,12 @@ const EditorLayout = ({ leftSidebar, rightSidebar, children }: Props) => {
           hasBothSidebars
             ? "flex justify-center"
             : hasRightSidebar
-            ? "flex justify-center"
-            : "max-w-4xl mx-auto"
+              ? "flex justify-center"
+              : "max-w-4xl mx-auto"
         }
       >
         {leftSidebar ? (
-          <aside className="shadow overflow-y-scroll sticky -mt-16 top-0 w-[12rem] h-screen box-border bg-white">
+          <aside className="shadow-sm overflow-y-scroll sticky -mt-16 top-0 w-[12rem] h-screen box-border bg-white">
             <div className="mt-16">{leftSidebar}</div>
           </aside>
         ) : (
@@ -32,7 +32,7 @@ const EditorLayout = ({ leftSidebar, rightSidebar, children }: Props) => {
         )}
         <main className="flex-1">{children}</main>
         {rightSidebar ? (
-          <aside className="shadow overflow-y-scroll sticky -mt-16 top-0 w-[30rem] h-screen box-border bg-white">
+          <aside className="shadow-sm overflow-y-scroll sticky -mt-16 top-0 w-[30rem] h-screen box-border bg-white">
             <div className="mt-16">{rightSidebar}</div>
           </aside>
         ) : (

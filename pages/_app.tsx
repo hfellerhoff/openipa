@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { openSans, robotoSlab } from "../app/fonts";
 import AuthProvider from "../src/state/AuthProvider";
 
+import "../src/styles/tailwind.css";
 import "../src/styles/app.scss";
 
 export default function MyApp({ Component, pageProps }: AppProps) {

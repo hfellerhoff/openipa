@@ -35,7 +35,7 @@ export default function TextSelection({
               .map((text) => (
                 <button
                   key={text.id}
-                  className={`block text-left w-full hover:shadow-inner hover:bg-gray-200 my-0.5 py-2 px-4 rounded ${
+                  className={`block text-left w-full hover:shadow-inner hover:bg-gray-200 my-0.5 py-2 px-4 rounded-sm ${
                     selectedText
                       ? selectedText.id === text.id
                         ? "shadow-inner bg-gray-200"

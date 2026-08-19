@@ -1,10 +1,5 @@
 @use "./variables";
 
-// Tailwind
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import "./colors";
 @import "./base/reset";
 @import "./base/typography";
@@ -14,8 +9,8 @@
 @import "./components/buttons";
 
 * {
-  font-family: var(--font-open-sans), "Apple SD Gothic Neo", "Trebuchet MS",
-    sans-serif;
+  font-family:
+    var(--font-open-sans), "Apple SD Gothic Neo", "Trebuchet MS", sans-serif;
 }
 
 body {

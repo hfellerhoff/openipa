@@ -1,10 +1,12 @@
-import Layout from './Layout';
-import styles from './PrivateLayout.module.scss';
-import { useAuth } from '../../state/AuthProvider';
-import AuthenticationForm from '../input/AuthenticationForm';
+import type { ReactNode } from "react";
+
+import Layout from "./Layout";
+import styles from "./PrivateLayout.module.scss";
+import { useAuth } from "../../state/AuthProvider";
+import AuthenticationForm from "../input/AuthenticationForm";
 
 interface Props {
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode;
 }
 
 const PrivateLayout = ({ children }: Props) => {

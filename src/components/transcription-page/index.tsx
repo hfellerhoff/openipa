@@ -68,7 +68,7 @@ export default function TranscriptionPage({
       <PageHeader
         title="Transcription"
         subtitle="Type or paste your text below to transcribe it into the International Phonetic Alphabet."
-        colorClassName="bg-blue-900 bg-opacity-75"
+        colorClassName="bg-blue-900/75"
       />
       <div className="w-full px-4 py-4 mx-auto max-w-7xl lg:py-8">
         <TranscriptionEditorProvider language={language}>
