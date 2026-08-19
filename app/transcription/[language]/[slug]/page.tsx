@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-
 import { Metadata } from "next";
 
 import TranscriptionPage from "../../../../src/components/transcription-page";
@@ -112,16 +110,16 @@ export async function generateMetadata({
 }
 
 export default async function TextPage(pageProps: ITranscriptionTextPageProps) {
+  const { language } = await pageProps.params;
   const { transcriptionProps, text } =
     await getTranscriptionTextPageProps(pageProps);
 
   return (
-    <Suspense>
-      <TranscriptionPage
-        text={text}
-        transcriptionProps={transcriptionProps}
-        lockLanguage
-      />
-    </Suspense>
+    <TranscriptionPage
+      language={language}
+      text={text}
+      transcriptionProps={transcriptionProps}
+      lockLanguage
+    />
   );
 }

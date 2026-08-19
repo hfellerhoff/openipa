@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 import dayjs from "dayjs";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { TranscriptionPageStaticProps } from "./getTranscriptionPageStaticProps";
 import TranscriptionActionButtons from "./TranscriptionActionButtons";
@@ -34,26 +34,22 @@ const PredefinedTextInformation = ({ text }: { text: DatabaseText }) => {
 };
 
 interface Props {
+  language: string;
   text?: DatabaseText | string;
   transcriptionProps: TranscriptionPageStaticProps;
   lockLanguage?: boolean;
 }
 
 export default function TranscriptionPage({
+  language,
   text,
   transcriptionProps,
   lockLanguage = false,
 }: Props) {
   const router = useRouter();
-  const params = useParams();
-  const searchParams = useSearchParams();
+  const supabaseText = typeof text === "string" ? undefined : text;
+  const initialText = typeof text === "string" ? text : (text?.text ?? "");
 
-  const supabaseText = text as DatabaseText | undefined;
-  const queryParamsText = searchParams?.get("text") as string;
-
-  const initialText = supabaseText?.text || queryParamsText || "";
-
-  const language = (params?.language ?? "") as string as Languages;
   const languageLabel = capitalizeFirstLetter(language);
   const isLanguageSupported = languageLabel in Languages;
 
@@ -71,12 +67,12 @@ export default function TranscriptionPage({
         colorClassName="bg-blue-900/75"
       />
       <div className="w-full px-4 py-4 mx-auto max-w-7xl lg:py-8">
-        <TranscriptionEditorProvider language={language}>
+        <TranscriptionEditorProvider
+          language={language as Languages}
+          initialText={initialText}
+        >
           <TranscriptionDescription lockLanguage={lockLanguage} />
-          <TranscriptionEditor
-            text={initialText}
-            transcriptionProps={transcriptionProps}
-          />
+          <TranscriptionEditor transcriptionProps={transcriptionProps} />
           {!!supabaseText && <PredefinedTextInformation text={supabaseText} />}
           <TranscriptionActionButtons />
         </TranscriptionEditorProvider>

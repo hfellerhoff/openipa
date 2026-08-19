@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 
-import Dropdown, { Option, ReactDropdownProps } from "react-dropdown";
+import { ReactDropdownProps } from "react-dropdown";
 
-import IPADisplay from "./IPADisplay";
+import IdSelectionDropdown from "./IdSelectionDropdown";
 import { Dictionary } from "../../../hooks/useSupabaseTable";
 import {
   DatabaseIPA,
@@ -46,33 +46,17 @@ const IPADropdown = ({ ipa, categories, result, setResult }: Props) => {
     [ipa, categories],
   );
 
-  const handleChange = (selectedOption: Option) => {
-    if (selectedOption.value == "0") {
-      setResult([]);
-    } else {
-      setResult([...result, Number(selectedOption.value)]);
-    }
-  };
-
   return (
-    <div className="flex h-10">
-      <IPADisplay>
-        <input
-          title="IPA Display"
-          className="w-16 text-center bg-gray-200"
-          value={idsToIPAString(result, ipa)}
-          readOnly
-        ></input>
-      </IPADisplay>
-      <Dropdown
-        options={options}
-        onChange={handleChange}
-        placeholder="..."
-        className={`rounded-md`}
-        controlClassName="bg-gray-200 shadow-inner border-none h-10 w-4"
-        menuClassName="w-96 right-0 rounded-md border-none shadow-md h-96 max-h-64"
-      />
-    </div>
+    <IdSelectionDropdown
+      accessibleName="Add IPA symbol"
+      displayTitle="IPA Display"
+      displayValue={idsToIPAString(result, ipa)}
+      inputClassName="w-16 text-center bg-gray-200"
+      menuClassName="w-96 right-0 rounded-md border-none shadow-md h-96 max-h-64"
+      options={options}
+      result={result}
+      setResult={setResult}
+    />
   );
 };
 

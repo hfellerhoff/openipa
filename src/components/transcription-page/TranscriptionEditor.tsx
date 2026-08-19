@@ -20,20 +20,18 @@ import ResultDisplay from "../display/ResultDisplay";
 import TextInput from "../input/TextInput";
 
 interface Props {
-  text?: string;
   editorView?: boolean;
   transcriptionProps: TranscriptionPageStaticProps;
 }
 
 const TranscriptionEditor: React.FC<Props> = ({
-  text,
   editorView,
   transcriptionProps,
 }) => {
   const { language, result, setResult, inputText, setInputText } =
     useTranscriptionEditorContext();
   const languageOptions: GlobalTranscriptionOptions = useEditorStore(
-    (store) => store.options[language]
+    (store) => store.options[language],
   );
 
   const [shouldShowInput, setShouldShowInput] = useState(true);
@@ -49,14 +47,10 @@ const TranscriptionEditor: React.FC<Props> = ({
       getObjectValues(rules).filter((r) =>
         languages[r.language_id]
           ? languages[r.language_id].label.toLowerCase() === language
-          : false
+          : false,
       ),
-    [rules, languages, language]
+    [rules, languages, language],
   );
-
-  useEffect(() => {
-    if (text) setInputText(text);
-  }, [setInputText, text]);
 
   useEffect(() => {
     const parseText = (text: string) => {
@@ -66,7 +60,7 @@ const TranscriptionEditor: React.FC<Props> = ({
           languageRules,
           categories,
           subcategories,
-          ipa
+          ipa,
         );
       }
 
@@ -74,7 +68,7 @@ const TranscriptionEditor: React.FC<Props> = ({
         case Languages.French:
           return parseFrench(
             text,
-            languageOptions as unknown as FrenchTranscriptionOptions
+            languageOptions as unknown as FrenchTranscriptionOptions,
           );
         case Languages.Latin:
         default:
@@ -84,7 +78,7 @@ const TranscriptionEditor: React.FC<Props> = ({
             languageRules,
             categories,
             subcategories,
-            ipa
+            ipa,
           );
       }
     };

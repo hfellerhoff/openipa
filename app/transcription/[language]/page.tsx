@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-
 import { Metadata } from "next";
 
 import TranscriptionPage from "../../../src/components/transcription-page";
@@ -46,9 +44,5 @@ export default async function TranscriptionLanguagePage({
   const { language } = await params;
   const props = await getTranscriptionPageStaticProps(language);
 
-  return (
-    <Suspense>
-      <TranscriptionPage transcriptionProps={props} />
-    </Suspense>
-  );
+  return <TranscriptionPage language={language} transcriptionProps={props} />;
 }

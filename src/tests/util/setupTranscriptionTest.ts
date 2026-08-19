@@ -1,5 +1,8 @@
 import handleExpectTranscription from "./handleExpectTranscription";
-import { fetchSupabaseTableAsDict } from "../../components/transcription-page/getTranscriptionPageStaticProps";
+import {
+  fetchRulesForLanguageAsDict,
+  fetchSupabaseTableAsDict,
+} from "../../components/transcription-page/getTranscriptionPageStaticProps";
 import { Languages } from "../../constants/Interfaces";
 import supabase from "../../lib/supabase";
 
@@ -18,7 +21,7 @@ const setupTranscriptionTest = async (language: Languages) => {
     fetchSupabaseTableAsDict("ipa"),
     fetchSupabaseTableAsDict("ipa_subcategory"),
     fetchSupabaseTableAsDict("ipa_category"),
-    fetchSupabaseTableAsDict("rules", supabaseLanguage),
+    fetchRulesForLanguageAsDict(supabaseLanguage),
   ]);
 
   return handleExpectTranscription({

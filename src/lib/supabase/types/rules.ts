@@ -1,6 +1,6 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-import { createSchemaMatcher } from '../../../util/typeUtils';
+import { createSchemaMatcher } from "../../../util/typeUtils";
 
 const BaseRuleInput = z.object({
   replace: z.optional(z.boolean()),
@@ -8,7 +8,7 @@ const BaseRuleInput = z.object({
 
 // String
 export const RuleInputString = BaseRuleInput.extend({
-  type: z.literal('string'),
+  type: z.literal("string"),
   text: z.array(z.string()),
 });
 export type RuleInputString = z.infer<typeof RuleInputString>;
@@ -16,7 +16,7 @@ export const isRuleInputString = createSchemaMatcher(RuleInputString);
 
 // Category
 export const RuleInputCategory = BaseRuleInput.extend({
-  type: z.literal('categories'),
+  type: z.literal("categories"),
   ids: z.array(z.number()),
 });
 export type RuleInputCategory = z.infer<typeof RuleInputCategory>;
@@ -24,16 +24,21 @@ export const isRuleInputCategory = createSchemaMatcher(RuleInputCategory);
 
 // Subcategory
 export const RuleInputSubcategory = BaseRuleInput.extend({
-  type: z.literal('subcategories'),
+  type: z.literal("subcategories"),
   ids: z.array(z.number()),
 });
 export type RuleInputSubcategory = z.infer<typeof RuleInputSubcategory>;
 export const isRuleInputSubcategory = createSchemaMatcher(RuleInputSubcategory);
 
 // Base rule input
-export const RuleInput = z.discriminatedUnion('type', [
+export const RuleInput = z.discriminatedUnion("type", [
   RuleInputString,
   RuleInputCategory,
   RuleInputSubcategory,
 ]);
 export type RuleInput = z.infer<typeof RuleInput>;
+
+export const RuleInputDocument = z.object({
+  steps: z.array(RuleInput),
+});
+export type RuleInputDocument = z.infer<typeof RuleInputDocument>;

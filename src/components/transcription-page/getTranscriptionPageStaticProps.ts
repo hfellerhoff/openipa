@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+
 import { Dictionary } from "../../hooks/useSupabaseTable";
 import supabase from "../../lib/supabase";
 import {
@@ -10,6 +12,7 @@ import {
   DatabaseTableName,
   TransformedRule,
 } from "../../lib/supabase/types";
+import { RuleInputDocument } from "../../lib/supabase/types/rules";
 import { isKeyInObject } from "../../util/typeUtils";
 
 export interface TranscriptionPageStaticProps {
@@ -21,17 +24,11 @@ export interface TranscriptionPageStaticProps {
   languages: Dictionary<DatabaseLanguage>;
 }
 
-const fetchFromTable = async <T extends DatabaseTableName>(
-  table: T,
-  language?: DatabaseLanguage,
-) => {
-  const { data, error } = language
-    ? await supabase
-        .from("rules")
-        .select("*")
-        .eq("language_id", language.id)
-        .order("id", { ascending: true })
-    : await supabase.from(table).select("*").order("id", { ascending: true });
+const fetchFromTable = async <T extends DatabaseTableName>(table: T) => {
+  const { data, error } = await supabase
+    .from(table)
+    .select("*")
+    .order("id", { ascending: true });
 
   if (error) console.error(`${error.code}: ${error.message}`);
 
@@ -40,9 +37,8 @@ const fetchFromTable = async <T extends DatabaseTableName>(
 
 export const fetchSupabaseTableAsDict = async <T extends DatabaseTableName>(
   table: T,
-  language?: DatabaseLanguage,
 ) => {
-  const data = await fetchFromTable(table, language);
+  const data = await fetchFromTable(table);
 
   if (!data) return {};
 
@@ -57,6 +53,29 @@ export const fetchSupabaseTableAsDict = async <T extends DatabaseTableName>(
   );
 };
 
+export const fetchRulesForLanguageAsDict = async (
+  language: DatabaseLanguage,
+) => {
+  const { data, error } = await supabase
+    .from("rules")
+    .select("*")
+    .eq("language_id", language.id)
+    .order("id", { ascending: true });
+
+  if (error) console.error(`${error.code}: ${error.message}`);
+  if (!data) return {};
+
+  return data.reduce((dictionary, rule) => {
+    const input = RuleInputDocument.safeParse(rule.input);
+    if (input.success) {
+      dictionary[rule.id] = { ...rule, input: input.data };
+    } else {
+      console.error(`Skipping rule ${rule.id}: invalid input data`);
+    }
+    return dictionary;
+  }, {} as Dictionary<TransformedRule>);
+};
+
 export default async function getTranscriptionPageStaticProps(
   language: string,
 ): Promise<TranscriptionPageStaticProps> {
@@ -66,16 +85,7 @@ export default async function getTranscriptionPageStaticProps(
     .eq("slug", language)
     .limit(1);
 
-  if (!data) {
-    return {
-      ipa: {},
-      subcategories: {},
-      categories: {},
-      tags: {},
-      rules: {},
-      languages: {},
-    };
-  }
+  if (!data?.[0]) notFound();
 
   const supabaseLanguage = data[0];
 
@@ -84,10 +94,7 @@ export default async function getTranscriptionPageStaticProps(
     fetchSupabaseTableAsDict("ipa_subcategory"),
     fetchSupabaseTableAsDict("ipa_category"),
     fetchSupabaseTableAsDict("ipa_tags"),
-    fetchSupabaseTableAsDict(
-      "rules",
-      supabaseLanguage,
-    ) as unknown as Dictionary<TransformedRule>,
+    fetchRulesForLanguageAsDict(supabaseLanguage),
     fetchSupabaseTableAsDict("languages"),
   ]);
 

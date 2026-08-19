@@ -43,8 +43,8 @@ const useSupabaseTable = <T extends DatabaseTableName>(table: T) => {
     fetchTable();
 
     // Subscribe to future table changes
-    const subscription = supabase
-      .channel("public:user")
+    const channel = supabase
+      .channel(`public:${table}:${crypto.randomUUID()}`)
       .on(
         "postgres_changes",
         {
@@ -77,7 +77,7 @@ const useSupabaseTable = <T extends DatabaseTableName>(table: T) => {
 
     // Unsubscribe from changes when component is destroyed
     return () => {
-      subscription.unsubscribe();
+      void supabase.removeChannel(channel);
     };
   }, [table]);
 

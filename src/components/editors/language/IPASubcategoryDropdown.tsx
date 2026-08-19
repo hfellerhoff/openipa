@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 
-import Dropdown, { Option, ReactDropdownProps } from "react-dropdown";
+import { ReactDropdownProps } from "react-dropdown";
 
-import IPADisplay from "./IPADisplay";
+import IdSelectionDropdown from "./IdSelectionDropdown";
 import { Dictionary } from "../../../hooks/useSupabaseTable";
 import {
   DatabaseIPA,
@@ -45,40 +45,25 @@ const IPASubcategoryDropdown = ({
     [subcategories],
   );
 
-  const handleChange = (selectedOption: Option) => {
-    if (selectedOption.value == "0") {
-      setResult([]);
-    } else {
-      setResult([...result, Number(selectedOption.value)]);
-    }
-  };
+  const displayValue =
+    result.length > 0
+      ? `${prefix ? `${prefix} ` : ""}${idsToSubcategoryString(
+          result,
+          subcategories,
+        )}`
+      : "";
 
   return (
-    <div className="flex h-10">
-      <IPADisplay>
-        <input
-          title="Subcategory display"
-          className="w-64 text-center bg-gray-200"
-          value={
-            result.length > 0
-              ? `${prefix ? prefix + " " : ""}${idsToSubcategoryString(
-                  result,
-                  subcategories,
-                )}`
-              : ""
-          }
-          readOnly
-        ></input>
-      </IPADisplay>
-      <Dropdown
-        options={options}
-        onChange={handleChange}
-        placeholder="..."
-        className={`rounded-md`}
-        controlClassName="bg-gray-200 shadow-inner border-none h-10 w-4"
-        menuClassName="w-64 right-0 rounded-md border-none shadow-md"
-      />
-    </div>
+    <IdSelectionDropdown
+      accessibleName="Add IPA subcategory"
+      displayTitle="Subcategory display"
+      displayValue={displayValue}
+      inputClassName="w-64 text-center bg-gray-200"
+      menuClassName="w-64 right-0 rounded-md border-none shadow-md"
+      options={options}
+      result={result}
+      setResult={setResult}
+    />
   );
 };
 
