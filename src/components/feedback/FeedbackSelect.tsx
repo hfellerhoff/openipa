@@ -25,13 +25,13 @@ export default function FeedbackSelect({
   setSelected,
 }: Props) {
   return (
-    <div className="w-72">
+    <div className="w-full">
       <Listbox value={selected} onChange={setSelected}>
         <ListboxLabel className="text-gray-600">
           I am sending feedback because...
         </ListboxLabel>
         <div className="relative mt-1">
-          <ListboxButton className="relative w-full py-2 pl-3 pr-10 text-left bg-white border-2 border-solid rounded-lg cursor-default focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+          <ListboxButton className="relative w-full py-2 pl-3 pr-10 text-left bg-white border-2 border-gray-200 border-solid rounded-lg cursor-default focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
             <span className="block truncate">{selected.reason}</span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <ChevronDownIcon

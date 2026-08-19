@@ -61,7 +61,7 @@ export default function TextSelection({
         <div className="sticky top-24">
           {selectedText && languages[selectedText.language] ? (
             <>
-              <div className="flex justify-between mb-4 align-center">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-lg">{selectedText.title}</h2>
                   <p className="text-sm font-normal">

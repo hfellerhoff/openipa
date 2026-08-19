@@ -150,7 +150,7 @@ const AddRuleCard = ({
         </Button>
       ) : (
         <Card key="new-rule-card">
-          <div className="flex justify-between w-full mb-2 align-center">
+          <div className="flex items-center justify-between w-full mb-2">
             <div className="flex">
               <div>
                 {input.steps.map((step, i) => (
@@ -219,7 +219,7 @@ const AddRuleCard = ({
                 )}
               </IPADisplay>
             </div>
-            <div className="flex justify-end mt-4 align-center">
+            <div className="flex items-center justify-end mt-4">
               <Button
                 colorClassName="bg-red-600 hover:bg-red-700 focus:ring-red-700"
                 onClick={() => {

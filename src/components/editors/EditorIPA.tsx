@@ -53,7 +53,7 @@ const EditorIPA = ({
               <li key={subcategory.id}>
                 <Card className='p-6 mb-4'>
                   <h3>{subcategory.label}</h3>
-                  <div className='flex align-center'>
+                  <div className='flex items-center'>
                     <ul className='flex flex-wrap flex-1'>
                       {Object.values(ipa)
                         .filter((ipa) => ipa.subcategory === subcategory.id)
@@ -100,7 +100,7 @@ const EditorIPA = ({
             </div>
           ) : (
             <Card>
-              <div className='flex justify-between align-center'>
+              <div className='flex items-center justify-between'>
                 <IPADisplay>
                   <input
                     title='Category label'

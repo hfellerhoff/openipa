@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
   return (
     <div className={styles.container}>
       <NavbarLink href="/">
-        <div className="flex justify-center align-center">
+        <div className="flex items-center justify-center">
           <Image
             src="/assets/logo.png"
             alt="Open IPA"

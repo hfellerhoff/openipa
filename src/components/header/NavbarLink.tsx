@@ -13,7 +13,7 @@ const NavbarLink = ({ href, children }: Props) => {
     <Link
       href={href}
       className={
-        "relative h-16 text-gray-200 font-semibold px-2 md:px-4 text-sm lg:text-base lg:px-8 flex flex-col align-center justify-center hover:bg-blue-200/10"
+        "relative h-16 text-gray-200 font-semibold px-2 md:px-4 text-sm lg:text-base lg:px-8 flex flex-col items-center justify-center hover:bg-blue-200/10"
       }
     >
       {children}

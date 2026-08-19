@@ -29,7 +29,7 @@ const SupportButton: React.FC<SupportButtonProps> = ({
   <Button
     variant="wide"
     colorClassName={buttonClassName}
-    className="flex mb-2 align-center"
+    className="flex items-center mb-2"
     href={href}
     target="_blank"
     rel="noopener noreferrer"

@@ -12,7 +12,7 @@ const PageHeader = ({ title, subtitle, colorClassName }: Props) => {
   return (
     <div
       className={clsx(
-        "w-full py-12 lg:py-16 flex flex-col align-center justify-center px-6",
+        "w-full py-12 lg:py-16 flex flex-col items-center justify-center px-6",
         colorClassName
       )}
     >
