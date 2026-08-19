@@ -2,6 +2,7 @@ import { NextPage } from "next";
 
 import { Dictionary } from "../src/hooks/useSupabaseTable";
 import supabase from "../src/lib/supabase";
+import { DatabaseLanguage, DatabaseText } from "../src/lib/supabase/types";
 
 const createSitemap = (
   routes: string[],
@@ -57,35 +58,34 @@ const createSitemap = (
 
 const Sitemap: NextPage = () => null;
 
-// https://stackoverflow.com/questions/41253310/typescript-retrieve-element-type-information-from-array-type
-type ArrayElement<ArrayType extends readonly unknown[]> =
-  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
-
 Sitemap.getInitialProps = async ({ res }) => {
   // Ignore Next.js specific files (e.g., _app.js) and API routes.
-  const { data: texts } = await supabase.from("texts").select("*");
-  const { data: languages } = await supabase.from("languages").select("*");
+  const { data: texts } = await supabase
+    .from("texts")
+    .select("*")
+    .returns<DatabaseText[]>();
+  const { data: languages } = await supabase
+    .from("languages")
+    .select("*")
+    .returns<DatabaseLanguage[]>();
 
   if (!languages || !texts) {
     res?.end();
     return;
   }
 
-  const languageDictionary: Dictionary<ArrayElement<typeof languages>> = {};
-  // @ts-expect-error TODO - fix later
-  languages.forEach((language) => {
+  const languageDictionary: Dictionary<DatabaseLanguage> = {};
+  languages.forEach((language: DatabaseLanguage) => {
     languageDictionary[language.id] = language;
   });
 
   // Get the paths we want to pre-render based on posts
   const textPaths = texts.map(
-    // @ts-expect-error TODO - fix later
-    (text) =>
+    (text: DatabaseText) =>
       `/transcription/${languageDictionary[text.language].slug}/${text.slug}`,
   );
   const languagePaths = languages.map(
-    // @ts-expect-error TODO - fix later
-    (language) => `/transcription/${language.slug}`,
+    (language: DatabaseLanguage) => `/transcription/${language.slug}`,
   );
 
   const routes = [
