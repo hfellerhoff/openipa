@@ -42,7 +42,7 @@ Researched on 2026-08-19 from the initial `pnpm outdated --format json` output. 
 
 `@supabase/supabase-js` moves from 2.38.0 to 2.112.3, so it does not qualify as a major-version change, but it changes the structural contract expected from the generated `Database` type. Regenerate the schema with the updated CLI instead of maintaining it by hand. The current generated file needs `Relationships` on every table and a schema-level `CompositeTypes` member for current PostgREST generics. After regeneration, remove avoidable `@ts-expect-error` comments and run both `tsc` and the sitemap build path. Supabase documents `supabase gen types --lang typescript --linked` and `--local` in its [local development workflow](https://supabase.com/docs/guides/local-development/cli-workflows#generating-types).
 
-Status on 2026-08-19: regeneration was attempted with `pnpm exec supabase gen types typescript --project-id uapxcccwilonmeafingm --schema public`, but the CLI requires `supabase login` or `SUPABASE_ACCESS_TOKEN`. The REST schema endpoint also requires a service-role key. Until an authenticated regeneration succeeds, the empty `Relationships` arrays in `src/schema.ts` are compatibility placeholders, not verified schema metadata.
+Completed on 2026-08-19: after authenticating the CLI, `pnpm exec supabase gen types typescript --project-id uapxcccwilonmeafingm --schema public` regenerated `src/schema.ts` from the live project. The generated relationship metadata and PostgREST version now replace the temporary compatibility placeholders.
 
 ## Recommended order
 
