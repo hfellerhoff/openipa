@@ -23,6 +23,11 @@ export enum Languages {
   French = 'french',
 }
 
+const supportedLanguages = new Set<string>(Object.values(Languages));
+
+export const isLanguage = (value: string): value is Languages =>
+  supportedLanguages.has(value);
+
 export interface ParseLetterProps {
   charArray: string[];
   phoneme: Phoneme;

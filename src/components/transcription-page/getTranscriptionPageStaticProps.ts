@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 
+import { Languages } from "../../constants/Interfaces";
 import { Dictionary } from "../../hooks/useSupabaseTable";
 import supabase from "../../lib/supabase";
+import createRuleDictionary from "../../lib/supabase/createRuleDictionary";
 import {
   DatabaseIPA,
   DatabaseIPACategory,
@@ -12,7 +14,6 @@ import {
   DatabaseTableName,
   TransformedRule,
 } from "../../lib/supabase/types";
-import { RuleInputDocument } from "../../lib/supabase/types/rules";
 import { isKeyInObject } from "../../util/typeUtils";
 
 export interface TranscriptionPageStaticProps {
@@ -65,19 +66,11 @@ export const fetchRulesForLanguageAsDict = async (
   if (error) console.error(`${error.code}: ${error.message}`);
   if (!data) return {};
 
-  return data.reduce((dictionary, rule) => {
-    const input = RuleInputDocument.safeParse(rule.input);
-    if (input.success) {
-      dictionary[rule.id] = { ...rule, input: input.data };
-    } else {
-      console.error(`Skipping rule ${rule.id}: invalid input data`);
-    }
-    return dictionary;
-  }, {} as Dictionary<TransformedRule>);
+  return createRuleDictionary(data);
 };
 
 export default async function getTranscriptionPageStaticProps(
-  language: string,
+  language: Languages,
 ): Promise<TranscriptionPageStaticProps> {
   const { data } = await supabase
     .from("languages")

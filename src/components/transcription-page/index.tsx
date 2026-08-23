@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
-
 import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
 
 import { TranscriptionPageStaticProps } from "./getTranscriptionPageStaticProps";
 import TranscriptionActionButtons from "./TranscriptionActionButtons";
@@ -12,7 +9,6 @@ import TranscriptionEditor from "./TranscriptionEditor";
 import TranscriptionEditorProvider from "./TranscriptionEditorProvider";
 import { Languages } from "../../constants/Interfaces";
 import { DatabaseText } from "../../lib/supabase/types";
-import { capitalizeFirstLetter } from "../../util/StringHelper";
 import PageHeader from "../header/PageHeader";
 
 const PredefinedTextInformation = ({ text }: { text: DatabaseText }) => {
@@ -34,7 +30,7 @@ const PredefinedTextInformation = ({ text }: { text: DatabaseText }) => {
 };
 
 interface Props {
-  language: string;
+  language: Languages;
   text?: DatabaseText | string;
   transcriptionProps: TranscriptionPageStaticProps;
   lockLanguage?: boolean;
@@ -46,18 +42,8 @@ export default function TranscriptionPage({
   transcriptionProps,
   lockLanguage = false,
 }: Props) {
-  const router = useRouter();
   const supabaseText = typeof text === "string" ? undefined : text;
   const initialText = typeof text === "string" ? text : (text?.text ?? "");
-
-  const languageLabel = capitalizeFirstLetter(language);
-  const isLanguageSupported = languageLabel in Languages;
-
-  useEffect(() => {
-    if (!!language && !isLanguageSupported) router.replace("/transcription");
-  }, [isLanguageSupported, language, router]);
-
-  if (!isLanguageSupported) return null;
 
   return (
     <>
@@ -68,7 +54,7 @@ export default function TranscriptionPage({
       />
       <div className="w-full px-4 py-4 mx-auto max-w-7xl lg:py-8">
         <TranscriptionEditorProvider
-          language={language as Languages}
+          language={language}
           initialText={initialText}
         >
           <TranscriptionDescription lockLanguage={lockLanguage} />

@@ -1,8 +1,6 @@
 packages:
   - "."
 
-minimumReleaseAge: 10080
-
 allowBuilds:
   "@parcel/watcher": true
   core-js: true

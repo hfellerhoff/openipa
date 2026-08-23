@@ -64,7 +64,7 @@ const TranscriptionEditor: React.FC<Props> = ({
         );
       }
 
-      switch (language as Languages) {
+      switch (language) {
         case Languages.French:
           return parseFrench(
             text,

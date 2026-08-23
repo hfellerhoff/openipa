@@ -6,7 +6,6 @@ import { useShallow } from "zustand/react/shallow";
 
 import { useTranscriptionEditorContext } from "./TranscriptionEditorProvider";
 import { TranslationResponse } from "../../../pages/api/translate";
-import { Languages } from "../../constants/Interfaces";
 import { trackAnalyticsEvent } from "../../lib/umami";
 import { useEditorStore } from "../../state/editor";
 import { TranslationQuota, useQuotaStore } from "../../state/quota";
@@ -56,7 +55,7 @@ const TranscriptionActionButtons = () => {
 
     setIsPDFCreated(false);
     setTimeout(() => {
-      createPDFFromResult(language as Languages, result).then(() =>
+      createPDFFromResult(language, result).then(() =>
         setIsPDFCreated(true),
       );
     }, 400);

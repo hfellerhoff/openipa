@@ -1,8 +1,9 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import TranscriptionPage from "../../../src/components/transcription-page";
 import getTranscriptionPageStaticProps from "../../../src/components/transcription-page/getTranscriptionPageStaticProps";
-import { Languages } from "../../../src/constants/Interfaces";
+import { isLanguage, Languages } from "../../../src/constants/Interfaces";
 import { capitalizeFirstLetter } from "../../../src/util/StringHelper";
 
 type TranscriptionPageParams = {
@@ -28,7 +29,7 @@ export async function generateMetadata({
   params,
 }: ITranscriptionPageProps): Promise<Metadata> {
   const { language } = await params;
-  if (!language) return {};
+  if (!isLanguage(language)) return {};
 
   const languageLabel = capitalizeFirstLetter(language);
 
@@ -42,6 +43,8 @@ export default async function TranscriptionLanguagePage({
   params,
 }: ITranscriptionPageProps) {
   const { language } = await params;
+  if (!isLanguage(language)) notFound();
+
   const props = await getTranscriptionPageStaticProps(language);
 
   return <TranscriptionPage language={language} transcriptionProps={props} />;

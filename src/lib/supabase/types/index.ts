@@ -15,7 +15,7 @@ export type DatabaseIPASubcategory =
   Database["public"]["Tables"]["ipa_subcategory"]["Row"];
 export type DatabaseIPATag = Database["public"]["Tables"]["ipa_tags"]["Row"];
 export type DatabaseLanguage = Database["public"]["Tables"]["languages"]["Row"];
-type DatabaseRule = Database["public"]["Tables"]["rules"]["Row"];
+export type DatabaseRule = Database["public"]["Tables"]["rules"]["Row"];
 export type TransformedRule = Omit<DatabaseRule, "input"> & {
   input: RuleInputDocument;
 };

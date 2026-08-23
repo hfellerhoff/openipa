@@ -1,7 +1,9 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import TranscriptionPage from "../../../../src/components/transcription-page";
 import getTranscriptionPageStaticProps from "../../../../src/components/transcription-page/getTranscriptionPageStaticProps";
+import { isLanguage } from "../../../../src/constants/Interfaces";
 import supabase from "../../../../src/lib/supabase";
 import { capitalizeFirstLetter } from "../../../../src/util/StringHelper";
 
@@ -18,6 +20,8 @@ const getTranscriptionTextPageProps = async ({
   params,
 }: ITranscriptionTextPageProps) => {
   const { language, slug } = await params;
+  if (!isLanguage(language)) notFound();
+
   const transcriptionProps = await getTranscriptionPageStaticProps(language);
 
   const { data: languages } = await supabase.from("languages").select("*");
@@ -91,7 +95,7 @@ export async function generateMetadata({
   params,
 }: ITranscriptionTextPageProps): Promise<Metadata> {
   const { language, slug } = await params;
-  if (!language || !slug) return {};
+  if (!isLanguage(language) || !slug) return {};
 
   const languageLabel = capitalizeFirstLetter(language);
 
@@ -111,6 +115,8 @@ export async function generateMetadata({
 
 export default async function TextPage(pageProps: ITranscriptionTextPageProps) {
   const { language } = await pageProps.params;
+  if (!isLanguage(language)) notFound();
+
   const { transcriptionProps, text } =
     await getTranscriptionTextPageProps(pageProps);
 
