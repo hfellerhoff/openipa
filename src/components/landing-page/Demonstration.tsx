@@ -50,8 +50,8 @@ export default function Demonstration({
         <p className={styles.description}>
           Open IPA features text to IPA transcription in real-time. That means
           you can type out text, and Open IPA will transcribe it live in front
-          of you, without having to wait for a transcription to be procesed. Try
-          it out in the boxes!
+          of you, without having to wait for a transcription to be processed.
+          Try it out in the boxes!
         </p>
         <p className={styles.description}>
           In addition to live transcription, Open IPA gives you nuanced feedback
