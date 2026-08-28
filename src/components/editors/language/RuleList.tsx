@@ -65,7 +65,7 @@ const RuleList = ({
           />
         ) : (
           <Card key={rule.id}>
-            <div className='flex justify-between w-full mb-2 align-center'>
+            <div className='flex items-center justify-between w-full mb-2'>
               <div className='flex'>
                 <RuleInputDisplay
                   input={rule.input}
@@ -78,7 +78,7 @@ const RuleList = ({
                 {idsToIPAString(rule.output, ipa)}
               </IPADisplay>
             </div>
-            <div className='flex justify-between align-center'>
+            <div className='flex items-center justify-between'>
               <p>{parseIPASymbolString(rule.description, ipa)}</p>
               <Button
                 colorClassName='bg-gray-600 hover:bg-gray-700 focus:ring-gray-700'

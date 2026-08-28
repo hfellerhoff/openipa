@@ -24,7 +24,6 @@ export default async function searchAPI(
       const checkForLanguageText = (line: string) => {
         let label = "";
         let type = "none";
-        // @ts-expect-error TODO - fix later
         languages.data?.forEach((language) => {
           if (line.includes(`{{Text|${language.label}`)) {
             label = language.label;

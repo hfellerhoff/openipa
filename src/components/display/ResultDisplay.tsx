@@ -46,8 +46,8 @@ type WordProps = {
   shouldHideOriginalText: boolean;
 };
 const WordElement = ({ word, theme, shouldHideOriginalText }: WordProps) => {
-  const originalSyllableElements: JSX.Element[] = [];
-  const syllableElements: JSX.Element[] = [];
+  const originalSyllableElements: React.JSX.Element[] = [];
+  const syllableElements: React.JSX.Element[] = [];
   word.syllables.forEach((phoneme, index) => {
     const phonemeElement = (
       <PhonemeElement
@@ -96,7 +96,7 @@ const LineElement = ({
   theme,
   shouldHideOriginalText,
 }: LineProps) => {
-  const wordElements: JSX.Element[] = [];
+  const wordElements: React.JSX.Element[] = [];
   line.words.forEach((word, index) => {
     const wordElement = (
       <WordElement
@@ -154,9 +154,7 @@ const ResultElement = ({
   hideFeedback = false,
 }: DisplayProps) => {
   const displayRef = useRef<HTMLDivElement>(null);
-  const { allTranslations } = useTranslationStore((store) => ({
-    allTranslations: store.translations,
-  }));
+  const allTranslations = useTranslationStore((store) => store.translations);
 
   const countryCode = language.toLowerCase() === "french" ? "FR" : "EN";
   const translations = allTranslations[countryCode] || null;
@@ -165,7 +163,7 @@ const ResultElement = ({
   const isWidthSmallEnough = width <= 800 ? true : false;
 
   const lines = resultToLines(result);
-  const lineElements: JSX.Element[] = [];
+  const lineElements: React.JSX.Element[] = [];
 
   result.lines.forEach((line, index) => {
     const lineElement = (

@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import styles from "./Demonstration.module.scss";
 import { Languages, Result } from "../../constants/Interfaces";
-import Template from "../../constants/Template";
 import transcribeText from "../../transcription/transcribeText";
 import { capitalizeFirstLetter } from "../../util/StringHelper";
 import { getObjectValues } from "../../util/typeUtils";
@@ -22,15 +21,13 @@ export default function Demonstration({
   const [inputText, setInputText] = useState("Ave maria, gratia plena.");
   const [language] = useState(Languages.Latin);
   const [resultHeight, setResultHeight] = useState(0);
-  const [result, setResult] = useState<Result>(Template.Result);
-
-  useEffect(() => {
+  const result = useMemo<Result>(() => {
     const parseText = (text: string) => {
       // Filter rules for given language
       const languageRules = getObjectValues(rules).filter((r) =>
         languages[r.language_id]
           ? languages[r.language_id].label.toLowerCase() === language
-          : false
+          : false,
       );
 
       // Transcribe text based on those rules
@@ -39,11 +36,11 @@ export default function Demonstration({
         languageRules,
         categories,
         subcategories,
-        ipa
+        ipa,
       );
     };
 
-    setResult(parseText(inputText));
+    return parseText(inputText);
   }, [inputText, language, rules, languages, categories, ipa, subcategories]);
 
   return (
@@ -53,8 +50,8 @@ export default function Demonstration({
         <p className={styles.description}>
           Open IPA features text to IPA transcription in real-time. That means
           you can type out text, and Open IPA will transcribe it live in front
-          of you, without having to wait for a transcription to be procesed. Try
-          it out in the boxes!
+          of you, without having to wait for a transcription to be processed.
+          Try it out in the boxes!
         </p>
         <p className={styles.description}>
           In addition to live transcription, Open IPA gives you nuanced feedback

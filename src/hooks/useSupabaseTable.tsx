@@ -25,10 +25,12 @@ const useSupabaseTable = <T extends DatabaseTableName>(table: T) => {
 
       if (error) console.log("error", error);
       else {
-        const updatedDictionary = data.reduce(
-          // @ts-expect-error TODO - fix later
+        const rows = data as unknown as DatabaseRowFromTableName<T>[];
+        const updatedDictionary = rows.reduce(
           (dict, element) => {
-            dict[element["id"]] = element;
+            if ("id" in element && typeof element.id === "number") {
+              dict[element.id] = element;
+            }
             return dict;
           },
           {} as typeof dictionary,
@@ -41,8 +43,8 @@ const useSupabaseTable = <T extends DatabaseTableName>(table: T) => {
     fetchTable();
 
     // Subscribe to future table changes
-    const subscription = supabase
-      .channel("public:user")
+    const channel = supabase
+      .channel(`public:${table}:${crypto.randomUUID()}`)
       .on(
         "postgres_changes",
         {
@@ -75,7 +77,7 @@ const useSupabaseTable = <T extends DatabaseTableName>(table: T) => {
 
     // Unsubscribe from changes when component is destroyed
     return () => {
-      subscription.unsubscribe();
+      void supabase.removeChannel(channel);
     };
   }, [table]);
 

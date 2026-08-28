@@ -19,7 +19,7 @@ export interface SearchWordResponse {
 
 export default async function searchWordAPI(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   try {
     const wordsQueryString = z.string().parse(req.query.words);
@@ -38,12 +38,12 @@ export default async function searchWordAPI(
     res.json(Object.fromEntries(wordDataMap));
   } catch (error) {
     res.statusCode = 400;
-    if ((error as ZodError)?.flatten) {
-      res.json({
-        error: (error as ZodError).flatten().formErrors[0],
+    if (error instanceof ZodError) {
+      return res.json({
+        error: z.flattenError(error).formErrors[0],
       });
     }
-    res.json({
+    return res.json({
       error,
     });
   }

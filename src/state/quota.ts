@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import { create, StateCreator } from "zustand";
-import { persist, PersistOptions } from "zustand/middleware";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface TranslationQuota {
   count: number;
@@ -15,13 +15,8 @@ interface QuotaStore {
   resetQuota: (name: QuotaKey) => void;
 }
 
-type QuotaStorePersist = (
-  config: StateCreator<QuotaStore>,
-  options: PersistOptions<QuotaStore>
-) => StateCreator<QuotaStore>;
-
-export const useQuotaStore = create<QuotaStore>(
-  (persist as unknown as QuotaStorePersist)(
+export const useQuotaStore = create<QuotaStore>()(
+  persist(
     (set) => ({
       translation: {
         count: 0,
@@ -48,6 +43,6 @@ export const useQuotaStore = create<QuotaStore>(
     }),
     {
       name: "@openipa/storage/quota",
-    }
-  )
+    },
+  ),
 );

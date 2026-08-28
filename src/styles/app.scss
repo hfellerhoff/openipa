@@ -1,57 +1,54 @@
 @use "./variables";
 
-// Tailwind
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import "./colors";
-@import "./base/reset";
-@import "./base/typography";
+@import "react-dropdown/style.css" layer(components);
 
-// Component SCSS
-@import "react-dropdown/style.css";
-@import "./components/buttons";
+@layer base {
+  @import "./base/reset";
+  @import "./base/typography";
 
-* {
-  font-family: var(--font-open-sans), "Apple SD Gothic Neo", "Trebuchet MS",
-    sans-serif;
-}
+  * {
+    font-family:
+      var(--font-open-sans), "Apple SD Gothic Neo", "Trebuchet MS", sans-serif;
+  }
 
-body {
-  background: $gray;
-  @media screen and (max-width: 800px) {
-    position: relative;
+  body {
+    background: $gray;
+    @media screen and (max-width: 800px) {
+      position: relative;
+    }
   }
 }
 
-.header-margin {
-  margin-top: variables.$navbar-height;
+@layer components {
+  @import "./components/buttons";
+
+  .header-margin {
+    margin-top: variables.$navbar-height;
+  }
+
+  .Dropdown-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+  .Dropdown-title {
+    grid-column: 1/10;
+  }
+  .Dropdown-option {
+    font-family: var(--font-roboto-slab);
+    font-weight: 400;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .Dropdown-placeholder {
+    display: none;
+  }
 }
 
-.Dropdown-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-}
-.Dropdown-title {
-  grid-column: 1/10;
-}
-.Dropdown-option {
-  font-family: var(--font-roboto-slab);
-  font-weight: 400;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.Dropdown-placeholder {
-  display: none;
-}
-
-.font-serif {
-  font-family: var(--font-roboto-slab);
-}
-
-.dark-gray {
-  background: $darkgray;
+@layer utilities {
+  .dark-gray {
+    background: $darkgray;
+  }
 }

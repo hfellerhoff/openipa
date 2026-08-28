@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface Props {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface Props {
 const IPADisplay = ({ children, className }: Props) => {
   return (
     <div
-      className={`py-2 px-4 bg-gray-200 rounded shadow-inner font-serif ${className}`}
+      className={`py-2 px-4 bg-gray-200 rounded-sm shadow-inner font-serif ${className}`}
     >
       {children}
     </div>

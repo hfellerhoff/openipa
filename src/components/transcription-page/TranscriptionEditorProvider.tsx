@@ -3,15 +3,15 @@
 import React, {
   createContext,
   useContext,
+  useEffect,
   PropsWithChildren,
   useState,
 } from "react";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Languages, Result } from "../../constants/Interfaces";
 import Template from "../../constants/Template";
-import { DatabaseText } from "../../lib/supabase/types";
 
 interface ITranscriptionEditorContext {
   inputText: string;
@@ -27,22 +27,33 @@ export const TranscriptionEditorContext =
 
 interface ITranscriptionEditorProviderProps {
   language: Languages;
-  supabaseText?: DatabaseText;
+  initialText?: string;
 }
 const TranscriptionEditorProvider = ({
   language,
-  supabaseText,
+  initialText = "",
   children,
 }: PropsWithChildren<ITranscriptionEditorProviderProps>) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const queryParamsText = searchParams?.get("text") as string;
-
-  const initialText = supabaseText?.text || queryParamsText || "";
 
   const [inputText, setInputText] = useState(initialText);
   const [result, setResult] = useState<Result>(Template.Result);
+
+  useEffect(() => {
+    if (initialText) return;
+
+    const queryText = new URLSearchParams(window.location.search).get("text");
+    if (!queryText) return;
+
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (!cancelled) setInputText(queryText);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [initialText]);
 
   const changeLanguage = (language: Languages) => {
     router.push(`/transcription/${language}?text=${inputText}`);
@@ -70,7 +81,7 @@ export const useTranscriptionEditorContext = () => {
   const context = useContext(TranscriptionEditorContext);
   if (context === null) {
     throw new Error(
-      `useTranscriptionEditor must be used within a TranscriptionEditorContextProvider.`
+      `useTranscriptionEditor must be used within a TranscriptionEditorContextProvider.`,
     );
   }
   return context;

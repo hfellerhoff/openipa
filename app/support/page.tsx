@@ -29,7 +29,7 @@ const SupportButton: React.FC<SupportButtonProps> = ({
   <Button
     variant="wide"
     colorClassName={buttonClassName}
-    className="flex mb-2 align-center"
+    className="flex items-center mb-2"
     href={href}
     target="_blank"
     rel="noopener noreferrer"
@@ -45,7 +45,7 @@ export default function SupportPage() {
       <PageHeader
         title="Support"
         subtitle="Open IPA is a free service, and takes a lot of effort to maintain. If you've found the site useful, please consider donating your time or money to help keep it alive."
-        colorClassName="bg-indigo-900 bg-opacity-80"
+        colorClassName="bg-indigo-900/80"
       />
       <div className="flex flex-col w-full max-w-5xl gap-16 px-6 py-6 mx-auto lg:grid lg:grid-cols-2 lg:py-12">
         <div>

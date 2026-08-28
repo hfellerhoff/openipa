@@ -1,8 +1,8 @@
-import useSupabaseTable, { Dictionary } from './useSupabaseTable';
-import { TransformedRule } from '../lib/supabase/types';
+import useSupabaseTable from "./useSupabaseTable";
+import createRuleDictionary from "../lib/supabase/createRuleDictionary";
 
 export default function useSupabaseRulesTable() {
-  const rules = useSupabaseTable('rules');
+  const rules = useSupabaseTable("rules");
 
-  return rules as unknown as Dictionary<TransformedRule>;
+  return createRuleDictionary(Object.values(rules));
 }

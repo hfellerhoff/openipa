@@ -1,0 +1,9 @@
+packages:
+  - "."
+
+allowBuilds:
+  "@parcel/watcher": true
+  core-js: true
+  sharp: true
+  supabase: true
+  unrs-resolver: true

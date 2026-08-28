@@ -7,7 +7,7 @@ import EditorLayout from "../../src/components/layout/EditorLayout";
 import TranscriptionDescription from "../../src/components/transcription-page/TranscriptionDescription";
 import TranscriptionEditor from "../../src/components/transcription-page/TranscriptionEditor";
 import TranscriptionEditorProvider from "../../src/components/transcription-page/TranscriptionEditorProvider";
-import { Languages } from "../../src/constants/Interfaces";
+import { isLanguage } from "../../src/constants/Interfaces";
 import useSupabaseIPA from "../../src/hooks/useSupabaseIPA";
 
 const LanguageEditor = () => {
@@ -21,7 +21,7 @@ const LanguageEditor = () => {
     (language) => language.slug === languageSlug
   );
 
-  if (!language) {
+  if (!language || !isLanguage(languageSlug)) {
     return (
       <EditorLayout>
         <Head>
@@ -34,13 +34,11 @@ const LanguageEditor = () => {
     );
   }
 
-  const typedLanguage = router.query.language as unknown as Languages;
-
   return (
     <EditorLayout
       rightSidebar={
         <div className="grid flex-1 gap-4 p-6">
-          <TranscriptionEditorProvider language={typedLanguage}>
+          <TranscriptionEditorProvider language={languageSlug}>
             <TranscriptionDescription lockLanguage editorView />
             <TranscriptionEditor
               editorView

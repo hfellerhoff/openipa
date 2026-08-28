@@ -4,7 +4,7 @@ interface Props {
 }
 
 const Card = ({ className, children }: Props) => (
-  <div className={`bg-gray-50 p-4 mb-2 rounded-md shadow ${className}`}>
+  <div className={`bg-gray-50 p-4 mb-2 rounded-md shadow-sm ${className}`}>
     {children}
   </div>
 );

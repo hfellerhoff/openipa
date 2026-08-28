@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export function getObjectKeys<T extends object>(object: T) {
   return Object.values(object) as (keyof T)[];
@@ -10,19 +10,19 @@ export function getObjectValues<T extends object>(object: T) {
 
 export function isKeyInObject<T extends object>(
   key: string | number | symbol,
-  object: T
+  object: T,
 ): key is keyof T {
   return key in object;
 }
 
-export function matchesSchema<T extends z.Schema>(
+export function matchesSchema<T extends z.ZodType>(
   data: unknown,
-  schema: T
+  schema: T,
 ): data is z.infer<T> {
   return schema.safeParse(data).success;
 }
 export const createSchemaMatcher =
-  <T extends z.Schema>(schema: T) =>
+  <T extends z.ZodType>(schema: T) =>
   (data: unknown): data is z.infer<T> => {
     return schema.safeParse(data).success;
   };
